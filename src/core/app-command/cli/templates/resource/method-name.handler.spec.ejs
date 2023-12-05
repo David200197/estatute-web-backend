@@ -1,0 +1,27 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { <%= name.upperCase %>_REPOSITORY_TOKEN } from '../providers/<%= name.kebabCase %>-repository.provider';
+import { <%= name.pascalCase %>LocalRepository } from '../repositories/<%= name.kebabCase %>-local.repository';
+import {
+  <%= method.upperCase %>_<%= name.upperCase %>_HANDLER_TOKEN,
+  <%= method.pascalCase %><%= name.pascalCase %>HandlerProvider,
+} from '../handlers/<%= method.kebabCase %>/<%= method.kebabCase %>-<%= name.kebabCase %>-handler.provider';
+import { <%= method.pascalCase %><%= name.pascalCase %>HandlerModel } from '../handlers/<%= method.kebabCase %>/<%= method.kebabCase %>-<%= name.kebabCase %>-handler.model';
+
+describe('<%= method.pascalCase %><%= name.pascalCase %>Handler', () => {
+  let handler: <%= method.pascalCase %><%= name.pascalCase %>HandlerModel;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        <%= method.pascalCase %><%= name.pascalCase %>HandlerProvider,
+        { provide: <%= name.upperCase %>_REPOSITORY_TOKEN, useClass: <%= name.pascalCase %>LocalRepository },
+      ],
+    }).compile();
+
+    handler = module.get<<%= method.pascalCase %><%= name.pascalCase %>HandlerModel>(<%= method.upperCase %>_<%= name.upperCase %>_HANDLER_TOKEN);
+  });
+
+  it('should be defined', () => {
+    expect(handler).toBeDefined();
+  });
+});

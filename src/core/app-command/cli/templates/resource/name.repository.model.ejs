@@ -1,0 +1,26 @@
+import { <%= name.pascalCase %>sModel } from './<%= name.kebabCase %>s.model';
+import { <%= name.pascalCase %>Model } from './<%= name.kebabCase %>.model';
+import { FindAllDto } from '@src/common/dto/find-all.dto';
+import { Create<%= name.pascalCase %>Dto } from '../dto/create-<%= name.kebabCase %>.dto';
+import { Update<%= name.pascalCase %>Dto } from '../dto/update-<%= name.kebabCase %>.dto';
+import { DeepPartial } from '@src/common/interfaces/deep-partial';
+import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+
+export interface <%= name.pascalCase %>RepositoryModel {
+  findOne(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<<%= name.pascalCase %>Model | null>;
+  findAll(
+    filter: DeepPartial<<%= name.pascalCase %>Model>,
+    options: FindAllDto,
+  ): Promise<ResponseWithPaginate<<%= name.pascalCase %>sModel>>;
+  create(options: Create<%= name.pascalCase %>Dto): Promise<<%= name.pascalCase %>Model>;
+  updateOne(
+    filter: DeepPartial<<%= name.pascalCase %>Model>,
+    options: Update<%= name.pascalCase %>Dto,
+  ): Promise<<%= name.pascalCase %>Model>;
+  removeOne(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<<%= name.pascalCase %>Model>;
+  updateMany(
+    filter: DeepPartial<<%= name.pascalCase %>Model>,
+    options: Update<%= name.pascalCase %>Dto,
+  ): Promise<<%= name.pascalCase %>Model>;
+  removeMany(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<<%= name.pascalCase %>Model>;
+}

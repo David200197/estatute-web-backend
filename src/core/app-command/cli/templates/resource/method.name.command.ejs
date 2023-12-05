@@ -1,0 +1,37 @@
+<% if(type === "create") { %>
+import { <%= method.pascalCase %><%= name.pascalCase %>Dto } from '../../dto/create-<%= name.kebabCase %>.dto';
+<% } else if(type === "update") { %>
+import { DeepPartial } from '@src/common/interfaces/deep-partial';
+import { <%= method.pascalCase %><%= name.pascalCase %>Dto } from '../../dto/update-<%= name.kebabCase %>.dto';
+import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+<% } else if(type === "remove") { %>
+import { DeepPartial } from '@src/common/interfaces/deep-partial';
+import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+<% } else if(type === "findAll") { %>
+import { DeepPartial } from '@src/common/interfaces/deep-partial';
+import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+import { FindAllDto } from '@src/common/dto/find-all.dto';
+<% } else if(type === "findOne") { %>
+import { DeepPartial } from '@src/common/interfaces/deep-partial';
+import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+<% } %>
+
+export class <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %> {
+  <% if(type === "create") { %>
+  constructor(public readonly create<%= name.pascalCase %>Dto: Create<%= name.pascalCase %>Dto) {}
+  <% } else if(type === "update") { %>
+  constructor(
+    public readonly filter: DeepPartial<<%= name.pascalCase %>Model>,
+    public readonly update<%= name.pascalCase %>Dto: Update<%= name.pascalCase %>Dto,
+  ) {}
+  <% } else if(type === "remove") { %>
+  constructor(public readonly filter: DeepPartial<<%= name.pascalCase %>Model>) {}
+  <% } else if(type === "findAll") { %>
+  constructor(
+    public readonly filter: DeepPartial<<%= name.pascalCase %>Model>,
+    public readonly options: FindAllDto,
+  ) {}
+  <% } else if(type === "findOne") { %>
+  constructor(public readonly filter: DeepPartial<<%= name.pascalCase %>Model>) {}
+  <% } %>
+}

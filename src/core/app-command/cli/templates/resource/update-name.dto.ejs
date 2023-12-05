@@ -1,0 +1,4 @@
+import { PartialType } from '@nestjs/swagger';
+import { Create<%= name.pascalCase %>Dto } from './create-<%= name.kebabCase %>.dto';
+
+export class Update<%= name.pascalCase %>Dto extends PartialType(Create<%= name.pascalCase %>Dto) {}

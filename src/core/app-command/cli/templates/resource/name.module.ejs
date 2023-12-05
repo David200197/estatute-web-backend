@@ -1,0 +1,27 @@
+import { Module } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
+import { <%= name.pascalCase %>RepositoryProvider } from './providers/<%= name.kebabCase %>-repository.provider';
+import { <%= name.pascalCase %>Controller } from './<%= name.kebabCase %>.controller';
+import { <%= name.pascalCase %>Cron } from './<%= name.kebabCase %>.cron';
+import { <%= name.pascalCase %>Listener } from './<%= name.kebabCase %>.listener';
+import { FindAll<%= name.pascalCase %>HandlerProvider } from './handlers/find-all/find-all-<%= name.kebabCase %>-handler.provider';
+import { Create<%= name.pascalCase %>HandlerProvider } from './handlers/create/create-<%= name.kebabCase %>-handler.provider';
+import { FindOne<%= name.pascalCase %>HandlerProvider } from './handlers/find-one/find-one-<%= name.kebabCase %>-handler.provider';
+import { Update<%= name.pascalCase %>HandlerProvider } from './handlers/update/update-<%= name.kebabCase %>-handler.provider';
+import { Remove<%= name.pascalCase %>HandlerProvider } from './handlers/remove/remove-<%= name.kebabCase %>-handler.provider';
+
+@Module({
+  imports: [CqrsModule],
+  controllers: [<%= name.pascalCase %>Controller],
+  providers: [
+    <%= name.pascalCase %>RepositoryProvider,
+    FindAll<%= name.pascalCase %>HandlerProvider,
+    Create<%= name.pascalCase %>HandlerProvider,
+    FindOne<%= name.pascalCase %>HandlerProvider,
+    Update<%= name.pascalCase %>HandlerProvider,
+    Remove<%= name.pascalCase %>HandlerProvider,
+    <%= name.pascalCase %>Listener,
+    <%= name.pascalCase %>Cron,
+  ],
+})
+export class <%= name.pascalCase %>Module {}

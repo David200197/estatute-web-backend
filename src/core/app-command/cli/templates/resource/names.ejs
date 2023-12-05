@@ -1,0 +1,6 @@
+import { <%= name.pascalCase %>Model } from '../models/<%= name.kebabCase %>.model';
+import { <%= name.pascalCase %>sModel } from '../models/<%= name.kebabCase %>s.model';
+
+export class <%= name.pascalCase %>s implements <%= name.pascalCase %>sModel {
+  constructor(public readonly value: <%= name.pascalCase %>Model[]) {}
+}

@@ -1,0 +1,13 @@
+import { Injectable } from '@nestjs/common';
+import { Command } from 'nestjs-command';
+
+@Injectable()
+export class <%= name.pascalCase %>Cli {
+  @Command({
+    command: ['<%= name.kebabCase %>:sayhello'],
+    describe: 'hello from <%= name.kebabCase %>-command',
+  })
+  example() {
+    console.log('Hello from <%= name.pascalCase %>Command');
+  }
+}

@@ -1,0 +1,12 @@
+import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { <%= name.pascalCase %>Query } from './<%= name.kebabCase %>.query';
+import { <%= name.pascalCase %>HandlerModel } from './<%= name.kebabCase %>-handler.model';
+
+@QueryHandler(<%= name.pascalCase %>Query)
+export class <%= name.pascalCase %>Handler
+  implements <%= name.pascalCase %>HandlerModel, IQueryHandler<<%= name.pascalCase %>Query>
+{
+  execute({ }: <%= name.pascalCase %>Query): Promise<any> { 
+    throw new Error('not implements')  
+  }
+}

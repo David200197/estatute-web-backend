@@ -1,0 +1,4 @@
+import { <%= name.pascalCase %>Command } from './<%= name.kebabCase %>.command';
+export interface <%= name.pascalCase %>HandlerModel {
+  execute({ }: <%= name.pascalCase %>Command): Promise<any>
+}

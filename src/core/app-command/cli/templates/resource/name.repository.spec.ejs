@@ -1,0 +1,22 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { <%= name.pascalCase %>RepositoryModel } from '../models/<%= name.kebabCase %>-repository.model';
+import {
+  <%= name.upperCase %>_REPOSITORY_TOKEN,
+  <%= name.pascalCase %>RepositoryProvider,
+} from '../providers/<%= name.kebabCase %>-repository.provider';
+
+describe('<%= name.pascalCase %>Repository', () => {
+  let repository: <%= name.pascalCase %>RepositoryModel;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [<%= name.pascalCase %>RepositoryProvider],
+    }).compile();
+
+    repository = module.get<<%= name.pascalCase %>RepositoryModel>(<%= name.upperCase %>_REPOSITORY_TOKEN);
+  });
+
+  it('should be defined', () => {
+    expect(repository).toBeDefined();
+  });
+});

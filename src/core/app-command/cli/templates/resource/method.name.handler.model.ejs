@@ -1,0 +1,12 @@
+import { <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %> } from './<%= method.kebabCase %>-<%= name.kebabCase %>.<%= typeCQRS.kebabCase %>';
+<% if(type === "findAll") { %> 
+import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { <%= name.pascalCase %>sModel } from '../../models/<%= name.kebabCase %>s.model';
+<% } else if(type === "findOne") { %>
+import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+import { Maybe } from '@src/common/lib/maybe.lib'; <% } else { %> import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model'; <% } %>
+export interface <%= method.pascalCase %><%= name.pascalCase %>HandlerModel {
+  <% if(type === "findAll") { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<ResponseWithPaginate<<%= name.pascalCase %>sModel>>; 
+  <% } else if(type === "findOne") { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<Maybe<<%= name.pascalCase %>Model>>
+  <% } else { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<<%= name.pascalCase %>Model> <% } %>
+}
