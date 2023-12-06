@@ -5,6 +5,7 @@ import { AuthCron } from './auth.cron';
 import { AuthListener } from './auth.listener';
 import { LoginAuthHandlerProvider } from './handlers/login-auth/login-auth-handler.provider';
 import { AuthHelperProvider } from './providers/auth-helper.provider';
+import { RefreshAuthHandlerProvider } from './handlers/refresh-auth/refresh-auth-handler.provider';
 
 @Module({
   imports: [CqrsModule],
@@ -14,6 +15,7 @@ import { AuthHelperProvider } from './providers/auth-helper.provider';
     AuthCron,
     LoginAuthHandlerProvider,
     AuthHelperProvider,
+    RefreshAuthHandlerProvider,
   ],
 })
 export class AuthModule {}

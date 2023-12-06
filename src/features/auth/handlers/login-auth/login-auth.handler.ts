@@ -14,7 +14,7 @@ export class LoginAuthHandler
     @Inject(AUTH_HELPER_TOKEN) private readonly authHelper: AuthHelperModel,
   ) {}
 
-  execute({}: LoginAuthCommand): Promise<LoginAuthResponseDto> {
+  execute({ loginAuthDto }: LoginAuthCommand): Promise<LoginAuthResponseDto> {
     return Promise.resolve({
       accessToken: '',
       refreshToken: '',
