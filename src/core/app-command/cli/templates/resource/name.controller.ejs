@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { Create<%= name.pascalCase %>Dto } from './dto/create-<%= name.kebabCase
 import { Update<%= name.pascalCase %>Dto } from './dto/update-<%= name.kebabCase %>.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { <%= name.pascalCase %>sModel } from './models/<%= name.kebabCase %>s.model';
 import { <%= name.pascalCase %>Model } from './models/<%= name.kebabCase %>.model';
@@ -48,11 +49,17 @@ export class <%= name.pascalCase %>Controller {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const <%= name.camelCase %>: Maybe<<%= name.pascalCase %>Model> = await this.queryBus.execute(
+    const eitherResponse: Either<HttpException, <%= name.pascalCase %>Model> = await this.queryBus.execute(
       new FindOne<%= name.pascalCase %>Query({ uuid }),
     );
+    const <%= name.camelCase %> = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
+    );
     return new SerializerResponse('<%= name.camelCase %> was founded', {
-      <%= name.camelCase %>: <%= name.camelCase %>.get(),
+      <%= name.camelCase %>,
     });
   }
 
@@ -71,8 +78,14 @@ export class <%= name.pascalCase %>Controller {
     @Param('uuid') uuid: string,
     @Body() update<%= name.pascalCase %>Dto: Update<%= name.pascalCase %>Dto,
   ) {
-    const <%= name.camelCase %>: <%= name.pascalCase %>Model = await this.commandBus.execute(
+    const eitherResponse: Either<HttpException, <%= name.pascalCase %>Model> = await this.commandBus.execute(
       new Update<%= name.pascalCase %>Command({ uuid }, update<%= name.pascalCase %>Dto),
+    );
+    const <%= name.camelCase %> = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('<%= name.camelCase %> was updated', {
       <%= name.camelCase %>,
@@ -81,8 +94,14 @@ export class <%= name.pascalCase %>Controller {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const <%= name.camelCase %>: <%= name.pascalCase %>Model = await this.commandBus.execute(
+    const eitherResponse: Either<HttpException, <%= name.pascalCase %>Model> = await this.commandBus.execute(
       new Remove<%= name.pascalCase %>Command({ uuid }),
+    );
+    const <%= name.camelCase %> = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('<%= name.camelCase %> was removed', {
       <%= name.camelCase %>,

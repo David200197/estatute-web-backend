@@ -1,26 +1,29 @@
-import { <%= typeCQRS.pascalCase %>Handler, I<%= typeCQRS.pascalCase %>Handler } from '@nestjs/cqrs';
+import { <%= typeCQRS.pascalCase %>Handler } from '@nestjs/cqrs';
 import { <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %> } from './<%= method.kebabCase %>-<%= name.kebabCase %>.<%= typeCQRS.kebabCase %>';
 import { <%= name.pascalCase %>RepositoryModel } from '../../models/<%= name.kebabCase %>-repository.model';
 import { <%= method.pascalCase %><%= name.pascalCase %>HandlerModel } from './<%= method.kebabCase %>-<%= name.kebabCase %>-handler.model';
-import { Inject } from '@nestjs/common';
+import { Inject, <% if(type !== "create" && type !== "findAll" ) { %> HttpException <% } %> } from '@nestjs/common';
 import { <%= name.upperCase %>_REPOSITORY_TOKEN } from '../../providers/<%= name.kebabCase %>-repository.provider'; <% if(type === "create") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
 <% } else if(type === "update") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.camelCase %>-not-found.exception';
+import { Either } from '@src/common/lib/either.lib';
 <% } else if(type === "remove") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.camelCase %>-not-found.exception';
+import { Either } from '@src/common/lib/either.lib';
 <% } else if(type === "findAll") { %>
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { <%= name.pascalCase %>sModel } from '../../models/<%= name.kebabCase %>s.model';
 <% } else if(type === "findOne") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.camelCase %>-not-found.exception';
+import { Either } from '@src/common/lib/either.lib';
 <% } %>
 
 @<%= typeCQRS.pascalCase %>Handler(<%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>)
-export class <%= method.pascalCase %><%= name.pascalCase %>Handler
-  implements <%= method.pascalCase %><%= name.pascalCase %>HandlerModel, I<%= typeCQRS.pascalCase %>Handler<<%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>>
-{
+export class <%= method.pascalCase %><%= name.pascalCase %>Handler implements <%= method.pascalCase %><%= name.pascalCase %>HandlerModel {
   constructor(
     @Inject(<%= name.upperCase %>_REPOSITORY_TOKEN)
     private <%= name.camelCase %>Repository: <%= name.pascalCase %>RepositoryModel,
@@ -33,12 +36,16 @@ export class <%= method.pascalCase %><%= name.pascalCase %>Handler
   async execute({
     filter,
     update<%= name.pascalCase %>Dto,
-  }: Update<%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<<%= name.pascalCase %>Model> {
-    return this.<%= name.camelCase %>Repository.updateOne(filter, update<%= name.pascalCase %>Dto);
+  }: Update<%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<Either<HttpException,<%= name.pascalCase %>Model>>{
+    const <%= name.camelCase %> = await this.<%= name.camelCase %>Repository.updateOne(filter, update<%= name.pascalCase %>Dto);
+    if (!<%= name.camelCase %>) return Either.left(new <%= name.pascalCase %>NotFoundException());
+    return Either.right(<%= name.camelCase %>);
   }
   <% } else if(type === "remove") { %>
-  execute({ filter }: Remove<%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<<%= name.pascalCase %>Model> {
-    return this.<%= name.camelCase %>Repository.removeOne(filter);
+  async execute({ filter }: Remove<%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<Either<HttpException,<%= name.pascalCase %>Model>>{
+    const <%= name.camelCase %> = await this.<%= name.camelCase %>Repository.removeOne(filter);
+    if (!<%= name.camelCase %>) return Either.left(new <%= name.pascalCase %>NotFoundException());
+    return Either.right(<%= name.camelCase %>);
   }
   <% } else if(type === "findAll") { %>
   async execute({
@@ -48,9 +55,10 @@ export class <%= method.pascalCase %><%= name.pascalCase %>Handler
     return await this.<%= name.camelCase %>Repository.findAll(filter, options);
   }
   <% } else if(type === "findOne") { %>
-  async execute({ filter }: FindOne<%= name.pascalCase %>Query): Promise<Maybe<<%= name.pascalCase %>Model>> {
+  async execute({ filter }: FindOne<%= name.pascalCase %>Query): Promise<Either<HttpException,<%= name.pascalCase %>Model>> {
     const <%= name.camelCase %> = await this.<%= name.camelCase %>Repository.findOne(filter);
-    return Maybe.fromValue(<%= name.camelCase %>);
+    if (!<%= name.camelCase %>) return Either.left(new <%= name.pascalCase %>NotFoundException());
+    return Either.right(<%= name.camelCase %>);
   }
   <% } %>
 }

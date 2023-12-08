@@ -9,9 +9,11 @@ import { CreateAdminHandlerProvider } from './handlers/create/create-admin-handl
 import { FindOneAdminHandlerProvider } from './handlers/find-one/find-one-admin-handler.provider';
 import { UpdateAdminHandlerProvider } from './handlers/update/update-admin-handler.provider';
 import { RemoveAdminHandlerProvider } from './handlers/remove/remove-admin-handler.provider';
+import { HashPasswordHelperProvider } from '../utils/hash-password/hash-password-helper.provider';
+import { UtilsModule } from '../utils/utils.module';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, UtilsModule],
   controllers: [AdminController],
   providers: [
     AdminRepositoryProvider,
@@ -20,6 +22,7 @@ import { RemoveAdminHandlerProvider } from './handlers/remove/remove-admin-handl
     FindOneAdminHandlerProvider,
     UpdateAdminHandlerProvider,
     RemoveAdminHandlerProvider,
+    HashPasswordHelperProvider,
     AdminListener,
     AdminCron,
   ],

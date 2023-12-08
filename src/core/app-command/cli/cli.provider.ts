@@ -1,6 +1,6 @@
-import { createSymbolProvider } from '@src/common/utils/create-symbol-provider';
+import { createProvider } from '@src/common/utils/create-provider';
 import { CliServiceModal } from './cli-service.model';
 import { CliService } from './cli.service';
 
 export const [CLI_SERVICE_TOKEN, CliServiceProvider] =
-  createSymbolProvider<CliServiceModal>(CliService);
+  createProvider<CliServiceModal>(CliService);

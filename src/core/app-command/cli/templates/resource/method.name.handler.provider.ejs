@@ -1,6 +1,6 @@
 import { <%= method.pascalCase %><%= name.pascalCase %>HandlerModel } from './<%= method.kebabCase %>-<%= name.kebabCase %>-handler.model';
 import { <%= method.pascalCase %><%= name.pascalCase %>Handler } from './<%= method.kebabCase %>-<%= name.kebabCase %>.handler';
-import { createClassProvider } from '@src/common/utils/create-class-provider';
+import { createProvider } from '@src/common/utils/create-provider';
 
 export const [<%= method.upperCase %>_<%= name.upperCase %>_HANDLER_TOKEN, <%= method.pascalCase %><%= name.pascalCase %>HandlerProvider] =
-  createClassProvider<<%= method.pascalCase %><%= name.pascalCase %>HandlerModel>(<%= method.pascalCase %><%= name.pascalCase %>Handler);
+  createProvider<<%= method.pascalCase %><%= name.pascalCase %>HandlerModel>(<%= method.pascalCase %><%= name.pascalCase %>Handler);

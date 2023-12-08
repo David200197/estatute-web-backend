@@ -6,7 +6,7 @@ import { <%= name.pascalCase %>HandlerModel } from './<%= name.kebabCase %>-hand
 export class <%= name.pascalCase %>Handler
   implements <%= name.pascalCase %>HandlerModel, ICommandHandler<<%= name.pascalCase %>Command>
 {
-  execute({ }: <%= name.pascalCase %>Command): Promise<any> { 
+  execute(<%= name.camelCase %>Command: <%= name.pascalCase %>Command): Promise<any> { 
     throw new Error('not implements')  
   }
 }

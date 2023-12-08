@@ -10,6 +10,7 @@ export const generateResource = async (dirname: string): Promise<void> => {
   const MODELS_FOLDER = 'models';
   const PROVIDERS_FOLDER = 'providers';
   const REPOSITORIES_FOLDER = 'repositories';
+  const EXCEPTIONS_FOLDER = 'exceptions';
 
   const createMethod = new NameControl('create');
   const updateMethod = new NameControl('update');
@@ -52,6 +53,12 @@ export const generateResource = async (dirname: string): Promise<void> => {
   generator.add({
     templateInput: 'name.listener',
     templateOutput: (name) => `${name.kebabCase}.listener`,
+  });
+  //EXCEPTIONS
+  generator.add({
+    templateInput: 'name-not-found.exception',
+    templateOutput: (name) =>
+      path.join(EXCEPTIONS_FOLDER, `${name.kebabCase}-not-found.exception`),
   });
   //REPOSITORY
   generator.add({

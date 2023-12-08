@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LoginAuthResponseDto } from './dto/login-auth-response.dto';
@@ -26,5 +26,10 @@ export class AuthController {
       new RefreshAuthCommand({} as any),
     );
     return new SerializerResponse('refresh token success', { ...refresh });
+  }
+
+  @Get('profile')
+  async profile() {
+    return new SerializerResponse('profile success', {});
   }
 }

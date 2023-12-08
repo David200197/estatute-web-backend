@@ -1,6 +1,6 @@
-import { createSymbolProvider } from '@src/common/utils/create-symbol-provider';
+import { createProvider } from '@src/common/utils/create-provider';
 import { <%= name.pascalCase %>RepositoryModel } from '../models/<%= name.kebabCase %>-repository.model';
 import { <%= name.pascalCase %>LocalRepository } from '../repositories/<%= name.kebabCase %>-local.repository';
 
 export const [<%= name.upperCase %>_REPOSITORY_TOKEN, <%= name.pascalCase %>RepositoryProvider] =
-  createSymbolProvider<<%= name.pascalCase %>RepositoryModel>(<%= name.pascalCase %>LocalRepository);
+  createProvider<<%= name.pascalCase %>RepositoryModel>(<%= name.pascalCase %>LocalRepository);

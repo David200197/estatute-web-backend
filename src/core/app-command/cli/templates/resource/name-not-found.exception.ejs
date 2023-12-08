@@ -1,0 +1,7 @@
+import { NotFoundException } from '@nestjs/common';
+
+export class <%= name.pascalCase %>NotFoundException extends NotFoundException {
+  constructor() {
+    super('<%= name.camelCase %> not found');
+  }
+}

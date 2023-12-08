@@ -1,4 +1,4 @@
 import { <%= name.pascalCase %>Query } from './<%= name.kebabCase %>.query';
 export interface <%= name.pascalCase %>HandlerModel {
-  execute({ }: <%= name.pascalCase %>Query): Promise<any>
+  execute(<%= name.camelCase %>Query: <%= name.pascalCase %>Query): Promise<any>
 }

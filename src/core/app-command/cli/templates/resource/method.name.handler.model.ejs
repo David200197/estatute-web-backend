@@ -2,11 +2,24 @@ import { <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %
 <% if(type === "findAll") { %> 
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { <%= name.pascalCase %>sModel } from '../../models/<%= name.kebabCase %>s.model';
+import { IQueryHandler } from '@nestjs/cqrs';
+<% } else if(type === "create") { %>
+import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
+import { ICommandHandler } from '@nestjs/cqrs';
 <% } else if(type === "findOne") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
-import { Maybe } from '@src/common/lib/maybe.lib'; <% } else { %> import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model'; <% } %>
-export interface <%= method.pascalCase %><%= name.pascalCase %>HandlerModel {
+import { Either } from '@src/common/lib/either.lib';
+import { HttpException } from '@nestjs/common';
+import { IQueryHandler } from '@nestjs/cqrs';
+<% } else { %> 
+import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model'; 
+import { Either } from '@src/common/lib/either.lib';
+import { HttpException } from '@nestjs/common';
+import { ICommandHandler } from '@nestjs/cqrs';
+<% } %>
+export interface <%= method.pascalCase %><%= name.pascalCase %>HandlerModel extends I<%= typeCQRS.pascalCase %>Handler<<%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>>
+{
   <% if(type === "findAll") { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<ResponseWithPaginate<<%= name.pascalCase %>sModel>>; 
-  <% } else if(type === "findOne") { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<Maybe<<%= name.pascalCase %>Model>>
-  <% } else { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<<%= name.pascalCase %>Model> <% } %>
+  <% } else if(type === "create") { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<<%= name.pascalCase %>Model>
+  <% } else { %> execute(command: <%= method.pascalCase %><%= name.pascalCase %><%= typeCQRS.pascalCase %>): Promise<Either<HttpException, <%= name.pascalCase %>Model>> <% } %>
 }

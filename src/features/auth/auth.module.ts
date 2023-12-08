@@ -4,18 +4,21 @@ import { AuthController } from './auth.controller';
 import { AuthCron } from './auth.cron';
 import { AuthListener } from './auth.listener';
 import { LoginAuthHandlerProvider } from './handlers/login-auth/login-auth-handler.provider';
-import { AuthHelperProvider } from './providers/auth-helper.provider';
 import { RefreshAuthHandlerProvider } from './handlers/refresh-auth/refresh-auth-handler.provider';
+import { AccessTokenStrategy } from './strategy/access-token.strategy';
+import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, JwtModule.register({})],
   controllers: [AuthController],
   providers: [
     AuthListener,
     AuthCron,
     LoginAuthHandlerProvider,
-    AuthHelperProvider,
     RefreshAuthHandlerProvider,
+    AccessTokenStrategy,
+    RefreshTokenStrategy,
   ],
 })
 export class AuthModule {}

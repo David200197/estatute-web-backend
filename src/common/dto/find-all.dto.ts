@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberString, IsOptional } from 'class-validator';
+import { IsEnum, IsNumberString, IsOptional, IsString } from 'class-validator';
+
+enum Order {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
 
 export class FindAllDto {
   @IsNumberString()
@@ -11,4 +16,11 @@ export class FindAllDto {
   @IsOptional()
   @ApiProperty({ type: 'string', default: '10' })
   perPage?: string;
+
+  @IsEnum(Order)
+  @IsOptional()
+  order?: Order;
+
+  @IsString()
+  orderBy?: string;
 }
