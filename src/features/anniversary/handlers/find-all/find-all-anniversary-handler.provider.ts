@@ -1,10 +1,10 @@
 import { FindAllAnniversaryHandlerModel } from './find-all-anniversary-handler.model';
 import { FindAllAnniversaryHandler } from './find-all-anniversary.handler';
-import { createClassProvider } from '@src/common/utils/create-class-provider';
+import { createProvider } from '@src/common/utils/create-provider';
 
 export const [
   FIND_ALL_ANNIVERSARY_HANDLER_TOKEN,
   FindAllAnniversaryHandlerProvider,
-] = createClassProvider<FindAllAnniversaryHandlerModel>(
+] = createProvider<FindAllAnniversaryHandlerModel>(
   FindAllAnniversaryHandler,
 );
