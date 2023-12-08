@@ -13,7 +13,9 @@ export class EventEmitter2Helper implements EventEmitterHelperModel {
       event,
       ...value,
     );
-    return new ListenerSerializer(listeners);
+    return new ListenerSerializer(
+      listeners.filter((listen) => listen instanceof ListenerResponse),
+    );
   }
 
   emitSync(event: string, ...value: any[]): void {
