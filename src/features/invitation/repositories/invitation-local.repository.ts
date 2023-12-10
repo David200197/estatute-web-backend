@@ -9,13 +9,36 @@ import { Invitations } from '../entities/invitations';
 import { UpdateInvitationDto } from '../dto/update-invitation.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
 
 @Injectable()
-export class InvitationLocalRepository implements InvitationRepositoryModel {
+export class InvitationLocalRepository
+  implements InvitationRepositoryModel, HelperMockMethods<InvitationModel>
+{
   private invitationCrud: CrudMockMethods<InvitationModel>;
 
   constructor() {
     this.invitationCrud = new CrudMockMethods();
+  }
+
+  __changeStore(store: InvitationModel[]): void {
+    this.invitationCrud.__changeStore(store);
+  }
+
+  __reset(): void {
+    this.invitationCrud.__reset();
+  }
+
+  __setIsError(value: boolean): void {
+    this.invitationCrud.__setIsError(value);
+  }
+
+  __getStore(): InvitationModel[] {
+    return this.__getStore();
+  }
+
+  __isError(): boolean {
+    return this.__isError();
   }
 
   async findOne(
@@ -60,13 +83,11 @@ export class InvitationLocalRepository implements InvitationRepositoryModel {
   async updateMany(
     filter: DeepPartial<InvitationModel>,
     options: UpdateInvitationDto,
-  ): Promise<InvitationModel> {
+  ): Promise<boolean> {
     return this.invitationCrud.updateMany(filter, options);
   }
 
-  async removeMany(
-    filter: DeepPartial<InvitationModel>,
-  ): Promise<InvitationModel> {
+  async removeMany(filter: DeepPartial<InvitationModel>): Promise<boolean> {
     return this.invitationCrud.deleteMany(filter);
   }
 }

@@ -9,13 +9,36 @@ import { Events } from '../entities/events';
 import { UpdateEventDto } from '../dto/update-event.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
 
 @Injectable()
-export class EventLocalRepository implements EventRepositoryModel {
+export class EventLocalRepository
+  implements EventRepositoryModel, HelperMockMethods<EventModel>
+{
   private eventCrud: CrudMockMethods<EventModel>;
 
   constructor() {
     this.eventCrud = new CrudMockMethods();
+  }
+
+  __changeStore(store: EventModel[]): void {
+    this.eventCrud.__changeStore(store);
+  }
+
+  __reset(): void {
+    this.eventCrud.__reset();
+  }
+
+  __setIsError(value: boolean): void {
+    this.eventCrud.__setIsError(value);
+  }
+
+  __getStore(): EventModel[] {
+    return this.__getStore();
+  }
+
+  __isError(): boolean {
+    return this.__isError();
   }
 
   async findOne(filter: DeepPartial<EventModel>): Promise<EventModel | null> {
@@ -56,11 +79,11 @@ export class EventLocalRepository implements EventRepositoryModel {
   async updateMany(
     filter: DeepPartial<EventModel>,
     options: UpdateEventDto,
-  ): Promise<EventModel> {
+  ): Promise<boolean> {
     return this.eventCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<EventModel>): Promise<EventModel> {
+  async removeMany(filter: DeepPartial<EventModel>): Promise<boolean> {
     return this.eventCrud.deleteMany(filter);
   }
 }

@@ -21,6 +21,6 @@ export interface AboutUsRepositoryModel {
   updateMany(
     filter: DeepPartial<AboutUsModel>,
     options: UpdateAboutUsDto,
-  ): Promise<AboutUsModel>;
-  removeMany(filter: DeepPartial<AboutUsModel>): Promise<AboutUsModel>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<AboutUsModel>): Promise<boolean>;
 }

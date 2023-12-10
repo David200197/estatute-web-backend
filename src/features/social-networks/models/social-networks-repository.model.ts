@@ -25,8 +25,6 @@ export interface SocialNetworksRepositoryModel {
   updateMany(
     filter: DeepPartial<SocialNetworksModel>,
     options: UpdateSocialNetworksDto,
-  ): Promise<SocialNetworksModel>;
-  removeMany(
-    filter: DeepPartial<SocialNetworksModel>,
-  ): Promise<SocialNetworksModel>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<SocialNetworksModel>): Promise<boolean>;
 }

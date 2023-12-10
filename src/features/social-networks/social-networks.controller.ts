@@ -47,7 +47,7 @@ export class SocialNetworksController {
     });
   }
 
-  @Get('uuid')
+  @Get(':uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, SocialNetworksModel> =
       await this.queryBus.execute(new FindOneSocialNetworksQuery({ uuid }));
@@ -72,7 +72,7 @@ export class SocialNetworksController {
     });
   }
 
-  @Patch('uuid')
+  @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
     @Body() updateSocialNetworksDto: UpdateSocialNetworksDto,
@@ -92,7 +92,7 @@ export class SocialNetworksController {
     });
   }
 
-  @Delete('uuid')
+  @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, SocialNetworksModel> =
       await this.commandBus.execute(new RemoveSocialNetworksCommand({ uuid }));

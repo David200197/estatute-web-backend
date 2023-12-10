@@ -47,7 +47,7 @@ export class EventController {
     });
   }
 
-  @Get('uuid')
+  @Get(':uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, EventModel> =
       await this.queryBus.execute(new FindOneEventQuery({ uuid }));
@@ -72,7 +72,7 @@ export class EventController {
     });
   }
 
-  @Patch('uuid')
+  @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
     @Body() updateEventDto: UpdateEventDto,
@@ -92,7 +92,7 @@ export class EventController {
     });
   }
 
-  @Delete('uuid')
+  @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, EventModel> =
       await this.commandBus.execute(new RemoveEventCommand({ uuid }));

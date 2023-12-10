@@ -9,13 +9,36 @@ import { Anniversarys } from '../entities/anniversarys';
 import { UpdateAnniversaryDto } from '../dto/update-anniversary.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
 
 @Injectable()
-export class AnniversaryLocalRepository implements AnniversaryRepositoryModel {
+export class AnniversaryLocalRepository
+  implements AnniversaryRepositoryModel, HelperMockMethods<AnniversaryModel>
+{
   private anniversaryCrud: CrudMockMethods<AnniversaryModel>;
 
   constructor() {
     this.anniversaryCrud = new CrudMockMethods();
+  }
+
+  __changeStore(store: AnniversaryModel[]): void {
+    this.anniversaryCrud.__changeStore(store);
+  }
+
+  __reset(): void {
+    this.anniversaryCrud.__reset();
+  }
+
+  __setIsError(value: boolean): void {
+    this.anniversaryCrud.__setIsError(value);
+  }
+
+  __getStore(): AnniversaryModel[] {
+    return this.__getStore();
+  }
+
+  __isError(): boolean {
+    return this.__isError();
   }
 
   async findOne(
@@ -60,13 +83,11 @@ export class AnniversaryLocalRepository implements AnniversaryRepositoryModel {
   async updateMany(
     filter: DeepPartial<AnniversaryModel>,
     options: UpdateAnniversaryDto,
-  ): Promise<AnniversaryModel> {
+  ): Promise<boolean> {
     return this.anniversaryCrud.updateMany(filter, options);
   }
 
-  async removeMany(
-    filter: DeepPartial<AnniversaryModel>,
-  ): Promise<AnniversaryModel> {
+  async removeMany(filter: DeepPartial<AnniversaryModel>): Promise<boolean> {
     return this.anniversaryCrud.deleteMany(filter);
   }
 }

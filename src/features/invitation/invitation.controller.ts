@@ -47,7 +47,7 @@ export class InvitationController {
     });
   }
 
-  @Get('uuid')
+  @Get(':uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, InvitationModel> =
       await this.queryBus.execute(new FindOneInvitationQuery({ uuid }));
@@ -72,7 +72,7 @@ export class InvitationController {
     });
   }
 
-  @Patch('uuid')
+  @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
     @Body() updateInvitationDto: UpdateInvitationDto,
@@ -92,7 +92,7 @@ export class InvitationController {
     });
   }
 
-  @Delete('uuid')
+  @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, InvitationModel> =
       await this.commandBus.execute(new RemoveInvitationCommand({ uuid }));

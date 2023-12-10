@@ -21,6 +21,6 @@ export interface EventRepositoryModel {
   updateMany(
     filter: DeepPartial<EventModel>,
     options: UpdateEventDto,
-  ): Promise<EventModel>;
-  removeMany(filter: DeepPartial<EventModel>): Promise<EventModel>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<EventModel>): Promise<boolean>;
 }

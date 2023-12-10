@@ -23,6 +23,6 @@ export interface InvitationRepositoryModel {
   updateMany(
     filter: DeepPartial<InvitationModel>,
     options: UpdateInvitationDto,
-  ): Promise<InvitationModel>;
-  removeMany(filter: DeepPartial<InvitationModel>): Promise<InvitationModel>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<InvitationModel>): Promise<boolean>;
 }

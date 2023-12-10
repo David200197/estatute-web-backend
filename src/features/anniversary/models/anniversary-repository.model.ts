@@ -23,6 +23,6 @@ export interface AnniversaryRepositoryModel {
   updateMany(
     filter: DeepPartial<AnniversaryModel>,
     options: UpdateAnniversaryDto,
-  ): Promise<AnniversaryModel>;
-  removeMany(filter: DeepPartial<AnniversaryModel>): Promise<AnniversaryModel>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<AnniversaryModel>): Promise<boolean>;
 }

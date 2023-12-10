@@ -47,7 +47,7 @@ export class AboutUsController {
     });
   }
 
-  @Get('uuid')
+  @Get(':uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AboutUsModel> =
       await this.queryBus.execute(new FindOneAboutUsQuery({ uuid }));
@@ -72,7 +72,7 @@ export class AboutUsController {
     });
   }
 
-  @Patch('uuid')
+  @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
     @Body() updateAboutUsDto: UpdateAboutUsDto,
@@ -92,7 +92,7 @@ export class AboutUsController {
     });
   }
 
-  @Delete('uuid')
+  @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AboutUsModel> =
       await this.commandBus.execute(new RemoveAboutUsCommand({ uuid }));

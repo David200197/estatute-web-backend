@@ -9,15 +9,38 @@ import { SocialNetworkss } from '../entities/social-networkss';
 import { UpdateSocialNetworksDto } from '../dto/update-social-networks.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
 
 @Injectable()
 export class SocialNetworksLocalRepository
-  implements SocialNetworksRepositoryModel
+  implements
+    SocialNetworksRepositoryModel,
+    HelperMockMethods<SocialNetworksModel>
 {
   private socialNetworksCrud: CrudMockMethods<SocialNetworksModel>;
 
   constructor() {
     this.socialNetworksCrud = new CrudMockMethods();
+  }
+
+  __changeStore(store: SocialNetworksModel[]): void {
+    this.socialNetworksCrud.__changeStore(store);
+  }
+
+  __reset(): void {
+    this.socialNetworksCrud.__reset();
+  }
+
+  __setIsError(value: boolean): void {
+    this.socialNetworksCrud.__setIsError(value);
+  }
+
+  __getStore(): SocialNetworksModel[] {
+    return this.__getStore();
+  }
+
+  __isError(): boolean {
+    return this.__isError();
   }
 
   async findOne(
@@ -62,13 +85,11 @@ export class SocialNetworksLocalRepository
   async updateMany(
     filter: DeepPartial<SocialNetworksModel>,
     options: UpdateSocialNetworksDto,
-  ): Promise<SocialNetworksModel> {
+  ): Promise<boolean> {
     return this.socialNetworksCrud.updateMany(filter, options);
   }
 
-  async removeMany(
-    filter: DeepPartial<SocialNetworksModel>,
-  ): Promise<SocialNetworksModel> {
+  async removeMany(filter: DeepPartial<SocialNetworksModel>): Promise<boolean> {
     return this.socialNetworksCrud.deleteMany(filter);
   }
 }

@@ -9,13 +9,36 @@ import { Statutes } from '../entities/statutes';
 import { UpdateStatuteDto } from '../dto/update-statute.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
 
 @Injectable()
-export class StatuteLocalRepository implements StatuteRepositoryModel {
+export class StatuteLocalRepository
+  implements StatuteRepositoryModel, HelperMockMethods<StatuteModel>
+{
   private statuteCrud: CrudMockMethods<StatuteModel>;
 
   constructor() {
     this.statuteCrud = new CrudMockMethods();
+  }
+
+  __changeStore(store: StatuteModel[]): void {
+    this.statuteCrud.__changeStore(store);
+  }
+
+  __reset(): void {
+    this.statuteCrud.__reset();
+  }
+
+  __setIsError(value: boolean): void {
+    this.statuteCrud.__setIsError(value);
+  }
+
+  __getStore(): StatuteModel[] {
+    return this.__getStore();
+  }
+
+  __isError(): boolean {
+    return this.__isError();
   }
 
   async findOne(
@@ -58,11 +81,11 @@ export class StatuteLocalRepository implements StatuteRepositoryModel {
   async updateMany(
     filter: DeepPartial<StatuteModel>,
     options: UpdateStatuteDto,
-  ): Promise<StatuteModel> {
+  ): Promise<boolean> {
     return this.statuteCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<StatuteModel>): Promise<StatuteModel> {
+  async removeMany(filter: DeepPartial<StatuteModel>): Promise<boolean> {
     return this.statuteCrud.deleteMany(filter);
   }
 }

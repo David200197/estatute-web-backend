@@ -47,7 +47,7 @@ export class AnniversaryController {
     });
   }
 
-  @Get('uuid')
+  @Get(':uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AnniversaryModel> =
       await this.queryBus.execute(new FindOneAnniversaryQuery({ uuid }));
@@ -72,7 +72,7 @@ export class AnniversaryController {
     });
   }
 
-  @Patch('uuid')
+  @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
     @Body() updateAnniversaryDto: UpdateAnniversaryDto,
@@ -92,7 +92,7 @@ export class AnniversaryController {
     });
   }
 
-  @Delete('uuid')
+  @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AnniversaryModel> =
       await this.commandBus.execute(new RemoveAnniversaryCommand({ uuid }));

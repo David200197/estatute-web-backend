@@ -21,6 +21,6 @@ export interface StatuteRepositoryModel {
   updateMany(
     filter: DeepPartial<StatuteModel>,
     options: UpdateStatuteDto,
-  ): Promise<StatuteModel>;
-  removeMany(filter: DeepPartial<StatuteModel>): Promise<StatuteModel>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<StatuteModel>): Promise<boolean>;
 }

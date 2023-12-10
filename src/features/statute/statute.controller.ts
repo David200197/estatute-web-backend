@@ -47,7 +47,7 @@ export class StatuteController {
     });
   }
 
-  @Get('uuid')
+  @Get(':uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, StatuteModel> =
       await this.queryBus.execute(new FindOneStatuteQuery({ uuid }));
@@ -72,7 +72,7 @@ export class StatuteController {
     });
   }
 
-  @Patch('uuid')
+  @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
     @Body() updateStatuteDto: UpdateStatuteDto,
@@ -92,7 +92,7 @@ export class StatuteController {
     });
   }
 
-  @Delete('uuid')
+  @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, StatuteModel> =
       await this.commandBus.execute(new RemoveStatuteCommand({ uuid }));
