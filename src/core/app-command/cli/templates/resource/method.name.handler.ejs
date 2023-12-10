@@ -7,18 +7,18 @@ import { <%= name.upperCase %>_REPOSITORY_TOKEN } from '../../providers/<%= name
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
 <% } else if(type === "update") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
-import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.camelCase %>-not-found.exception';
+import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.kebabCase %>-not-found.exception';
 import { Either } from '@src/common/lib/either.lib';
 <% } else if(type === "remove") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
-import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.camelCase %>-not-found.exception';
+import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.kebabCase %>-not-found.exception';
 import { Either } from '@src/common/lib/either.lib';
 <% } else if(type === "findAll") { %>
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { <%= name.pascalCase %>sModel } from '../../models/<%= name.kebabCase %>s.model';
 <% } else if(type === "findOne") { %>
 import { <%= name.pascalCase %>Model } from '../../models/<%= name.kebabCase %>.model';
-import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.camelCase %>-not-found.exception';
+import { <%= name.pascalCase %>NotFoundException } from '../../exceptions/<%= name.kebabCase %>-not-found.exception';
 import { Either } from '@src/common/lib/either.lib';
 <% } %>
 
