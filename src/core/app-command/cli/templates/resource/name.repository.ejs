@@ -9,13 +9,34 @@ import { <%= name.pascalCase %>s } from '../entities/<%= name.kebabCase %>s';
 import { Update<%= name.pascalCase %>Dto } from '../dto/update-<%= name.kebabCase %>.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
 
 @Injectable()
-export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCase %>RepositoryModel {
+export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCase %>RepositoryModel, HelperMockMethods<<%= name.pascalCase %>Model> {
   private <%= name.camelCase %>Crud: CrudMockMethods<<%= name.pascalCase %>Model>;
 
   constructor() {
     this.<%= name.camelCase %>Crud = new CrudMockMethods();
+  }
+  
+  __changeStore(store: <%= name.pascalCase %>Model[]): void {
+    this.<%= name.camelCase %>Crud.__changeStore(store);
+  }
+
+  __reset(): void {
+    this.<%= name.camelCase %>Crud.__reset();
+  }
+
+  __setIsError(value: boolean): void {
+    this.<%= name.camelCase %>Crud.__setIsError(value);
+  }
+
+  __getStore(): <%= name.pascalCase %>Model[] {
+    return this.__getStore();
+  }
+
+  __isError(): boolean {
+    return this.__isError();
   }
 
   async findOne(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<<%= name.pascalCase %>Model | null> {
@@ -56,11 +77,11 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
   async updateMany(
     filter: DeepPartial<<%= name.pascalCase %>Model>,
     options: Update<%= name.pascalCase %>Dto,
-  ): Promise<<%= name.pascalCase %>Model> {
+  ): Promise<boolean> {
     return this.<%= name.camelCase %>Crud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<<%= name.pascalCase %>Model> {
+  async removeMany(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<boolean> {
     return this.<%= name.camelCase %>Crud.deleteMany(filter);
   }
 }

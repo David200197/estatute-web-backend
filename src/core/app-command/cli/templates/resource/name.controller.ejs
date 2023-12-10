@@ -47,7 +47,7 @@ export class <%= name.pascalCase %>Controller {
     });
   }
 
-  @Get('uuid')
+  @Get(':uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, <%= name.pascalCase %>Model> = await this.queryBus.execute(
       new FindOne<%= name.pascalCase %>Query({ uuid }),
@@ -73,7 +73,7 @@ export class <%= name.pascalCase %>Controller {
     });
   }
 
-  @Patch('uuid')
+  @Patch(':uuid')
   async update(
     @Param('uuid') uuid: string,
     @Body() update<%= name.pascalCase %>Dto: Update<%= name.pascalCase %>Dto,
@@ -92,7 +92,7 @@ export class <%= name.pascalCase %>Controller {
     });
   }
 
-  @Delete('uuid')
+  @Delete(':uuid')
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, <%= name.pascalCase %>Model> = await this.commandBus.execute(
       new Remove<%= name.pascalCase %>Command({ uuid }),

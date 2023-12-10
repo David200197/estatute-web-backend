@@ -21,6 +21,6 @@ export interface <%= name.pascalCase %>RepositoryModel {
   updateMany(
     filter: DeepPartial<<%= name.pascalCase %>Model>,
     options: Update<%= name.pascalCase %>Dto,
-  ): Promise<<%= name.pascalCase %>Model>;
-  removeMany(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<<%= name.pascalCase %>Model>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<<%= name.pascalCase %>Model>): Promise<boolean>;
 }

@@ -47,10 +47,10 @@ export class AdminController {
     });
   }
 
-  @Get('uuid')
-  async findOneByUuid(@Param('uuid') uuid: string) {
+  @Get(':username')
+  async findOneByUsername(@Param('username') username: string) {
     const eitherResponse: Either<HttpException, AdminModel> =
-      await this.queryBus.execute(new FindOneAdminQuery({ uuid }));
+      await this.queryBus.execute(new FindOneAdminQuery({ username }));
     const admin = eitherResponse.fold(
       (error) => {
         throw error;
@@ -72,14 +72,14 @@ export class AdminController {
     });
   }
 
-  @Patch('uuid')
+  @Patch('username')
   async update(
-    @Param('uuid') uuid: string,
+    @Param('username') username: string,
     @Body() updateAdminDto: UpdateAdminDto,
   ) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(
-        new UpdateAdminCommand({ uuid }, updateAdminDto),
+        new UpdateAdminCommand({ username }, updateAdminDto),
       );
     const admin = eitherResponse.fold(
       (error) => {
@@ -92,10 +92,10 @@ export class AdminController {
     });
   }
 
-  @Delete('uuid')
-  async remove(@Param('uuid') uuid: string) {
+  @Delete('username')
+  async remove(@Param('username') username: string) {
     const eitherResponse: Either<HttpException, AdminModel> =
-      await this.commandBus.execute(new RemoveAdminCommand({ uuid }));
+      await this.commandBus.execute(new RemoveAdminCommand({ username }));
     const admin = eitherResponse.fold(
       (error) => {
         throw error;

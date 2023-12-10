@@ -8,9 +8,16 @@ import { RefreshAuthHandlerProvider } from './handlers/refresh-auth/refresh-auth
 import { AccessTokenStrategy } from './strategy/access-token.strategy';
 import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
 import { JwtModule } from '@nestjs/jwt';
+import { HashPasswordModule } from '@src/shared/hash-password/hash-password.module';
+import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
 
 @Module({
-  imports: [CqrsModule, JwtModule.register({})],
+  imports: [
+    CqrsModule,
+    JwtModule.register({}),
+    HashPasswordModule,
+    EventEmitterModule,
+  ],
   controllers: [AuthController],
   providers: [
     AuthListener,

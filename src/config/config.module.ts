@@ -9,7 +9,7 @@ import configuration from './configuration';
   imports: [
     ConfigEnvironmentModule.forRoot({ isGlobal: true, load: [configuration] }),
     ScheduleModule.forRoot(),
-    EventEmitterModule.forRoot(),
+    EventEmitterModule.forRoot({ verboseMemoryLeak: true }),
     //MongooseModule.forRoot(configuration().database.uri),
   ],
 })

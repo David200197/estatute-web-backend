@@ -21,6 +21,6 @@ export interface AdminRepositoryModel {
   updateMany(
     filter: DeepPartial<AdminModel>,
     options: UpdateAdminDto,
-  ): Promise<AdminModel>;
-  removeMany(filter: DeepPartial<AdminModel>): Promise<AdminModel>;
+  ): Promise<boolean>;
+  removeMany(filter: DeepPartial<AdminModel>): Promise<boolean>;
 }

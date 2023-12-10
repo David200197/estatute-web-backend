@@ -56,11 +56,11 @@ export class AdminLocalRepository implements AdminRepositoryModel {
   async updateMany(
     filter: DeepPartial<AdminModel>,
     options: UpdateAdminDto,
-  ): Promise<AdminModel> {
+  ): Promise<boolean> {
     return this.adminCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<AdminModel>): Promise<AdminModel> {
+  async removeMany(filter: DeepPartial<AdminModel>): Promise<boolean> {
     return this.adminCrud.deleteMany(filter);
   }
 }
