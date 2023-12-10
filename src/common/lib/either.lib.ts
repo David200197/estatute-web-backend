@@ -22,12 +22,37 @@ export class Either<L, R> {
     }
   }
 
+  async foldAsync<T>(
+    leftFn: (left: L) => T,
+    rightFn: (right: R) => Promise<T>,
+  ): Promise<T> {
+    switch (this.value.kind) {
+      case 'left':
+        return leftFn(this.value.leftValue);
+      case 'right':
+        return rightFn(this.value.rightValue);
+    }
+  }
+
   map<T>(fn: (r: R) => T): Either<L, T> {
     return this.flatMap((r) => Either.right(fn(r)));
   }
 
+  async mapAsync<T>(fn: (r: R) => T): Promise<Either<L, T>> {
+    return this.flatMapAsync(async (r) => Either.right(fn(r)));
+  }
+
   flatMap<T>(fn: (right: R) => Either<L, T>): Either<L, T> {
     return this.fold(
+      (leftValue) => Either.left(leftValue),
+      (rightValue) => fn(rightValue),
+    );
+  }
+
+  async flatMapAsync<T>(
+    fn: (right: R) => Promise<Either<L, T>>,
+  ): Promise<Either<L, T>> {
+    return this.foldAsync(
       (leftValue) => Either.left(leftValue),
       (rightValue) => fn(rightValue),
     );

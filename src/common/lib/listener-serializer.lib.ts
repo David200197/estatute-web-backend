@@ -6,7 +6,7 @@ export class ListenerSerializer {
     for (const { listener, data } of listeners)
       this.listenersMap.set(listener, data);
   }
-  getData<T>(listener: string) {
+  get<T>(listener: string) {
     return this.listenersMap.get(listener) as T;
   }
 }

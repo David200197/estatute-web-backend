@@ -11,6 +11,8 @@ import { Either } from '@src/common/lib/either.lib';
 import { HashPasswordHelperModel } from '@src/shared/hash-password/hash-password-helper.model';
 import { HASH_PASSWORD_HELPER_TOKEN } from '@src/shared/hash-password/hash-password-helper.provider';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { AdminUnauthorizedException } from '@src/features/admin/exceptions/admin-unauthorized.exception';
 
 @CommandHandler(LoginAuthCommand)
 export class LoginAuthHandler
@@ -18,29 +20,48 @@ export class LoginAuthHandler
 {
   constructor(
     @Inject(EVENT_EMITTER_HELPER_TOKEN)
-    private eventEmitter: EventEmitterHelperModel,
+    private readonly eventEmitterService: EventEmitterHelperModel,
     @Inject(HASH_PASSWORD_HELPER_TOKEN)
-    private hashPassword: HashPasswordHelperModel,
-    private jwtService: JwtService,
+    private readonly hashPasswordService: HashPasswordHelperModel,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async execute({
     loginAuthDto,
   }: LoginAuthCommand): Promise<Either<HttpException, LoginAuthResponseDto>> {
     const { password, username } = loginAuthDto;
-    const listener = await this.eventEmitter.emitAsync(
+    const listener = await this.eventEmitterService.emitAsync(
       EMITTER.AUTH_LOGIN_VALIDATE_ADMIN,
       username,
     );
-    const { admin } = listener.getData<{
-      admin: Either<HttpException, AdminModel>;
-    }>(RESPONSE_LISTENERS.ADMIN_AUTH_LOGIN_VALIDATE_ADMIN);
+    const admin = listener.get<Either<HttpException, AdminModel>>(
+      RESPONSE_LISTENERS.ADMIN_AUTH_LOGIN_VALIDATE_ADMIN,
+    );
 
-    return admin.map((data) => {
-      return {
-        accessToken: '',
-        refreshToken: '',
-      };
+    const verifiedAdmin = await admin.flatMapAsync<AdminModel>(async (user) => {
+      const isValid = this.hashPasswordService.verify(user.password, password);
+      if (!isValid) return Either.left(new AdminUnauthorizedException());
+      return Either.right(user);
     });
+
+    const payload = verifiedAdmin.map((user) => ({
+      accessToken: this.jwtService.sign(
+        { username: user.username },
+        {
+          privateKey: this.configService.get('jwt.secret'),
+          expiresIn: this.configService.get('jwt.time'),
+        },
+      ),
+      refreshToken: this.jwtService.sign(
+        { username: user.username },
+        {
+          privateKey: this.configService.get('jwt.refresh_secret'),
+          expiresIn: this.configService.get('jwt.refresh_time'),
+        },
+      ),
+    }));
+
+    return payload;
   }
 }

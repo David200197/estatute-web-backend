@@ -17,7 +17,7 @@ export class AdminListener {
       await this.queryBus.execute(new FindOneAdminQuery({ username }));
     return new ListenerResponse(
       RESPONSE_LISTENERS.ADMIN_AUTH_LOGIN_VALIDATE_ADMIN,
-      { admin },
+      admin,
     );
   }
 }
