@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 import { CreateInvitationCommand } from './create-invitation.command';
 import { InvitationRepositoryModel } from '../../models/invitation-repository.model';
 import { CreateInvitationHandlerModel } from './create-invitation-handler.model';
@@ -7,11 +7,7 @@ import { INVITATION_REPOSITORY_TOKEN } from '../../providers/invitation-reposito
 import { InvitationModel } from '../../models/invitation.model';
 
 @CommandHandler(CreateInvitationCommand)
-export class CreateInvitationHandler
-  implements
-    CreateInvitationHandlerModel,
-    ICommandHandler<CreateInvitationCommand>
-{
+export class CreateInvitationHandler implements CreateInvitationHandlerModel {
   constructor(
     @Inject(INVITATION_REPOSITORY_TOKEN)
     private invitationRepository: InvitationRepositoryModel,

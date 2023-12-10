@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 import { CreateAnniversaryCommand } from './create-anniversary.command';
 import { AnniversaryRepositoryModel } from '../../models/anniversary-repository.model';
 import { CreateAnniversaryHandlerModel } from './create-anniversary-handler.model';
@@ -7,11 +7,7 @@ import { ANNIVERSARY_REPOSITORY_TOKEN } from '../../providers/anniversary-reposi
 import { AnniversaryModel } from '../../models/anniversary.model';
 
 @CommandHandler(CreateAnniversaryCommand)
-export class CreateAnniversaryHandler
-  implements
-    CreateAnniversaryHandlerModel,
-    ICommandHandler<CreateAnniversaryCommand>
-{
+export class CreateAnniversaryHandler implements CreateAnniversaryHandlerModel {
   constructor(
     @Inject(ANNIVERSARY_REPOSITORY_TOKEN)
     private anniversaryRepository: AnniversaryRepositoryModel,

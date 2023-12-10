@@ -5,6 +5,4 @@ import { createProvider } from '@src/common/utils/create-provider';
 export const [
   FIND_ALL_ANNIVERSARY_HANDLER_TOKEN,
   FindAllAnniversaryHandlerProvider,
-] = createProvider<FindAllAnniversaryHandlerModel>(
-  FindAllAnniversaryHandler,
-);
+] = createProvider<FindAllAnniversaryHandlerModel>(FindAllAnniversaryHandler);

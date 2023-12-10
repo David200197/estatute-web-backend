@@ -1,4 +1,4 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { QueryHandler } from '@nestjs/cqrs';
 import { FindAllAboutUsQuery } from './find-all-about-us.query';
 import { AboutUsRepositoryModel } from '../../models/about-us-repository.model';
 import { FindAllAboutUsHandlerModel } from './find-all-about-us-handler.model';
@@ -8,9 +8,7 @@ import { ResponseWithPaginate } from '@src/common/interfaces/response-with-pagin
 import { AboutUssModel } from '../../models/about-uss.model';
 
 @QueryHandler(FindAllAboutUsQuery)
-export class FindAllAboutUsHandler
-  implements FindAllAboutUsHandlerModel, IQueryHandler<FindAllAboutUsQuery>
-{
+export class FindAllAboutUsHandler implements FindAllAboutUsHandlerModel {
   constructor(
     @Inject(ABOUT_US_REPOSITORY_TOKEN)
     private aboutUsRepository: AboutUsRepositoryModel,

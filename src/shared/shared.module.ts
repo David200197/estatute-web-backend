@@ -4,5 +4,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [HashPasswordModule, EventEmitterModule],
+  exports: [HashPasswordModule, EventEmitterModule],
 })
 export class SharedModule {}

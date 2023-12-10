@@ -5,6 +5,4 @@ import { createProvider } from '@src/common/utils/create-provider';
 export const [
   CREATE_ANNIVERSARY_HANDLER_TOKEN,
   CreateAnniversaryHandlerProvider,
-] = createProvider<CreateAnniversaryHandlerModel>(
-  CreateAnniversaryHandler,
-);
+] = createProvider<CreateAnniversaryHandlerModel>(CreateAnniversaryHandler);

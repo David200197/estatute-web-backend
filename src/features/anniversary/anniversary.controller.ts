@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { CreateAnniversaryDto } from './dto/create-anniversary.dto';
 import { UpdateAnniversaryDto } from './dto/update-anniversary.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { AnniversarysModel } from './models/anniversarys.model';
 import { AnniversaryModel } from './models/anniversary.model';
@@ -48,11 +49,16 @@ export class AnniversaryController {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const anniversary: Maybe<AnniversaryModel> = await this.queryBus.execute(
-      new FindOneAnniversaryQuery({ uuid }),
+    const eitherResponse: Either<HttpException, AnniversaryModel> =
+      await this.queryBus.execute(new FindOneAnniversaryQuery({ uuid }));
+    const anniversary = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('anniversary was founded', {
-      anniversary: anniversary.get(),
+      anniversary,
     });
   }
 
@@ -71,8 +77,15 @@ export class AnniversaryController {
     @Param('uuid') uuid: string,
     @Body() updateAnniversaryDto: UpdateAnniversaryDto,
   ) {
-    const anniversary: AnniversaryModel = await this.commandBus.execute(
-      new UpdateAnniversaryCommand({ uuid }, updateAnniversaryDto),
+    const eitherResponse: Either<HttpException, AnniversaryModel> =
+      await this.commandBus.execute(
+        new UpdateAnniversaryCommand({ uuid }, updateAnniversaryDto),
+      );
+    const anniversary = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('anniversary was updated', {
       anniversary,
@@ -81,8 +94,13 @@ export class AnniversaryController {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const anniversary: AnniversaryModel = await this.commandBus.execute(
-      new RemoveAnniversaryCommand({ uuid }),
+    const eitherResponse: Either<HttpException, AnniversaryModel> =
+      await this.commandBus.execute(new RemoveAnniversaryCommand({ uuid }));
+    const anniversary = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('anniversary was removed', {
       anniversary,

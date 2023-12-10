@@ -1,5 +1,9 @@
 import { CreateAdminCommand } from './create-admin.command';
+
 import { AdminModel } from '../../models/admin.model';
-export interface CreateAdminHandlerModel {
+import { ICommandHandler } from '@nestjs/cqrs';
+
+export interface CreateAdminHandlerModel
+  extends ICommandHandler<CreateAdminCommand> {
   execute(command: CreateAdminCommand): Promise<AdminModel>;
 }

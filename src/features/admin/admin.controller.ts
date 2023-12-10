@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { AdminsModel } from './models/admins.model';
 import { AdminModel } from './models/admin.model';
@@ -48,11 +49,16 @@ export class AdminController {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const admin: Maybe<AdminModel> = await this.queryBus.execute(
-      new FindOneAdminQuery({ uuid }),
+    const eitherResponse: Either<HttpException, AdminModel> =
+      await this.queryBus.execute(new FindOneAdminQuery({ uuid }));
+    const admin = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('admin was founded', {
-      admin: admin.get(),
+      admin,
     });
   }
 
@@ -71,8 +77,15 @@ export class AdminController {
     @Param('uuid') uuid: string,
     @Body() updateAdminDto: UpdateAdminDto,
   ) {
-    const admin: AdminModel = await this.commandBus.execute(
-      new UpdateAdminCommand({ uuid }, updateAdminDto),
+    const eitherResponse: Either<HttpException, AdminModel> =
+      await this.commandBus.execute(
+        new UpdateAdminCommand({ uuid }, updateAdminDto),
+      );
+    const admin = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('admin was updated', {
       admin,
@@ -81,8 +94,13 @@ export class AdminController {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const admin: AdminModel = await this.commandBus.execute(
-      new RemoveAdminCommand({ uuid }),
+    const eitherResponse: Either<HttpException, AdminModel> =
+      await this.commandBus.execute(new RemoveAdminCommand({ uuid }));
+    const admin = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('admin was removed', {
       admin,

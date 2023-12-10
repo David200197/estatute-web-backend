@@ -1,4 +1,1 @@
-export class CreateAdminDto {
-  username: string;
-  password: string;
-}
+export class CreateAdminDto {}

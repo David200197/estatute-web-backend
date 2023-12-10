@@ -1,5 +1,9 @@
 import { CreateSocialNetworksCommand } from './create-social-networks.command';
+
 import { SocialNetworksModel } from '../../models/social-networks.model';
-export interface CreateSocialNetworksHandlerModel {
+import { ICommandHandler } from '@nestjs/cqrs';
+
+export interface CreateSocialNetworksHandlerModel
+  extends ICommandHandler<CreateSocialNetworksCommand> {
   execute(command: CreateSocialNetworksCommand): Promise<SocialNetworksModel>;
 }

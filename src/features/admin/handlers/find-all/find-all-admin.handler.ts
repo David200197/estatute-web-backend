@@ -1,4 +1,4 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { QueryHandler } from '@nestjs/cqrs';
 import { FindAllAdminQuery } from './find-all-admin.query';
 import { AdminRepositoryModel } from '../../models/admin-repository.model';
 import { FindAllAdminHandlerModel } from './find-all-admin-handler.model';
@@ -8,9 +8,7 @@ import { ResponseWithPaginate } from '@src/common/interfaces/response-with-pagin
 import { AdminsModel } from '../../models/admins.model';
 
 @QueryHandler(FindAllAdminQuery)
-export class FindAllAdminHandler
-  implements FindAllAdminHandlerModel, IQueryHandler<FindAllAdminQuery>
-{
+export class FindAllAdminHandler implements FindAllAdminHandlerModel {
   constructor(
     @Inject(ADMIN_REPOSITORY_TOKEN)
     private adminRepository: AdminRepositoryModel,

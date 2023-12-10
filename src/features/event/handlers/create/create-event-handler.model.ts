@@ -1,5 +1,9 @@
 import { CreateEventCommand } from './create-event.command';
+
 import { EventModel } from '../../models/event.model';
-export interface CreateEventHandlerModel {
+import { ICommandHandler } from '@nestjs/cqrs';
+
+export interface CreateEventHandlerModel
+  extends ICommandHandler<CreateEventCommand> {
   execute(command: CreateEventCommand): Promise<EventModel>;
 }

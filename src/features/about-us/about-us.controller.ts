@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { CreateAboutUsDto } from './dto/create-about-us.dto';
 import { UpdateAboutUsDto } from './dto/update-about-us.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { AboutUssModel } from './models/about-uss.model';
 import { AboutUsModel } from './models/about-us.model';
@@ -48,11 +49,16 @@ export class AboutUsController {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const aboutUs: Maybe<AboutUsModel> = await this.queryBus.execute(
-      new FindOneAboutUsQuery({ uuid }),
+    const eitherResponse: Either<HttpException, AboutUsModel> =
+      await this.queryBus.execute(new FindOneAboutUsQuery({ uuid }));
+    const aboutUs = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('aboutUs was founded', {
-      aboutUs: aboutUs.get(),
+      aboutUs,
     });
   }
 
@@ -71,8 +77,15 @@ export class AboutUsController {
     @Param('uuid') uuid: string,
     @Body() updateAboutUsDto: UpdateAboutUsDto,
   ) {
-    const aboutUs: AboutUsModel = await this.commandBus.execute(
-      new UpdateAboutUsCommand({ uuid }, updateAboutUsDto),
+    const eitherResponse: Either<HttpException, AboutUsModel> =
+      await this.commandBus.execute(
+        new UpdateAboutUsCommand({ uuid }, updateAboutUsDto),
+      );
+    const aboutUs = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('aboutUs was updated', {
       aboutUs,
@@ -81,8 +94,13 @@ export class AboutUsController {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const aboutUs: AboutUsModel = await this.commandBus.execute(
-      new RemoveAboutUsCommand({ uuid }),
+    const eitherResponse: Either<HttpException, AboutUsModel> =
+      await this.commandBus.execute(new RemoveAboutUsCommand({ uuid }));
+    const aboutUs = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('aboutUs was removed', {
       aboutUs,

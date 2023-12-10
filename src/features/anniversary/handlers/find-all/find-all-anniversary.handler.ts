@@ -1,4 +1,4 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { QueryHandler } from '@nestjs/cqrs';
 import { FindAllAnniversaryQuery } from './find-all-anniversary.query';
 import { AnniversaryRepositoryModel } from '../../models/anniversary-repository.model';
 import { FindAllAnniversaryHandlerModel } from './find-all-anniversary-handler.model';
@@ -9,9 +9,7 @@ import { AnniversarysModel } from '../../models/anniversarys.model';
 
 @QueryHandler(FindAllAnniversaryQuery)
 export class FindAllAnniversaryHandler
-  implements
-    FindAllAnniversaryHandlerModel,
-    IQueryHandler<FindAllAnniversaryQuery>
+  implements FindAllAnniversaryHandlerModel
 {
   constructor(
     @Inject(ANNIVERSARY_REPOSITORY_TOKEN)

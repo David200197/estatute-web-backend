@@ -1,4 +1,4 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { QueryHandler } from '@nestjs/cqrs';
 import { FindAllSocialNetworksQuery } from './find-all-social-networks.query';
 import { SocialNetworksRepositoryModel } from '../../models/social-networks-repository.model';
 import { FindAllSocialNetworksHandlerModel } from './find-all-social-networks-handler.model';
@@ -9,9 +9,7 @@ import { SocialNetworkssModel } from '../../models/social-networkss.model';
 
 @QueryHandler(FindAllSocialNetworksQuery)
 export class FindAllSocialNetworksHandler
-  implements
-    FindAllSocialNetworksHandlerModel,
-    IQueryHandler<FindAllSocialNetworksQuery>
+  implements FindAllSocialNetworksHandlerModel
 {
   constructor(
     @Inject(SOCIAL_NETWORKS_REPOSITORY_TOKEN)

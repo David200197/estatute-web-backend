@@ -7,7 +7,6 @@ import { EventModule } from './event/event.module';
 import { InvitationModule } from './invitation/invitation.module';
 import { SocialNetworksModule } from './social-networks/social-networks.module';
 import { StatuteModule } from './statute/statute.module';
-import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { UtilsModule } from './utils/utils.module';
     InvitationModule,
     SocialNetworksModule,
     StatuteModule,
-    UtilsModule,
   ],
 })
 export class FeaturesModule {}

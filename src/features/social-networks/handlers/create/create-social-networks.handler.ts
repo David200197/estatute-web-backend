@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 import { CreateSocialNetworksCommand } from './create-social-networks.command';
 import { SocialNetworksRepositoryModel } from '../../models/social-networks-repository.model';
 import { CreateSocialNetworksHandlerModel } from './create-social-networks-handler.model';
@@ -8,9 +8,7 @@ import { SocialNetworksModel } from '../../models/social-networks.model';
 
 @CommandHandler(CreateSocialNetworksCommand)
 export class CreateSocialNetworksHandler
-  implements
-    CreateSocialNetworksHandlerModel,
-    ICommandHandler<CreateSocialNetworksCommand>
+  implements CreateSocialNetworksHandlerModel
 {
   constructor(
     @Inject(SOCIAL_NETWORKS_REPOSITORY_TOKEN)

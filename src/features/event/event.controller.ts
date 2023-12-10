@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { EventsModel } from './models/events.model';
 import { EventModel } from './models/event.model';
@@ -48,11 +49,16 @@ export class EventController {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const event: Maybe<EventModel> = await this.queryBus.execute(
-      new FindOneEventQuery({ uuid }),
+    const eitherResponse: Either<HttpException, EventModel> =
+      await this.queryBus.execute(new FindOneEventQuery({ uuid }));
+    const event = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('event was founded', {
-      event: event.get(),
+      event,
     });
   }
 
@@ -71,8 +77,15 @@ export class EventController {
     @Param('uuid') uuid: string,
     @Body() updateEventDto: UpdateEventDto,
   ) {
-    const event: EventModel = await this.commandBus.execute(
-      new UpdateEventCommand({ uuid }, updateEventDto),
+    const eitherResponse: Either<HttpException, EventModel> =
+      await this.commandBus.execute(
+        new UpdateEventCommand({ uuid }, updateEventDto),
+      );
+    const event = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('event was updated', {
       event,
@@ -81,8 +94,13 @@ export class EventController {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const event: EventModel = await this.commandBus.execute(
-      new RemoveEventCommand({ uuid }),
+    const eitherResponse: Either<HttpException, EventModel> =
+      await this.commandBus.execute(new RemoveEventCommand({ uuid }));
+    const event = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('event was removed', {
       event,

@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { CreateInvitationDto } from './dto/create-invitation.dto';
 import { UpdateInvitationDto } from './dto/update-invitation.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { InvitationsModel } from './models/invitations.model';
 import { InvitationModel } from './models/invitation.model';
@@ -48,11 +49,16 @@ export class InvitationController {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const invitation: Maybe<InvitationModel> = await this.queryBus.execute(
-      new FindOneInvitationQuery({ uuid }),
+    const eitherResponse: Either<HttpException, InvitationModel> =
+      await this.queryBus.execute(new FindOneInvitationQuery({ uuid }));
+    const invitation = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('invitation was founded', {
-      invitation: invitation.get(),
+      invitation,
     });
   }
 
@@ -71,8 +77,15 @@ export class InvitationController {
     @Param('uuid') uuid: string,
     @Body() updateInvitationDto: UpdateInvitationDto,
   ) {
-    const invitation: InvitationModel = await this.commandBus.execute(
-      new UpdateInvitationCommand({ uuid }, updateInvitationDto),
+    const eitherResponse: Either<HttpException, InvitationModel> =
+      await this.commandBus.execute(
+        new UpdateInvitationCommand({ uuid }, updateInvitationDto),
+      );
+    const invitation = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('invitation was updated', {
       invitation,
@@ -81,8 +94,13 @@ export class InvitationController {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const invitation: InvitationModel = await this.commandBus.execute(
-      new RemoveInvitationCommand({ uuid }),
+    const eitherResponse: Either<HttpException, InvitationModel> =
+      await this.commandBus.execute(new RemoveInvitationCommand({ uuid }));
+    const invitation = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('invitation was removed', {
       invitation,

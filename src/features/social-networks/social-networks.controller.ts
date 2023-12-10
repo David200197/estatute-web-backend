@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { CreateSocialNetworksDto } from './dto/create-social-networks.dto';
 import { UpdateSocialNetworksDto } from './dto/update-social-networks.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { SocialNetworkssModel } from './models/social-networkss.model';
 import { SocialNetworksModel } from './models/social-networks.model';
@@ -48,10 +49,16 @@ export class SocialNetworksController {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const socialNetworks: Maybe<SocialNetworksModel> =
+    const eitherResponse: Either<HttpException, SocialNetworksModel> =
       await this.queryBus.execute(new FindOneSocialNetworksQuery({ uuid }));
+    const socialNetworks = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
+    );
     return new SerializerResponse('socialNetworks was founded', {
-      socialNetworks: socialNetworks.get(),
+      socialNetworks,
     });
   }
 
@@ -70,8 +77,15 @@ export class SocialNetworksController {
     @Param('uuid') uuid: string,
     @Body() updateSocialNetworksDto: UpdateSocialNetworksDto,
   ) {
-    const socialNetworks: SocialNetworksModel = await this.commandBus.execute(
-      new UpdateSocialNetworksCommand({ uuid }, updateSocialNetworksDto),
+    const eitherResponse: Either<HttpException, SocialNetworksModel> =
+      await this.commandBus.execute(
+        new UpdateSocialNetworksCommand({ uuid }, updateSocialNetworksDto),
+      );
+    const socialNetworks = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('socialNetworks was updated', {
       socialNetworks,
@@ -80,8 +94,13 @@ export class SocialNetworksController {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const socialNetworks: SocialNetworksModel = await this.commandBus.execute(
-      new RemoveSocialNetworksCommand({ uuid }),
+    const eitherResponse: Either<HttpException, SocialNetworksModel> =
+      await this.commandBus.execute(new RemoveSocialNetworksCommand({ uuid }));
+    const socialNetworks = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('socialNetworks was removed', {
       socialNetworks,

@@ -1,5 +1,13 @@
 import { RemoveInvitationCommand } from './remove-invitation.command';
+
 import { InvitationModel } from '../../models/invitation.model';
-export interface RemoveInvitationHandlerModel {
-  execute(command: RemoveInvitationCommand): Promise<InvitationModel>;
+import { Either } from '@src/common/lib/either.lib';
+import { HttpException } from '@nestjs/common';
+import { ICommandHandler } from '@nestjs/cqrs';
+
+export interface RemoveInvitationHandlerModel
+  extends ICommandHandler<RemoveInvitationCommand> {
+  execute(
+    command: RemoveInvitationCommand,
+  ): Promise<Either<HttpException, InvitationModel>>;
 }

@@ -1,4 +1,4 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { CommandHandler } from '@nestjs/cqrs';
 import { CreateEventCommand } from './create-event.command';
 import { EventRepositoryModel } from '../../models/event-repository.model';
 import { CreateEventHandlerModel } from './create-event-handler.model';
@@ -7,9 +7,7 @@ import { EVENT_REPOSITORY_TOKEN } from '../../providers/event-repository.provide
 import { EventModel } from '../../models/event.model';
 
 @CommandHandler(CreateEventCommand)
-export class CreateEventHandler
-  implements CreateEventHandlerModel, ICommandHandler<CreateEventCommand>
-{
+export class CreateEventHandler implements CreateEventHandlerModel {
   constructor(
     @Inject(EVENT_REPOSITORY_TOKEN)
     private eventRepository: EventRepositoryModel,

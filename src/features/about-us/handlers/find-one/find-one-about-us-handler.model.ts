@@ -1,7 +1,13 @@
 import { FindOneAboutUsQuery } from './find-one-about-us.query';
 
 import { AboutUsModel } from '../../models/about-us.model';
-import { Maybe } from '@src/common/lib/maybe.lib';
-export interface FindOneAboutUsHandlerModel {
-  execute(command: FindOneAboutUsQuery): Promise<Maybe<AboutUsModel>>;
+import { Either } from '@src/common/lib/either.lib';
+import { HttpException } from '@nestjs/common';
+import { IQueryHandler } from '@nestjs/cqrs';
+
+export interface FindOneAboutUsHandlerModel
+  extends IQueryHandler<FindOneAboutUsQuery> {
+  execute(
+    command: FindOneAboutUsQuery,
+  ): Promise<Either<HttpException, AboutUsModel>>;
 }

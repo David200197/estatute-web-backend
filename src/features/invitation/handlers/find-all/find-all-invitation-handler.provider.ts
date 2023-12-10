@@ -5,6 +5,4 @@ import { createProvider } from '@src/common/utils/create-provider';
 export const [
   FIND_ALL_INVITATION_HANDLER_TOKEN,
   FindAllInvitationHandlerProvider,
-] = createProvider<FindAllInvitationHandlerModel>(
-  FindAllInvitationHandler,
-);
+] = createProvider<FindAllInvitationHandlerModel>(FindAllInvitationHandler);

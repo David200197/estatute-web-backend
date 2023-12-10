@@ -1,4 +1,4 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { QueryHandler } from '@nestjs/cqrs';
 import { FindAllStatuteQuery } from './find-all-statute.query';
 import { StatuteRepositoryModel } from '../../models/statute-repository.model';
 import { FindAllStatuteHandlerModel } from './find-all-statute-handler.model';
@@ -8,9 +8,7 @@ import { ResponseWithPaginate } from '@src/common/interfaces/response-with-pagin
 import { StatutesModel } from '../../models/statutes.model';
 
 @QueryHandler(FindAllStatuteQuery)
-export class FindAllStatuteHandler
-  implements FindAllStatuteHandlerModel, IQueryHandler<FindAllStatuteQuery>
-{
+export class FindAllStatuteHandler implements FindAllStatuteHandlerModel {
   constructor(
     @Inject(STATUTE_REPOSITORY_TOKEN)
     private statuteRepository: StatuteRepositoryModel,

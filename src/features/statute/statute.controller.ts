@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   Param,
   Patch,
   Post,
@@ -13,7 +14,7 @@ import { CreateStatuteDto } from './dto/create-statute.dto';
 import { UpdateStatuteDto } from './dto/update-statute.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { Maybe } from '@src/common/lib/maybe.lib';
+import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { StatutesModel } from './models/statutes.model';
 import { StatuteModel } from './models/statute.model';
@@ -48,11 +49,16 @@ export class StatuteController {
 
   @Get('uuid')
   async findOneByUuid(@Param('uuid') uuid: string) {
-    const statute: Maybe<StatuteModel> = await this.queryBus.execute(
-      new FindOneStatuteQuery({ uuid }),
+    const eitherResponse: Either<HttpException, StatuteModel> =
+      await this.queryBus.execute(new FindOneStatuteQuery({ uuid }));
+    const statute = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('statute was founded', {
-      statute: statute.get(),
+      statute,
     });
   }
 
@@ -71,8 +77,15 @@ export class StatuteController {
     @Param('uuid') uuid: string,
     @Body() updateStatuteDto: UpdateStatuteDto,
   ) {
-    const statute: StatuteModel = await this.commandBus.execute(
-      new UpdateStatuteCommand({ uuid }, updateStatuteDto),
+    const eitherResponse: Either<HttpException, StatuteModel> =
+      await this.commandBus.execute(
+        new UpdateStatuteCommand({ uuid }, updateStatuteDto),
+      );
+    const statute = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('statute was updated', {
       statute,
@@ -81,8 +94,13 @@ export class StatuteController {
 
   @Delete('uuid')
   async remove(@Param('uuid') uuid: string) {
-    const statute: StatuteModel = await this.commandBus.execute(
-      new RemoveStatuteCommand({ uuid }),
+    const eitherResponse: Either<HttpException, StatuteModel> =
+      await this.commandBus.execute(new RemoveStatuteCommand({ uuid }));
+    const statute = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('statute was removed', {
       statute,
