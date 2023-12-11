@@ -1,6 +1,12 @@
 import { EventModel } from '../models/event.model';
 import { EventsModel } from '../models/events.model';
+import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
 
-export class Events implements EventsModel {
-  constructor(public readonly value: EventModel[]) {}
+export class Events
+  extends EntityCollection<EventModel>
+  implements EventsModel
+{
+  constructor(public readonly value: EventModel[]) {
+    super(value);
+  }
 }

@@ -1,6 +1,9 @@
+import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
 import { <%= name.pascalCase %>Model } from '../models/<%= name.kebabCase %>.model';
 import { <%= name.pascalCase %>sModel } from '../models/<%= name.kebabCase %>s.model';
 
-export class <%= name.pascalCase %>s implements <%= name.pascalCase %>sModel {
-  constructor(public readonly value: <%= name.pascalCase %>Model[]) {}
+export class <%= name.pascalCase %>s extends EntityCollection<<%= name.pascalCase %>Model> implements <%= name.pascalCase %>sModel {
+  constructor(public readonly value: <%= name.pascalCase %>Model[]) {
+    super(value)
+  }
 }

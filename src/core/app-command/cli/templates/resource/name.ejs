@@ -1,3 +1,9 @@
-import { <%= name.pascalCase %>Model } from '../models/<%= name.kebabCase %>.model';
+import { Entity } from '@src/common/abstracts/entity.abstract';
+import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Properties } from '../models/<%= name.kebabCase %>.model';
 
-export class <%= name.pascalCase %> implements <%= name.pascalCase %>Model {}
+export class <%= name.pascalCase %> extends Entity<<%= name.pascalCase %>Model> implements <%= name.pascalCase %>Model {
+    constructor(options: <%= name.pascalCase %>Properties) {
+        super(options);
+        Object.assign(this, options);
+    }
+}
