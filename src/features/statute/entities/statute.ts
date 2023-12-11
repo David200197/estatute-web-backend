@@ -1,3 +1,9 @@
-import { StatuteModel } from '../models/statute.model';
+import { Entity } from '@src/common/abstracts/entity.abstract';
+import { StatuteModel, StatuteProperties } from '../models/statute.model';
 
-export class Statute implements StatuteModel {}
+export class Statute extends Entity<StatuteModel> implements StatuteModel {
+  constructor(options: StatuteProperties) {
+    super(options);
+    Object.assign(this, options);
+  }
+}

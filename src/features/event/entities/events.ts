@@ -1,6 +1,6 @@
+import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
 import { EventModel } from '../models/event.model';
 import { EventsModel } from '../models/events.model';
-import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
 
 export class Events
   extends EntityCollection<EventModel>
