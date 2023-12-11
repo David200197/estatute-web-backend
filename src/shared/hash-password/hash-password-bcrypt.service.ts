@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
-import { HashPasswordHelperModel } from './hash-password-helper.model';
+import { HashPasswordServiceModel } from './hash-password-helper.service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class HashPasswordBcryptHelper implements HashPasswordHelperModel {
+export class HashPasswordBcryptService implements HashPasswordServiceModel {
   hash(password: string): Promise<string> {
     return bcrypt.hash(password, 12);
   }

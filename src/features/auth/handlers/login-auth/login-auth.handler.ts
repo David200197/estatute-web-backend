@@ -4,12 +4,12 @@ import { LoginAuthHandlerModel } from './login-auth-handler.model';
 import { LoginAuthResponseDto } from '../../dto/login-auth-response.dto';
 import { AdminModel } from '@src/features/admin/models/admin.model';
 import { emitter, responseListeners } from '@src/common/constants/emitters';
-import { EventEmitterHelperModel } from '@src/shared/event-emitter/event-emitter-helper.model';
+import { EventEmitterServiceModel } from '@src/shared/event-emitter/event-emitter-service.model';
 import { HttpException, Inject } from '@nestjs/common';
-import { EVENT_EMITTER_HELPER_TOKEN } from '@src/shared/event-emitter/event-emitter-helper.provider';
+import { EVENT_EMITTER_SERVICE_TOKEN } from '@src/shared/event-emitter/event-emitter-service.provider';
 import { Either } from '@src/common/lib/either.lib';
-import { HashPasswordHelperModel } from '@src/shared/hash-password/hash-password-helper.model';
-import { HASH_PASSWORD_HELPER_TOKEN } from '@src/shared/hash-password/hash-password-helper.provider';
+import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper.service';
+import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-password-service.provider';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AdminUnauthorizedException } from '@src/features/admin/exceptions/admin-unauthorized.exception';
@@ -19,10 +19,10 @@ export class LoginAuthHandler
   implements LoginAuthHandlerModel, ICommandHandler<LoginAuthCommand>
 {
   constructor(
-    @Inject(EVENT_EMITTER_HELPER_TOKEN)
-    private readonly eventEmitterService: EventEmitterHelperModel,
-    @Inject(HASH_PASSWORD_HELPER_TOKEN)
-    private readonly hashPasswordService: HashPasswordHelperModel,
+    @Inject(EVENT_EMITTER_SERVICE_TOKEN)
+    private readonly eventEmitterService: EventEmitterServiceModel,
+    @Inject(HASH_PASSWORD_SERVICE_TOKEN)
+    private readonly hashPasswordService: HashPasswordServiceModel,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}

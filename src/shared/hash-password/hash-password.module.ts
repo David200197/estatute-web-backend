@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { HashPasswordHelperProvider } from './hash-password-helper.provider';
+import { HashPasswordServiceProvider } from './hash-password-service.provider';
 
 @Module({
-  providers: [HashPasswordHelperProvider],
-  exports: [HashPasswordHelperProvider],
+  providers: [HashPasswordServiceProvider],
+  exports: [HashPasswordServiceProvider],
 })
 export class HashPasswordModule {}

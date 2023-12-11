@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { EventEmitterHelperModel } from './event-emitter-helper.model';
+import { EventEmitterServiceModel } from './event-emitter-service.model';
 import { ListenerSerializer } from '@src/common/lib/listener-serializer.lib';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ListenerResponse } from '@src/common/lib/listener-response.lib';
 
 @Injectable()
-export class EventEmitter2Helper implements EventEmitterHelperModel {
+export class EventEmitter2Service implements EventEmitterServiceModel {
   constructor(private eventEmitter: EventEmitter2) {}
 
   async emitAsync(event: string, ...value: any[]): Promise<ListenerSerializer> {

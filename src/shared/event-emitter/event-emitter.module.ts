@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { EventEmitterHelperProvider } from './event-emitter-helper.provider';
+import { EventEmitterServiceProvider } from './event-emitter-service.provider';
 
 @Module({
-  providers: [EventEmitterHelperProvider],
-  exports: [EventEmitterHelperProvider],
+  providers: [EventEmitterServiceProvider],
+  exports: [EventEmitterServiceProvider],
 })
 export class EventEmitterModule {}
