@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { SocialNetworksRepositoryModel } from '../models/social-networks-repository.model';
 import { SocialNetworkssModel } from '../models/social-networkss.model';
-import { SocialNetworksModel } from '../models/social-networks.model';
+import {
+  SocialNetworksModel,
+  SocialNetworksProperties,
+} from '../models/social-networks.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateSocialNetworksDto } from '../dto/create-social-networks.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -10,6 +13,7 @@ import { UpdateSocialNetworksDto } from '../dto/update-social-networks.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
+import { SocialNetworks } from '../entities/social-networks';
 
 @Injectable()
 export class SocialNetworksLocalRepository
@@ -44,14 +48,14 @@ export class SocialNetworksLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<SocialNetworksModel>,
+    filter: DeepPartial<SocialNetworksProperties>,
   ): Promise<SocialNetworksModel | null> {
     const socialNetworks = this.socialNetworksCrud.findOne(filter);
     return Promise.resolve(socialNetworks);
   }
 
   async findAll(
-    filter: DeepPartial<SocialNetworksModel>,
+    filter: DeepPartial<SocialNetworksProperties>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<SocialNetworkssModel>> {
     //using options
@@ -66,30 +70,33 @@ export class SocialNetworksLocalRepository
   }
 
   async create(options: CreateSocialNetworksDto): Promise<SocialNetworksModel> {
-    return this.socialNetworksCrud.create(options);
+    const socialNetworks = new SocialNetworks(options);
+    return this.socialNetworksCrud.create(socialNetworks);
   }
 
   async updateOne(
-    filter: DeepPartial<SocialNetworksModel>,
+    filter: DeepPartial<SocialNetworksProperties>,
     options: UpdateSocialNetworksDto,
   ): Promise<SocialNetworksModel> {
     return this.socialNetworksCrud.update(filter, options);
   }
 
   async removeOne(
-    filter: DeepPartial<SocialNetworksModel>,
+    filter: DeepPartial<SocialNetworksProperties>,
   ): Promise<SocialNetworksModel> {
     return this.socialNetworksCrud.delete(filter);
   }
 
   async updateMany(
-    filter: DeepPartial<SocialNetworksModel>,
+    filter: DeepPartial<SocialNetworksProperties>,
     options: UpdateSocialNetworksDto,
   ): Promise<boolean> {
     return this.socialNetworksCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<SocialNetworksModel>): Promise<boolean> {
+  async removeMany(
+    filter: DeepPartial<SocialNetworksProperties>,
+  ): Promise<boolean> {
     return this.socialNetworksCrud.deleteMany(filter);
   }
 }

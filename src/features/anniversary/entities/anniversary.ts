@@ -4,12 +4,10 @@ import {
   AnniversaryProperties,
 } from '../models/anniversary.model';
 
-export class Anniversary
-  extends Entity<AnniversaryModel>
-  implements AnniversaryModel
-{
+export class Anniversary extends Entity implements AnniversaryModel {
+  readonly uuid: string;
   constructor(options: AnniversaryProperties) {
-    super(options);
+    super();
     Object.assign(this, options);
   }
 }

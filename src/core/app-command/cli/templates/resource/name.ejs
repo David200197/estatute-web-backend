@@ -1,9 +1,10 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
 import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Properties } from '../models/<%= name.kebabCase %>.model';
 
-export class <%= name.pascalCase %> extends Entity<<%= name.pascalCase %>Model> implements <%= name.pascalCase %>Model {
+export class <%= name.pascalCase %> extends Entity implements <%= name.pascalCase %>Model {
+    readonly uuid: string;
     constructor(options: <%= name.pascalCase %>Properties) {
-        super(options);
+        super();
         Object.assign(this, options);
     }
 }

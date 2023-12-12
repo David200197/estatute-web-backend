@@ -1,5 +1,6 @@
+import { EntityCollectionModel } from '@src/common/abstracts/entity-collection.abstracts';
 import { <%= name.pascalCase %>Model } from './<%= name.kebabCase %>.model';
 
-export interface <%= name.pascalCase %>sModel {
+export interface <%= name.pascalCase %>sModel extends EntityCollectionModel<<%= name.pascalCase %>Model> {
   readonly value: <%= name.pascalCase %>Model[];
 }

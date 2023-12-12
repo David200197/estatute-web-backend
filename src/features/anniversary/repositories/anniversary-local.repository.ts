@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { AnniversaryRepositoryModel } from '../models/anniversary-repository.model';
 import { AnniversarysModel } from '../models/anniversarys.model';
-import { AnniversaryModel } from '../models/anniversary.model';
+import {
+  AnniversaryModel,
+  AnniversaryProperties,
+} from '../models/anniversary.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAnniversaryDto } from '../dto/create-anniversary.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -10,6 +13,7 @@ import { UpdateAnniversaryDto } from '../dto/update-anniversary.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
+import { Anniversary } from '../entities/anniversary';
 
 @Injectable()
 export class AnniversaryLocalRepository
@@ -42,14 +46,14 @@ export class AnniversaryLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
   ): Promise<AnniversaryModel | null> {
     const anniversary = this.anniversaryCrud.findOne(filter);
     return Promise.resolve(anniversary);
   }
 
   async findAll(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<AnniversarysModel>> {
     //using options
@@ -64,30 +68,33 @@ export class AnniversaryLocalRepository
   }
 
   async create(options: CreateAnniversaryDto): Promise<AnniversaryModel> {
-    return this.anniversaryCrud.create(options);
+    const anniversary = new Anniversary(options);
+    return this.anniversaryCrud.create(anniversary);
   }
 
   async updateOne(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
     options: UpdateAnniversaryDto,
   ): Promise<AnniversaryModel> {
     return this.anniversaryCrud.update(filter, options);
   }
 
   async removeOne(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
   ): Promise<AnniversaryModel> {
     return this.anniversaryCrud.delete(filter);
   }
 
   async updateMany(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
     options: UpdateAnniversaryDto,
   ): Promise<boolean> {
     return this.anniversaryCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<AnniversaryModel>): Promise<boolean> {
+  async removeMany(
+    filter: DeepPartial<AnniversaryProperties>,
+  ): Promise<boolean> {
     return this.anniversaryCrud.deleteMany(filter);
   }
 }

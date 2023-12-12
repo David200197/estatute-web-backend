@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AdminRepositoryModel } from '../models/admin-repository.model';
 import { AdminsModel } from '../models/admins.model';
-import { AdminModel } from '../models/admin.model';
+import { AdminModel, AdminProperties } from '../models/admin.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAdminDto } from '../dto/create-admin.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -9,6 +9,7 @@ import { Admins } from '../entities/admins';
 import { UpdateAdminDto } from '../dto/update-admin.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
+import { Admin } from '../entities/admin';
 
 @Injectable()
 export class AdminLocalRepository implements AdminRepositoryModel {
@@ -18,13 +19,15 @@ export class AdminLocalRepository implements AdminRepositoryModel {
     this.adminCrud = new CrudMockMethods();
   }
 
-  async findOne(filter: DeepPartial<AdminModel>): Promise<AdminModel | null> {
+  async findOne(
+    filter: DeepPartial<AdminProperties>,
+  ): Promise<AdminModel | null> {
     const admin = this.adminCrud.findOne(filter);
     return Promise.resolve(admin);
   }
 
   async findAll(
-    filter: DeepPartial<AdminModel>,
+    filter: DeepPartial<AdminProperties>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<AdminsModel>> {
     //using options
@@ -39,28 +42,29 @@ export class AdminLocalRepository implements AdminRepositoryModel {
   }
 
   async create(options: CreateAdminDto): Promise<AdminModel> {
-    return this.adminCrud.create(options);
+    const admin = new Admin(options);
+    return this.adminCrud.create(admin);
   }
 
   async updateOne(
-    filter: DeepPartial<AdminModel>,
+    filter: DeepPartial<AdminProperties>,
     options: UpdateAdminDto,
   ): Promise<AdminModel> {
     return this.adminCrud.update(filter, options);
   }
 
-  async removeOne(filter: DeepPartial<AdminModel>): Promise<AdminModel> {
+  async removeOne(filter: DeepPartial<AdminProperties>): Promise<AdminModel> {
     return this.adminCrud.delete(filter);
   }
 
   async updateMany(
-    filter: DeepPartial<AdminModel>,
+    filter: DeepPartial<AdminProperties>,
     options: UpdateAdminDto,
   ): Promise<boolean> {
     return this.adminCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<AdminModel>): Promise<boolean> {
+  async removeMany(filter: DeepPartial<AdminProperties>): Promise<boolean> {
     return this.adminCrud.deleteMany(filter);
   }
 }

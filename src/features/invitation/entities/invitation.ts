@@ -4,12 +4,9 @@ import {
   InvitationProperties,
 } from '../models/invitation.model';
 
-export class Invitation
-  extends Entity<InvitationModel>
-  implements InvitationModel
-{
+export class Invitation extends Entity implements InvitationModel {
   constructor(options: InvitationProperties) {
-    super(options);
+    super();
     Object.assign(this, options);
   }
 }

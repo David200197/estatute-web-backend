@@ -4,12 +4,10 @@ import {
   SocialNetworksProperties,
 } from '../models/social-networks.model';
 
-export class SocialNetworks
-  extends Entity<SocialNetworksModel>
-  implements SocialNetworksModel
-{
+export class SocialNetworks extends Entity implements SocialNetworksModel {
+  readonly uuid: string;
   constructor(options: SocialNetworksProperties) {
-    super(options);
+    super();
     Object.assign(this, options);
   }
 }

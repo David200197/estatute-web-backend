@@ -1,9 +1,10 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
 import { StatuteModel, StatuteProperties } from '../models/statute.model';
 
-export class Statute extends Entity<StatuteModel> implements StatuteModel {
+export class Statute extends Entity implements StatuteModel {
+  readonly uuid: string;
   constructor(options: StatuteProperties) {
-    super(options);
+    super();
     Object.assign(this, options);
   }
 }

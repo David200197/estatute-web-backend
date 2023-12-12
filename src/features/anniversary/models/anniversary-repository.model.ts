@@ -1,5 +1,5 @@
 import { AnniversarysModel } from './anniversarys.model';
-import { AnniversaryModel } from './anniversary.model';
+import { AnniversaryModel, AnniversaryProperties } from './anniversary.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAnniversaryDto } from '../dto/create-anniversary.dto';
 import { UpdateAnniversaryDto } from '../dto/update-anniversary.dto';
@@ -8,21 +8,23 @@ import { ResponseWithPaginate } from '@src/common/interfaces/response-with-pagin
 
 export interface AnniversaryRepositoryModel {
   findOne(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
   ): Promise<AnniversaryModel | null>;
   findAll(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<AnniversarysModel>>;
   create(options: CreateAnniversaryDto): Promise<AnniversaryModel>;
   updateOne(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
     options: UpdateAnniversaryDto,
   ): Promise<AnniversaryModel>;
-  removeOne(filter: DeepPartial<AnniversaryModel>): Promise<AnniversaryModel>;
+  removeOne(
+    filter: DeepPartial<AnniversaryProperties>,
+  ): Promise<AnniversaryModel>;
   updateMany(
-    filter: DeepPartial<AnniversaryModel>,
+    filter: DeepPartial<AnniversaryProperties>,
     options: UpdateAnniversaryDto,
   ): Promise<boolean>;
-  removeMany(filter: DeepPartial<AnniversaryModel>): Promise<boolean>;
+  removeMany(filter: DeepPartial<AnniversaryProperties>): Promise<boolean>;
 }

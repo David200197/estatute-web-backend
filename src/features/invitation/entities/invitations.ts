@@ -3,7 +3,7 @@ import { InvitationModel } from '../models/invitation.model';
 import { InvitationsModel } from '../models/invitations.model';
 
 export class Invitations
-  extends EntityCollection<InvitationModel>
+  extends EntityCollection<any>
   implements InvitationsModel
 {
   constructor(public readonly value: InvitationModel[]) {
