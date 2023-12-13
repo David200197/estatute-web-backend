@@ -32,11 +32,11 @@ export class LoginAuthHandler
   }: LoginAuthCommand): Promise<Either<HttpException, LoginAuthResponseDto>> {
     const { password, username } = loginAuthDto;
     const listener = await this.eventEmitterService.emitAsync(
-      emitter.authLoginValidateAdmin,
-      username,
+      emitter.authValidateAdmin,
+      { username },
     );
     const admin = listener.get<Either<HttpException, AdminModel>>(
-      responseListeners.adminAuthLoginValidateAdmin,
+      responseListeners.adminAuthValidateAdmin,
     );
 
     const verifiedAdmin = await admin.flatMapAsync<AdminModel>(async (user) => {
@@ -45,7 +45,7 @@ export class LoginAuthHandler
       return Either.right(user);
     });
 
-    const payload = verifiedAdmin.map((user) => ({
+    const payload = verifiedAdmin.map<LoginAuthResponseDto>((user) => ({
       accessToken: this.jwtService.sign(
         { username: user.username },
         {
@@ -62,14 +62,20 @@ export class LoginAuthHandler
       ),
     }));
 
-    payload.map((tokens) =>
-      this.eventEmitterService.emitSync(
-        emitter.authLoginUpdateRefreshToken,
-        username,
+    return await payload.flatMapAsync<LoginAuthResponseDto>(async (tokens) => {
+      const refreshTokenHashed = await this.hashPasswordService.hash(
         tokens.refreshToken,
-      ),
-    );
-
-    return payload;
+      );
+      const listener = await this.eventEmitterService.emitAsync(
+        emitter.authUpdateRefreshToken,
+        { username },
+        refreshTokenHashed,
+      );
+      const admin = listener.get<Either<HttpException, AdminModel>>(
+        responseListeners.adminAuthUpdateRefreshToken,
+      );
+      if (admin.isLeft()) return admin.leftEither();
+      return Either.right(tokens);
+    });
   }
 }

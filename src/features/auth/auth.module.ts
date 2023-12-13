@@ -10,6 +10,7 @@ import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { HashPasswordModule } from '@src/shared/hash-password/hash-password.module';
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
+import { LogoutAuthHandler } from './handlers/logout-auth/logout-auth.handler';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.modu
     AuthCron,
     LoginAuthHandlerProvider,
     RefreshAuthHandlerProvider,
+    LogoutAuthHandler,
     AccessTokenStrategy,
     RefreshTokenStrategy,
   ],

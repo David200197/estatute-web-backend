@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { LoginAuthResponseDto } from './dto/login-auth-response.dto';
@@ -6,6 +6,8 @@ import { LoginAuthCommand } from './handlers/login-auth/login-auth.command';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { RefreshAuthCommand } from './handlers/refresh-auth/refresh-auth.command';
 import { RefreshAuthResponseDto } from './dto/refresh-auth-response.dto';
+import { Either } from '@src/common/lib/either.lib';
+import { LogoutAuthCommand } from './handlers/logout-auth/logout-auth.command';
 
 @Controller('auth')
 export class AuthController {
@@ -13,23 +15,43 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginAuthDto: LoginAuthDto) {
-    const login: LoginAuthResponseDto = await this.commandBus.execute(
-      new LoginAuthCommand(loginAuthDto),
+    const either: Either<HttpException, LoginAuthResponseDto> =
+      await this.commandBus.execute(new LoginAuthCommand(loginAuthDto));
+    const response = either.fold(
+      (error) => {
+        throw error;
+      },
+      (value) => value,
     );
-    return new SerializerResponse('login user success', { ...login });
+    return new SerializerResponse('login user success', { ...response });
   }
 
   @Post('refresh')
   async refresh() {
-    // TODO: get the authenticate jwt user
-    const refresh: RefreshAuthResponseDto = await this.commandBus.execute(
-      new RefreshAuthCommand({} as any),
+    //TODO validar el token
+    const either: Either<HttpException, RefreshAuthResponseDto> =
+      await this.commandBus.execute(new RefreshAuthCommand({} as any));
+
+    const response = either.fold(
+      (error) => {
+        throw error;
+      },
+      (value) => value,
     );
-    return new SerializerResponse('refresh token success', { ...refresh });
+    return new SerializerResponse('refresh token success', { ...response });
   }
 
-  @Get('profile')
+  @Get('logout')
   async profile() {
-    return new SerializerResponse('profile success', {});
+    const either: Either<HttpException, void> = await this.commandBus.execute(
+      new LogoutAuthCommand({} as any),
+    );
+    either.fold(
+      (error) => {
+        throw error;
+      },
+      () => null,
+    );
+    return new SerializerResponse('profile success');
   }
 }
