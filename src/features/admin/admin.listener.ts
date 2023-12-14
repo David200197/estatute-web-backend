@@ -26,7 +26,7 @@ export class AdminListener {
   @OnEvent(emitter.authUpdateRefreshToken, { async: true })
   async updateRefreshToken(
     filter: DeepPartial<AdminProperties>,
-    refreshToken: string,
+    refreshToken: string = null,
   ) {
     const admin: Either<HttpException, AdminModel> =
       await this.queryBus.execute(

@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
 import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Either } from '@src/common/lib/either.lib';
@@ -24,6 +23,7 @@ import { CreateAdminCommand } from './handlers/create/create-admin.command';
 import { UpdateAdminCommand } from './handlers/update/update-admin.command';
 import { RemoveAdminCommand } from './handlers/remove/remove-admin.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { UpdateApiAdminDto } from './dto/update-crud-admin.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -78,11 +78,11 @@ export class AdminController {
   @AccessTokenAuth()
   async update(
     @Param('username') username: string,
-    @Body() updateAdminDto: UpdateAdminDto,
+    @Body() updateApiAdminDto: UpdateApiAdminDto,
   ) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(
-        new UpdateAdminCommand({ username }, updateAdminDto),
+        new UpdateAdminCommand({ username }, updateApiAdminDto),
       );
     const admin = eitherResponse.fold(
       (error) => {

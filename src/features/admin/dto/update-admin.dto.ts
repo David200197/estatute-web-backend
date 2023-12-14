@@ -5,5 +5,5 @@ import { IsOptional, IsString } from 'class-validator';
 export class UpdateAdminDto extends PartialType(CreateAdminDto) {
   @IsString()
   @IsOptional()
-  readonly refreshToken: string;
+  readonly refreshToken?: string;
 }
