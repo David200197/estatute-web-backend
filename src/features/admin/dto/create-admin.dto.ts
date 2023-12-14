@@ -5,6 +5,4 @@ export class CreateAdminDto {
   readonly username: string;
   @IsString()
   readonly password: string;
-  @IsString()
-  readonly refreshToken: string;
 }
