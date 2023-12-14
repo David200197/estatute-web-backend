@@ -13,10 +13,9 @@ export class Either<L, R> {
     return this.value.kind === 'right';
   }
 
-  leftEither<R>(defaultValue?: L) {
-    if (this.value.kind === 'right')
-      return new Either<L, R>({ kind: 'left', leftValue: defaultValue });
-    return new Either<L, R>({ kind: 'left', leftValue: this.value.leftValue });
+  getLeftOrElse<V>(defaultValue: V): L | V {
+    if (this.value.kind === 'right') return defaultValue;
+    return this.value.leftValue;
   }
 
   fold<T>(leftFn: (left: L) => T, rightFn: (right: R) => T): T {

@@ -28,7 +28,6 @@ export class AuthController {
 
   @Post('refresh')
   async refresh() {
-    //TODO validar el token
     const either: Either<HttpException, RefreshAuthResponseDto> =
       await this.commandBus.execute(new RefreshAuthCommand({} as any));
 

@@ -11,6 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { HashPasswordModule } from '@src/shared/hash-password/hash-password.module';
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
 import { LogoutAuthHandler } from './handlers/logout-auth/logout-auth.handler';
+import { AuthUtilsServiceProvider } from './providers/auth-util-service.provider';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { LogoutAuthHandler } from './handlers/logout-auth/logout-auth.handler';
     LogoutAuthHandler,
     AccessTokenStrategy,
     RefreshTokenStrategy,
+    AuthUtilsServiceProvider,
   ],
 })
 export class AuthModule {}
