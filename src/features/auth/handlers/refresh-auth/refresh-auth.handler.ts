@@ -31,10 +31,12 @@ export class RefreshAuthHandler
     const validatedAdmin = await this.authUtilsService.validateAdmin({
       username: admin.username,
     });
-    const verifiedAdmin = await validatedAdmin.flatMapAsync<AdminModel>(
+    const adminWithRefreshToken = validatedAdmin.flatMap<AdminModel>((user) => {
+      if (!user.refreshToken) return Either.left(new AuthForbiddenException());
+      return Either.right(user);
+    });
+    const verifiedAdmin = await adminWithRefreshToken.flatMapAsync<AdminModel>(
       async (user) => {
-        if (!user.refreshToken)
-          return Either.left(new AuthForbiddenException());
         const isValid = await this.hashPasswordService.verify(
           user.refreshToken,
           refreshToken,
