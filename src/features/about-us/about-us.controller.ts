@@ -23,6 +23,7 @@ import { FindOneAboutUsQuery } from './handlers/find-one/find-one-about-us.query
 import { CreateAboutUsCommand } from './handlers/create/create-about-us.command';
 import { UpdateAboutUsCommand } from './handlers/update/update-about-us.command';
 import { RemoveAboutUsCommand } from './handlers/remove/remove-about-us.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 
 @Controller('about-us')
 export class AboutUsController {
@@ -63,6 +64,7 @@ export class AboutUsController {
   }
 
   @Post()
+  @AccessTokenAuth()
   async create(@Body() createAboutUsDto: CreateAboutUsDto) {
     const aboutUs: AboutUsModel = await this.commandBus.execute(
       new CreateAboutUsCommand(createAboutUsDto),
@@ -73,6 +75,7 @@ export class AboutUsController {
   }
 
   @Patch(':uuid')
+  @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
     @Body() updateAboutUsDto: UpdateAboutUsDto,
@@ -93,6 +96,7 @@ export class AboutUsController {
   }
 
   @Delete(':uuid')
+  @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AboutUsModel> =
       await this.commandBus.execute(new RemoveAboutUsCommand({ uuid }));

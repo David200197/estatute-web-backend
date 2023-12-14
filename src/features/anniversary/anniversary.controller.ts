@@ -23,6 +23,7 @@ import { FindOneAnniversaryQuery } from './handlers/find-one/find-one-anniversar
 import { CreateAnniversaryCommand } from './handlers/create/create-anniversary.command';
 import { UpdateAnniversaryCommand } from './handlers/update/update-anniversary.command';
 import { RemoveAnniversaryCommand } from './handlers/remove/remove-anniversary.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 
 @Controller('anniversary')
 export class AnniversaryController {
@@ -63,6 +64,7 @@ export class AnniversaryController {
   }
 
   @Post()
+  @AccessTokenAuth()
   async create(@Body() createAnniversaryDto: CreateAnniversaryDto) {
     const anniversary: AnniversaryModel = await this.commandBus.execute(
       new CreateAnniversaryCommand(createAnniversaryDto),
@@ -73,6 +75,7 @@ export class AnniversaryController {
   }
 
   @Patch(':uuid')
+  @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
     @Body() updateAnniversaryDto: UpdateAnniversaryDto,
@@ -93,6 +96,7 @@ export class AnniversaryController {
   }
 
   @Delete(':uuid')
+  @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AnniversaryModel> =
       await this.commandBus.execute(new RemoveAnniversaryCommand({ uuid }));

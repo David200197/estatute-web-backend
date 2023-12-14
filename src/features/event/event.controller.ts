@@ -23,6 +23,7 @@ import { FindOneEventQuery } from './handlers/find-one/find-one-event.query';
 import { CreateEventCommand } from './handlers/create/create-event.command';
 import { UpdateEventCommand } from './handlers/update/update-event.command';
 import { RemoveEventCommand } from './handlers/remove/remove-event.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 
 @Controller('event')
 export class EventController {
@@ -63,6 +64,7 @@ export class EventController {
   }
 
   @Post()
+  @AccessTokenAuth()
   async create(@Body() createEventDto: CreateEventDto) {
     const event: EventModel = await this.commandBus.execute(
       new CreateEventCommand(createEventDto),
@@ -73,6 +75,7 @@ export class EventController {
   }
 
   @Patch(':uuid')
+  @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
     @Body() updateEventDto: UpdateEventDto,
@@ -93,6 +96,7 @@ export class EventController {
   }
 
   @Delete(':uuid')
+  @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, EventModel> =
       await this.commandBus.execute(new RemoveEventCommand({ uuid }));

@@ -23,6 +23,7 @@ import { FindOneSocialNetworksQuery } from './handlers/find-one/find-one-social-
 import { CreateSocialNetworksCommand } from './handlers/create/create-social-networks.command';
 import { UpdateSocialNetworksCommand } from './handlers/update/update-social-networks.command';
 import { RemoveSocialNetworksCommand } from './handlers/remove/remove-social-networks.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 
 @Controller('social-networks')
 export class SocialNetworksController {
@@ -63,6 +64,7 @@ export class SocialNetworksController {
   }
 
   @Post()
+  @AccessTokenAuth()
   async create(@Body() createSocialNetworksDto: CreateSocialNetworksDto) {
     const socialNetworks: SocialNetworksModel = await this.commandBus.execute(
       new CreateSocialNetworksCommand(createSocialNetworksDto),
@@ -73,6 +75,7 @@ export class SocialNetworksController {
   }
 
   @Patch(':uuid')
+  @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
     @Body() updateSocialNetworksDto: UpdateSocialNetworksDto,
@@ -93,6 +96,7 @@ export class SocialNetworksController {
   }
 
   @Delete(':uuid')
+  @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, SocialNetworksModel> =
       await this.commandBus.execute(new RemoveSocialNetworksCommand({ uuid }));

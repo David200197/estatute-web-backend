@@ -23,6 +23,7 @@ import { FindOneAdminQuery } from './handlers/find-one/find-one-admin.query';
 import { CreateAdminCommand } from './handlers/create/create-admin.command';
 import { UpdateAdminCommand } from './handlers/update/update-admin.command';
 import { RemoveAdminCommand } from './handlers/remove/remove-admin.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 
 @Controller('admin')
 export class AdminController {
@@ -63,6 +64,7 @@ export class AdminController {
   }
 
   @Post()
+  @AccessTokenAuth()
   async create(@Body() createAdminDto: CreateAdminDto) {
     const admin: AdminModel = await this.commandBus.execute(
       new CreateAdminCommand(createAdminDto),
@@ -72,7 +74,8 @@ export class AdminController {
     });
   }
 
-  @Patch('username')
+  @Patch(':username')
+  @AccessTokenAuth()
   async update(
     @Param('username') username: string,
     @Body() updateAdminDto: UpdateAdminDto,
@@ -92,7 +95,8 @@ export class AdminController {
     });
   }
 
-  @Delete('username')
+  @Delete(':username')
+  @AccessTokenAuth()
   async remove(@Param('username') username: string) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(new RemoveAdminCommand({ username }));

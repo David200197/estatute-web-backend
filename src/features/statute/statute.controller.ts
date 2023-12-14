@@ -23,6 +23,7 @@ import { FindOneStatuteQuery } from './handlers/find-one/find-one-statute.query'
 import { CreateStatuteCommand } from './handlers/create/create-statute.command';
 import { UpdateStatuteCommand } from './handlers/update/update-statute.command';
 import { RemoveStatuteCommand } from './handlers/remove/remove-statute.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 
 @Controller('statute')
 export class StatuteController {
@@ -63,6 +64,7 @@ export class StatuteController {
   }
 
   @Post()
+  @AccessTokenAuth()
   async create(@Body() createStatuteDto: CreateStatuteDto) {
     const statute: StatuteModel = await this.commandBus.execute(
       new CreateStatuteCommand(createStatuteDto),
@@ -73,6 +75,7 @@ export class StatuteController {
   }
 
   @Patch(':uuid')
+  @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
     @Body() updateStatuteDto: UpdateStatuteDto,
@@ -93,6 +96,7 @@ export class StatuteController {
   }
 
   @Delete(':uuid')
+  @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, StatuteModel> =
       await this.commandBus.execute(new RemoveStatuteCommand({ uuid }));

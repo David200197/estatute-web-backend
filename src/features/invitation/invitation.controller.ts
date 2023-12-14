@@ -23,6 +23,7 @@ import { FindOneInvitationQuery } from './handlers/find-one/find-one-invitation.
 import { CreateInvitationCommand } from './handlers/create/create-invitation.command';
 import { UpdateInvitationCommand } from './handlers/update/update-invitation.command';
 import { RemoveInvitationCommand } from './handlers/remove/remove-invitation.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 
 @Controller('invitation')
 export class InvitationController {
@@ -63,6 +64,7 @@ export class InvitationController {
   }
 
   @Post()
+  @AccessTokenAuth()
   async create(@Body() createInvitationDto: CreateInvitationDto) {
     const invitation: InvitationModel = await this.commandBus.execute(
       new CreateInvitationCommand(createInvitationDto),
@@ -73,6 +75,7 @@ export class InvitationController {
   }
 
   @Patch(':uuid')
+  @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
     @Body() updateInvitationDto: UpdateInvitationDto,
@@ -93,6 +96,7 @@ export class InvitationController {
   }
 
   @Delete(':uuid')
+  @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, InvitationModel> =
       await this.commandBus.execute(new RemoveInvitationCommand({ uuid }));
