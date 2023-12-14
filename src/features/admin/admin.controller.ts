@@ -66,8 +66,13 @@ export class AdminController {
   @Post()
   @AccessTokenAuth()
   async create(@Body() createAdminDto: CreateAdminDto) {
-    const admin: AdminModel = await this.commandBus.execute(
-      new CreateAdminCommand(createAdminDto),
+    const eitherResponse: Either<HttpException, AdminModel> =
+      await this.commandBus.execute(new CreateAdminCommand(createAdminDto));
+    const admin = eitherResponse.fold(
+      (error) => {
+        throw error;
+      },
+      (data) => data,
     );
     return new SerializerResponse('admin was created', {
       admin,
