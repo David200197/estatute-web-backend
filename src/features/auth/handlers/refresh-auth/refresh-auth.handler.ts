@@ -2,13 +2,14 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { RefreshAuthCommand } from './refresh-auth.command';
 import { RefreshAuthHandlerModel } from './refresh-auth-handler.model';
 import { RefreshAuthResponseDto } from '../../dto/refresh-auth-response.dto';
-import { ForbiddenException, HttpException, Inject } from '@nestjs/common';
+import { HttpException, Inject } from '@nestjs/common';
 import { Either } from '@src/common/lib/either.lib';
 import { AdminModel } from '@src/features/admin/models/admin.model';
 import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-password-service.provider';
 import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper.service';
 import { AUTH_UTILS_SERVICE_MODEL } from '../../providers/auth-util-service.provider';
 import { AuthUtilServiceModel } from '../../models/auth-util-service.model';
+import { AuthForbiddenException } from '../../exceptions/auth-forbidden.exception';
 
 @CommandHandler(RefreshAuthCommand)
 export class RefreshAuthHandler
@@ -33,13 +34,12 @@ export class RefreshAuthHandler
     const verifiedAdmin = await validatedAdmin.flatMapAsync<AdminModel>(
       async (user) => {
         if (!user.refreshToken)
-          return Either.left(new ForbiddenException('admin access denied'));
+          return Either.left(new AuthForbiddenException());
         const isValid = await this.hashPasswordService.verify(
           user.refreshToken,
           refreshToken,
         );
-        if (!isValid)
-          return Either.left(new ForbiddenException('admin access denied'));
+        if (!isValid) return Either.left(new AuthForbiddenException());
         return Either.right(user);
       },
     );
