@@ -20,16 +20,11 @@ export class LogoutAuthHandler
   ): Promise<Either<HttpException, void>> {
     const { logoutAuthDto } = logoutAuthCommand;
     const { admin } = logoutAuthDto;
-    const validatedAdmin = await this.authUtilsService.validateAdmin({
-      username: admin.username,
-    });
-    if (validatedAdmin.isLeft())
-      return Either.left(validatedAdmin.getLeftOrElse(null));
     const updatedAdmin = await this.authUtilsService.updateRefreshToken(
       { username: admin.username },
       null,
     );
-    if (updatedAdmin.isLeft())
-      return Either.left(updatedAdmin.getLeftOrElse(null));
+    if (updatedAdmin.isRight()) return;
+    return Either.left(updatedAdmin.getLeftOrElse(null));
   }
 }

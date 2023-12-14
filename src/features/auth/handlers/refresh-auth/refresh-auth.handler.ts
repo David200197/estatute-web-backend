@@ -4,7 +4,6 @@ import { RefreshAuthHandlerModel } from './refresh-auth-handler.model';
 import { RefreshAuthResponseDto } from '../../dto/refresh-auth-response.dto';
 import { HttpException, Inject } from '@nestjs/common';
 import { Either } from '@src/common/lib/either.lib';
-import { AdminModel } from '@src/features/admin/models/admin.model';
 import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-password-service.provider';
 import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper.service';
 import { AUTH_UTILS_SERVICE_MODEL } from '../../providers/auth-util-service.provider';
@@ -28,25 +27,12 @@ export class RefreshAuthHandler
     Either<HttpException, RefreshAuthResponseDto>
   > {
     const { admin, refreshToken } = refreshAuthDto;
-    const validatedAdmin = await this.authUtilsService.validateAdmin({
-      username: admin.username,
-    });
-    const adminWithRefreshToken = validatedAdmin.flatMap<AdminModel>((user) => {
-      if (!user.refreshToken) return Either.left(new AuthForbiddenException());
-      return Either.right(user);
-    });
-    const verifiedAdmin = await adminWithRefreshToken.flatMapAsync<AdminModel>(
-      async (user) => {
-        const isValid = await this.hashPasswordService.verify(
-          user.refreshToken,
-          refreshToken,
-        );
-        if (!isValid) return Either.left(new AuthForbiddenException());
-        return Either.right(user);
-      },
+    if (!admin.refreshToken) return Either.left(new AuthForbiddenException());
+    const isValid = await this.hashPasswordService.verify(
+      admin.refreshToken,
+      refreshToken,
     );
-    if (verifiedAdmin.isLeft())
-      return Either.left(verifiedAdmin.getLeftOrElse(null));
+    if (!isValid) return Either.left(new AuthForbiddenException());
     const tokens = this.authUtilsService.getTokens(admin.username);
     const refreshTokenHashed = await this.hashPasswordService.hash(
       tokens.refreshToken,

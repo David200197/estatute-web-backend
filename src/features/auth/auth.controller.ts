@@ -8,6 +8,11 @@ import { RefreshAuthCommand } from './handlers/refresh-auth/refresh-auth.command
 import { RefreshAuthResponseDto } from './dto/refresh-auth-response.dto';
 import { Either } from '@src/common/lib/either.lib';
 import { LogoutAuthCommand } from './handlers/logout-auth/logout-auth.command';
+import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { RefreshTokenAuth } from '@src/common/decorator/refresh-token-auth.decorator';
+import { GetRefreshToken } from '@src/common/decorator/get-refresh-token';
+import { AdminModel } from '../admin/models/admin.model';
+import { GetAdmin } from '@src/common/decorator/get-admin';
 
 @Controller('auth')
 export class AuthController {
@@ -26,10 +31,16 @@ export class AuthController {
     return new SerializerResponse('login user success', { ...response });
   }
 
+  @RefreshTokenAuth()
   @Post('refresh')
-  async refresh() {
+  async refresh(
+    @GetRefreshToken() refreshToken: string,
+    @GetAdmin() admin: AdminModel,
+  ) {
     const either: Either<HttpException, RefreshAuthResponseDto> =
-      await this.commandBus.execute(new RefreshAuthCommand({} as any));
+      await this.commandBus.execute(
+        new RefreshAuthCommand({ admin, refreshToken }),
+      );
 
     const response = either.fold(
       (error) => {
@@ -40,10 +51,11 @@ export class AuthController {
     return new SerializerResponse('refresh token success', { ...response });
   }
 
+  @AccessTokenAuth()
   @Get('logout')
-  async profile() {
+  async profile(@GetAdmin() admin: AdminModel) {
     const either: Either<HttpException, void> = await this.commandBus.execute(
-      new LogoutAuthCommand({} as any),
+      new LogoutAuthCommand({ admin }),
     );
     either.fold(
       (error) => {
