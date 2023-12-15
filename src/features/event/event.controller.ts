@@ -27,6 +27,7 @@ import { UpdateEventCommand } from './handlers/update/update-event.command';
 import { RemoveEventCommand } from './handlers/remove/remove-event.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { StorePhotoPipe } from './pipes/store-photo/store-photo.pipe';
 
 @Controller('event')
 export class EventController {
@@ -71,7 +72,7 @@ export class EventController {
   @UseInterceptors(FilesInterceptor('photos'))
   async create(
     @Body() createEventDto: CreateEventDto,
-    @UploadedFiles() photos: Array<Express.Multer.File>,
+    @UploadedFiles(StorePhotoPipe) photos: Array<Express.Multer.File>,
   ) {
     //TODO add validation
     const event: EventModel = await this.commandBus.execute(
