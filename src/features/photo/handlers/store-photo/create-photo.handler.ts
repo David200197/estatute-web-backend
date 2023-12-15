@@ -1,6 +1,6 @@
 import { CommandHandler } from '@nestjs/cqrs';
 import { StorePhotoCommand } from './create-photo.command';
-import { CreatePhotoHandlerModel, Urls } from './create-photo-handler.model';
+import { CreatePhotoHandlerModel } from './create-photo-handler.model';
 import { PhotoFileManagerModel } from '../../models/photo-file-manager.model';
 import { Inject } from '@nestjs/common';
 import { PHOTO_FILE_MANAGER } from '../../providers/photo-file-manager.provider';
@@ -12,7 +12,7 @@ export class StorePhotoHandler implements CreatePhotoHandlerModel {
     private readonly photoFileManager: PhotoFileManagerModel,
   ) {}
 
-  execute({ storePhotoDto }: StorePhotoCommand): Promise<Urls> {
+  execute({ storePhotoDto }: StorePhotoCommand): Promise<string[]> {
     return this.photoFileManager.store(storePhotoDto);
   }
 }

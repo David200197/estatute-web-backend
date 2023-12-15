@@ -28,6 +28,7 @@ import { RemoveEventCommand } from './handlers/remove/remove-event.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { StorePhotoPipe } from './pipes/store-photo/store-photo.pipe';
+import { UpdatePhotoPipe } from './pipes/update-photo/update-photo.pipe';
 
 @Controller('event')
 export class EventController {
@@ -74,7 +75,6 @@ export class EventController {
     @Body() createEventDto: CreateEventDto,
     @UploadedFiles(StorePhotoPipe) photos: Array<Express.Multer.File>,
   ) {
-    //TODO add validation
     const event: EventModel = await this.commandBus.execute(
       new CreateEventCommand(createEventDto, photos),
     );
@@ -88,10 +88,11 @@ export class EventController {
   async update(
     @Param('uuid') uuid: string,
     @Body() updateEventDto: UpdateEventDto,
+    @UploadedFiles(UpdatePhotoPipe) photos?: Array<Express.Multer.File>,
   ) {
     const eitherResponse: Either<HttpException, EventModel> =
       await this.commandBus.execute(
-        new UpdateEventCommand({ uuid }, updateEventDto),
+        new UpdateEventCommand({ uuid }, updateEventDto, photos),
       );
     const event = eitherResponse.fold(
       (error) => {

@@ -1,7 +1,6 @@
 import { EventsModel } from './events.model';
 import { EventModel, EventProperties } from './event.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
-import { UpdateEventDto } from '../dto/update-event.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 
@@ -14,7 +13,7 @@ export interface EventRepositoryModel {
   create(options: EventProperties): Promise<EventModel>;
   updateOne(
     filter: DeepPartial<EventProperties>,
-    options: DeepPartial<UpdateEventDto>,
+    options: DeepPartial<EventProperties>,
   ): Promise<EventModel>;
   removeOne(filter: DeepPartial<EventProperties>): Promise<EventModel>;
   updateMany(

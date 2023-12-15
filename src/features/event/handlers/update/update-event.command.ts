@@ -6,5 +6,6 @@ export class UpdateEventCommand {
   constructor(
     public readonly filter: DeepPartial<EventModel>,
     public readonly updateEventDto: UpdateEventDto,
+    public readonly photos?: Array<Express.Multer.File>,
   ) {}
 }
