@@ -11,6 +11,7 @@ async function bootstrap() {
   const config: ConfigService = app.get(ConfigService);
   const logger = new Logger(`Server running`);
 
+  app.setGlobalPrefix('api');
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(
     new ValidationPipe({

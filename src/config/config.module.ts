@@ -3,6 +3,8 @@ import { ConfigModule as ConfigEnvironmentModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import configuration from './configuration';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 //import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
@@ -10,6 +12,9 @@ import configuration from './configuration';
     ConfigEnvironmentModule.forRoot({ isGlobal: true, load: [configuration] }),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot({ verboseMemoryLeak: true }),
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'public'),
+    }),
     //MongooseModule.forRoot(configuration().database.uri),
   ],
 })
