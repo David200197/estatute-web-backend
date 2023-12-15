@@ -8,6 +8,13 @@ export interface EventModel extends EntityModel {
   readonly campus: string;
   readonly sponsors: string;
   readonly rapporteurship: string;
+  readonly photos: string[];
 }
 
-export type EventProperties = NonFunctionProperties<EventModel>;
+type EventPropertiesWithoutPhotos = Omit<
+  NonFunctionProperties<EventModel>,
+  'photos'
+>;
+export type EventProperties = EventPropertiesWithoutPhotos & {
+  photos?: string[];
+};

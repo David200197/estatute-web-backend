@@ -1,4 +1,5 @@
 import { HelperMockMethods } from '../interfaces/helper-mock.methods';
+import { NonFunctionProperties } from '../interfaces/manipulate-properties';
 import { SetOperation } from '../lib/set-operation.lib';
 
 export class CrudMockMethods<T> implements HelperMockMethods<T> {
@@ -35,7 +36,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     });
   }
 
-  findOne(find: Partial<T>): T | null {
+  findOne(find: Partial<NonFunctionProperties<T>>): T | null {
     if (this.isError) throw new Error('Base Error');
     const index = this.findOneIndex(find);
     return this.store[index];
@@ -47,7 +48,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return dto;
   }
 
-  update(find: Partial<T>, dto: Partial<T>): T | null {
+  update(find: Partial<NonFunctionProperties<T>>, dto: Partial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
     const index = this.findOneIndex(find);
     if (index === -1) return null;
@@ -56,7 +57,10 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return this.store[index];
   }
 
-  updateMany(find: Partial<T>, dto: Partial<T>): boolean {
+  updateMany(
+    find: Partial<NonFunctionProperties<T>>,
+    dto: Partial<T>,
+  ): boolean {
     if (this.isError) throw new Error('Base Error');
     this.store = this.store.map(({ ...data }) => {
       const findKeys = Object.keys(find);
@@ -72,7 +76,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return true;
   }
 
-  deleteMany(find: Partial<T>): boolean {
+  deleteMany(find: Partial<NonFunctionProperties<T>>): boolean {
     if (this.isError) throw new Error('Base Error');
     this.store = this.store.filter(({ ...data }) => {
       const findKeys = Object.keys(find);
@@ -86,7 +90,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return true;
   }
 
-  delete(find: Partial<T>): T | null {
+  delete(find: Partial<NonFunctionProperties<T>>): T | null {
     if (this.isError) throw new Error('Base Error');
     const index = this.findOneIndex(find);
     if (index === -1) return null;
@@ -95,7 +99,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return data;
   }
 
-  private findOneIndex(find: Partial<T>): number {
+  private findOneIndex(find: Partial<NonFunctionProperties<T>>): number {
     const keys = Object.keys(find);
     return this.store.findIndex((data) => {
       return keys.every((key) => find[key] === data[key]);

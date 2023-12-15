@@ -8,8 +8,16 @@ export class Event extends Entity implements EventModel {
   readonly campus: string;
   readonly sponsors: string;
   readonly rapporteurship: string;
+  readonly photos: string[] = [];
+
   constructor(options: EventProperties) {
     super();
-    Object.assign(this, options);
+    this.uuid = options.uuid;
+    this.name = options.name;
+    this.date = options.date;
+    this.campus = options.campus;
+    this.sponsors = options.sponsors;
+    this.rapporteurship = options.rapporteurship;
+    this.photos = options.photos;
   }
 }
