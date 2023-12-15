@@ -13,8 +13,9 @@ export interface EventModel extends EntityModel {
 
 type EventPropertiesWithoutPhotos = Omit<
   NonFunctionProperties<EventModel>,
-  'photos'
+  'photos' | 'uuid'
 >;
 export type EventProperties = EventPropertiesWithoutPhotos & {
   photos?: string[];
+  uuid?: string;
 };

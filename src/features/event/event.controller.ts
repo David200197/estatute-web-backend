@@ -8,6 +8,8 @@ import {
   Patch,
   Post,
   Query,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateEventDto } from './dto/create-event.dto';
@@ -24,6 +26,7 @@ import { CreateEventCommand } from './handlers/create/create-event.command';
 import { UpdateEventCommand } from './handlers/update/update-event.command';
 import { RemoveEventCommand } from './handlers/remove/remove-event.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('event')
 export class EventController {
@@ -65,9 +68,14 @@ export class EventController {
 
   @Post()
   @AccessTokenAuth()
-  async create(@Body() createEventDto: CreateEventDto) {
+  @UseInterceptors(FilesInterceptor('photos'))
+  async create(
+    @Body() createEventDto: CreateEventDto,
+    @UploadedFiles() photos: Array<Express.Multer.File>,
+  ) {
+    //TODO add validation
     const event: EventModel = await this.commandBus.execute(
-      new CreateEventCommand(createEventDto),
+      new CreateEventCommand(createEventDto, photos),
     );
     return new SerializerResponse('event was created', {
       event,

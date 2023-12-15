@@ -9,9 +9,10 @@ import { CreateEventHandlerProvider } from './handlers/create/create-event-handl
 import { FindOneEventHandlerProvider } from './handlers/find-one/find-one-event-handler.provider';
 import { UpdateEventHandlerProvider } from './handlers/update/update-event-handler.provider';
 import { RemoveEventHandlerProvider } from './handlers/remove/remove-event-handler.provider';
+import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, EventEmitterModule],
   controllers: [EventController],
   providers: [
     EventRepositoryProvider,

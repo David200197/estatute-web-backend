@@ -1,4 +1,3 @@
 export class StorePhotoDto {
-  readonly name: string;
-  readonly buffers: Buffer[];
+  readonly photos: Express.Multer.File[];
 }

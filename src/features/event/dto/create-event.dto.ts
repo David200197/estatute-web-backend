@@ -1,8 +1,6 @@
-import { IsDateString, IsString, IsUUID } from 'class-validator';
+import { IsDateString, IsString } from 'class-validator';
 
 export class CreateEventDto {
-  @IsUUID()
-  readonly uuid: string;
   @IsString()
   readonly name: string;
   @IsDateString()

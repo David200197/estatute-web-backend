@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { PhotoCron } from './photo.cron';
 import { PhotoListener } from './photo.listener';
 import { CreatePhotoHandlerProvider } from './handlers/store-photo/create-photo-handler.provider';
-import { StoreEngineServiceProvider } from './utils/store-engine-service.provider';
+import { PhotoFileManagerProvider } from './providers/photo-file-manager.provider';
 
 @Module({
   imports: [CqrsModule],
@@ -12,7 +12,7 @@ import { StoreEngineServiceProvider } from './utils/store-engine-service.provide
     CreatePhotoHandlerProvider,
     PhotoListener,
     PhotoCron,
-    StoreEngineServiceProvider,
+    PhotoFileManagerProvider,
   ],
 })
 export class PhotoModule {}

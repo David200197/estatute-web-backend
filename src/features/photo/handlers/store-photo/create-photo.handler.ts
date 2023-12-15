@@ -1,20 +1,18 @@
 import { CommandHandler } from '@nestjs/cqrs';
 import { StorePhotoCommand } from './create-photo.command';
 import { CreatePhotoHandlerModel, Urls } from './create-photo-handler.model';
-import { StoreEngineServiceModel } from '../../utils/store-engine-service.model';
+import { PhotoFileManagerModel } from '../../models/photo-file-manager.model';
 import { Inject } from '@nestjs/common';
-import { STORE_ENGINE_SERVICE_TOKEN } from '../../utils/store-engine-service.provider';
+import { PHOTO_FILE_MANAGER } from '../../providers/photo-file-manager.provider';
 
 @CommandHandler(StorePhotoCommand)
 export class StorePhotoHandler implements CreatePhotoHandlerModel {
   constructor(
-    @Inject(STORE_ENGINE_SERVICE_TOKEN)
-    private readonly storeEngineService: StoreEngineServiceModel,
+    @Inject(PHOTO_FILE_MANAGER)
+    private readonly photoFileManager: PhotoFileManagerModel,
   ) {}
 
   execute({ storePhotoDto }: StorePhotoCommand): Promise<Urls> {
-    const { buffers, name } = storePhotoDto;
-    //TODO: manipulate the name
-    return this.storeEngineService.store(name, buffers);
+    return this.photoFileManager.store(storePhotoDto);
   }
 }

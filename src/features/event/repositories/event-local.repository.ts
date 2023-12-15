@@ -64,14 +64,14 @@ export class EventLocalRepository
     });
   }
 
-  async create(options: CreateEventDto): Promise<EventModel> {
-    const event = new Event(options);
+  async create(options: EventProperties): Promise<EventModel> {
+    const event = new Event({ ...options });
     return this.eventCrud.create(event);
   }
 
   async updateOne(
     filter: DeepPartial<EventProperties>,
-    options: UpdateEventDto,
+    options: DeepPartial<EventProperties>,
   ): Promise<EventModel> {
     return this.eventCrud.update(filter, options);
   }
@@ -82,7 +82,7 @@ export class EventLocalRepository
 
   async updateMany(
     filter: DeepPartial<EventProperties>,
-    options: UpdateEventDto,
+    options: DeepPartial<EventProperties>,
   ): Promise<boolean> {
     return this.eventCrud.updateMany(filter, options);
   }
