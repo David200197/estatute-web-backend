@@ -3,6 +3,9 @@ import { NonFunctionProperties } from '@src/common/interfaces/manipulate-propert
 
 export interface SocialNetworksModel extends EntityModel {
   readonly uuid: string;
+  readonly name: string;
+  readonly link: string;
+  readonly icon: string;
 }
 
 export type SocialNetworksProperties =
