@@ -1,15 +1,29 @@
-import { IsUUID } from 'class-validator';
+import { IsEnum, IsInt, IsString, IsUUID } from 'class-validator';
+import {
+  InvestigativeCategory,
+  SpecialtyDegree,
+  TeachingCategory,
+} from '../models/about-us.model';
 
 export class CreateAboutUsDto {
   @IsUUID()
   readonly uuid: string;
+  @IsString()
   readonly name: string;
+  @IsString()
   readonly lastName: string;
+  @IsString()
   readonly scientificCategory: string;
-  readonly teachingCategory: string;
-  readonly investigativeCategory: string;
+  @IsEnum(TeachingCategory)
+  readonly teachingCategory: TeachingCategory;
+  @IsEnum(InvestigativeCategory)
+  readonly investigativeCategory: InvestigativeCategory;
+  @IsString()
   readonly specialty: string;
-  readonly specialtyDegree: string;
+  @IsEnum(SpecialtyDegree)
+  readonly specialtyDegree: SpecialtyDegree;
+  @IsInt()
   readonly yearsOfWorkExperience: number;
+  @IsString()
   readonly teachingExperience: string;
 }

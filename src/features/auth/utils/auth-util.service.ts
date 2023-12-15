@@ -11,7 +11,7 @@ import { EVENT_EMITTER_SERVICE_TOKEN } from '@src/shared/event-emitter/event-emi
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
-import { emitter, responseListeners } from '@src/common/constants/emitters';
+import { EmitterKey, ListenerKey } from '@src/common/constants/emitters';
 
 @Injectable()
 export class AuthUtilService implements AuthUtilServiceModel {
@@ -43,11 +43,11 @@ export class AuthUtilService implements AuthUtilServiceModel {
 
   async validateAdmin(filter: DeepPartial<AdminProperties>) {
     const listener = await this.eventEmitterService.emitAsync(
-      emitter.authValidateAdmin,
+      EmitterKey.authValidateAdmin,
       filter,
     );
     const admin = listener.get<Either<HttpException, AdminModel>>(
-      responseListeners.adminAuthValidateAdmin,
+      ListenerKey.adminAuthValidateAdmin,
     );
     return admin;
   }
@@ -57,12 +57,12 @@ export class AuthUtilService implements AuthUtilServiceModel {
     refreshToken: string,
   ) {
     const listener = await this.eventEmitterService.emitAsync(
-      emitter.authUpdateRefreshToken,
+      EmitterKey.authUpdateRefreshToken,
       filter,
       refreshToken,
     );
     const admin = listener.get<Either<HttpException, AdminModel>>(
-      responseListeners.adminAuthUpdateRefreshToken,
+      ListenerKey.adminAuthUpdateRefreshToken,
     );
     return admin;
   }
