@@ -4,8 +4,8 @@ import { PhotoLocalRepository } from '../repositories/photo-local.repository';
 import {
   CREATE_PHOTO_HANDLER_TOKEN,
   CreatePhotoHandlerProvider,
-} from '../handlers/create/create-photo-handler.provider';
-import { CreatePhotoHandlerModel } from '../handlers/create/create-photo-handler.model';
+} from '../handlers/store-photo/create-photo-handler.provider';
+import { CreatePhotoHandlerModel } from '../handlers/store-photo/create-photo-handler.model';
 
 describe('CreatePhotoHandler', () => {
   let handler: CreatePhotoHandlerModel;
