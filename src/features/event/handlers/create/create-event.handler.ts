@@ -5,32 +5,23 @@ import { CreateEventHandlerModel } from './create-event-handler.model';
 import { Inject } from '@nestjs/common';
 import { EVENT_REPOSITORY_TOKEN } from '../../providers/event-repository.provider';
 import { EventModel } from '../../models/event.model';
-import { EventEmitterServiceModel } from '@src/shared/event-emitter/event-emitter-service.model';
-import { EVENT_EMITTER_SERVICE_TOKEN } from '@src/shared/event-emitter/event-emitter-service.provider';
-import { EmitterKey, ListenerKey } from '@src/common/constants/emitters';
+import { EVENT_UTILS_SERVICE_TOKEN } from '../../providers/event-utils.provider';
+import { EventUtilServiceModel } from '../../models/event-util-service.model';
 
 @CommandHandler(CreateEventCommand)
 export class CreateEventHandler implements CreateEventHandlerModel {
   constructor(
     @Inject(EVENT_REPOSITORY_TOKEN)
     private eventRepository: EventRepositoryModel,
-    @Inject(EVENT_EMITTER_SERVICE_TOKEN)
-    private readonly eventEmitterService: EventEmitterServiceModel,
+    @Inject(EVENT_UTILS_SERVICE_TOKEN)
+    private readonly eventUtilsService: EventUtilServiceModel,
   ) {}
-
-  private async storeFiles(photos: Express.Multer.File[]): Promise<string[]> {
-    const listener = await this.eventEmitterService.emitAsync(
-      EmitterKey.eventStorePhotos,
-      { photos },
-    );
-    return listener.get<string[]>(ListenerKey.photoEventStorePhotos);
-  }
 
   async execute({
     createEventDto,
     photos,
   }: CreateEventCommand): Promise<EventModel> {
-    const urls = await this.storeFiles(photos);
+    const urls = await this.eventUtilsService.storeFiles(photos);
     return await this.eventRepository.create({
       ...createEventDto,
       photos: urls,
