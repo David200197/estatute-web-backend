@@ -16,11 +16,11 @@ export abstract class CheckPhotoPipe {
       !photo.isValidMimeType(['image/png', 'image/jpeg', 'image/jpg'])
     )
       throw new BadRequestException(
-        `"${photo.name}" photo cannot be ${photo.extension}, must be png, jpeg or jpg`,
+        `"${photo.fieldName}" photo cannot be ${photo.extension}, must be png, jpeg or jpg`,
       );
     if (!photo.isValidLowerThanSizeMb(12))
       throw new BadRequestException(
-        `"${photo.name}" photo cannot be ${photo.sizeMb}mb, must be lower than 12mb`,
+        `"${photo.fieldName}" photo cannot be ${photo.sizeMb}mb, must be lower than 12mb`,
       );
   }
 }

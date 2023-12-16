@@ -1,11 +1,18 @@
+import { randomUUID } from 'crypto';
+
 export class FileControl {
   readonly extension: string;
   readonly sizeMb: number;
+  readonly name: string;
+  readonly nameGenerated: string;
 
-  constructor(readonly name: string, readonly value: Express.Multer.File) {
-    this.extension = this.value.originalname.slice(
-      ((this.value.originalname.lastIndexOf('.') - 1) >>> 0) + 2,
-    );
+  constructor(readonly fieldName: string, readonly value: Express.Multer.File) {
+    const [extension, ...restArray] = this.value.originalname
+      .split('.')
+      .reverse();
+    this.extension = extension;
+    this.name = restArray.reverse().join('.');
+    this.nameGenerated = `${this.name}-${randomUUID()}.${this.extension}`;
     this.sizeMb = this.value.size / (1024 * 1024);
   }
 

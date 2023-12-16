@@ -1,14 +1,14 @@
 import { CommandHandler } from '@nestjs/cqrs';
 import { StorePhotoCommand } from './create-photo.command';
-import { CreatePhotoHandlerModel } from './create-photo-handler.model';
+import { StorePhotoHandlerModel } from './create-photo-handler.model';
 import { PhotoFileManagerModel } from '../../models/photo-file-manager.model';
 import { Inject } from '@nestjs/common';
-import { PHOTO_FILE_MANAGER } from '../../providers/photo-file-manager.provider';
+import { PHOTO_FILE_MANAGER_TOKEN } from '../../providers/photo-file-manager.provider';
 
 @CommandHandler(StorePhotoCommand)
-export class StorePhotoHandler implements CreatePhotoHandlerModel {
+export class StorePhotoHandler implements StorePhotoHandlerModel {
   constructor(
-    @Inject(PHOTO_FILE_MANAGER)
+    @Inject(PHOTO_FILE_MANAGER_TOKEN)
     private readonly photoFileManager: PhotoFileManagerModel,
   ) {}
 
