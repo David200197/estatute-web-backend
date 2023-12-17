@@ -1,4 +1,4 @@
-import { AnniversarysModel } from './anniversarys.model';
+import { AnniversariesModel } from './anniversaries.model';
 import { AnniversaryModel, AnniversaryProperties } from './anniversary.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAnniversaryDto } from '../dto/create-anniversary.dto';
@@ -13,7 +13,7 @@ export interface AnniversaryRepositoryModel {
   findAll(
     filter: DeepPartial<AnniversaryProperties>,
     options: FindAllDto,
-  ): Promise<ResponseWithPaginate<AnniversarysModel>>;
+  ): Promise<ResponseWithPaginate<AnniversariesModel>>;
   create(options: CreateAnniversaryDto): Promise<AnniversaryModel>;
   updateOne(
     filter: DeepPartial<AnniversaryProperties>,

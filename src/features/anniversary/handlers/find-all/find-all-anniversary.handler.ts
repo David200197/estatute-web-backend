@@ -5,7 +5,7 @@ import { FindAllAnniversaryHandlerModel } from './find-all-anniversary-handler.m
 import { Inject } from '@nestjs/common';
 import { ANNIVERSARY_REPOSITORY_TOKEN } from '../../providers/anniversary-repository.provider';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
-import { AnniversarysModel } from '../../models/anniversarys.model';
+import { AnniversariesModel } from '../../models/anniversaries.model';
 
 @QueryHandler(FindAllAnniversaryQuery)
 export class FindAllAnniversaryHandler
@@ -20,7 +20,7 @@ export class FindAllAnniversaryHandler
     filter,
     options,
   }: FindAllAnniversaryQuery): Promise<
-    ResponseWithPaginate<AnniversarysModel>
+    ResponseWithPaginate<AnniversariesModel>
   > {
     return await this.anniversaryRepository.findAll(filter, options);
   }

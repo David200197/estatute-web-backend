@@ -1,10 +1,10 @@
 import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
 import { AnniversaryModel } from '../models/anniversary.model';
-import { AnniversarysModel } from '../models/anniversarys.model';
+import { AnniversariesModel } from '../models/anniversaries.model';
 
-export class Anniversarys
+export class Anniversaries
   extends EntityCollection<AnniversaryModel>
-  implements AnniversarysModel
+  implements AnniversariesModel
 {
   constructor(public readonly value: AnniversaryModel[]) {
     super(value);

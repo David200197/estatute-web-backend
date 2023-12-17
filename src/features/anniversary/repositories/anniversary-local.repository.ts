@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AnniversaryRepositoryModel } from '../models/anniversary-repository.model';
-import { AnniversarysModel } from '../models/anniversarys.model';
+import { AnniversariesModel } from '../models/anniversaries.model';
 import {
   AnniversaryModel,
   AnniversaryProperties,
@@ -8,7 +8,7 @@ import {
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAnniversaryDto } from '../dto/create-anniversary.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
-import { Anniversarys } from '../entities/anniversarys';
+import { Anniversaries } from '../entities/anniversaries';
 import { UpdateAnniversaryDto } from '../dto/update-anniversary.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
@@ -55,13 +55,13 @@ export class AnniversaryLocalRepository
   async findAll(
     filter: DeepPartial<AnniversaryProperties>,
     options: FindAllDto,
-  ): Promise<ResponseWithPaginate<AnniversarysModel>> {
+  ): Promise<ResponseWithPaginate<AnniversariesModel>> {
     //using options
     options;
     //code
     const anniversarys = this.anniversaryCrud.findAll(filter);
     return Promise.resolve({
-      entities: new Anniversarys(anniversarys),
+      entities: new Anniversaries(anniversarys),
       totalElement: 1,
       totalPage: 1,
     });

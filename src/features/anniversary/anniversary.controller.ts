@@ -16,7 +16,7 @@ import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
-import { AnniversarysModel } from './models/anniversarys.model';
+import { AnniversariesModel } from './models/anniversaries.model';
 import { AnniversaryModel } from './models/anniversary.model';
 import { FindAllAnniversaryQuery } from './handlers/find-all/find-all-anniversary.query';
 import { FindOneAnniversaryQuery } from './handlers/find-one/find-one-anniversary.query';
@@ -38,7 +38,7 @@ export class AnniversaryController {
       entities: anniversarys,
       totalElement,
       totalPage,
-    }: ResponseWithPaginate<AnniversarysModel> = await this.queryBus.execute(
+    }: ResponseWithPaginate<AnniversariesModel> = await this.queryBus.execute(
       new FindAllAnniversaryQuery({}, findAllDto),
     );
     return new SerializerResponse('anniversarys was founded', {
