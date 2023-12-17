@@ -6,6 +6,7 @@ import { StorePhotoHandlerProvider } from './handlers/store-photo/create-photo-h
 import { PhotoFileManagerServiceProvider } from './providers/photo-file-manager-service.provider';
 import { UpdatePhotoHandlerProvider } from './handlers/update-photo/update-photo-handler.provider';
 import { DeletePhotoHandlerProvider } from './handlers/delete-photo/delete-photo-handler.provider';
+import { PhotoCli } from './photo.cli';
 
 @Module({
   imports: [CqrsModule],
@@ -17,6 +18,7 @@ import { DeletePhotoHandlerProvider } from './handlers/delete-photo/delete-photo
     PhotoListener,
     PhotoCron,
     PhotoFileManagerServiceProvider,
+    PhotoCli,
   ],
 })
 export class PhotoModule {}

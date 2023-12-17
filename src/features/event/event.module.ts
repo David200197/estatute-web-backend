@@ -11,6 +11,7 @@ import { UpdateEventHandlerProvider } from './handlers/update/update-event-handl
 import { RemoveEventHandlerProvider } from './handlers/remove/remove-event-handler.provider';
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
 import { PhotoServiceProvider } from './providers/photo-service.provider';
+import { EventCli } from './event.cli';
 
 @Module({
   imports: [CqrsModule, EventEmitterModule],
@@ -25,6 +26,7 @@ import { PhotoServiceProvider } from './providers/photo-service.provider';
     PhotoServiceProvider,
     EventListener,
     EventCron,
+    EventCli,
   ],
 })
 export class EventModule {}

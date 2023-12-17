@@ -9,6 +9,7 @@ import { CreateSocialNetworksHandlerProvider } from './handlers/create/create-so
 import { FindOneSocialNetworksHandlerProvider } from './handlers/find-one/find-one-social-networks-handler.provider';
 import { UpdateSocialNetworksHandlerProvider } from './handlers/update/update-social-networks-handler.provider';
 import { RemoveSocialNetworksHandlerProvider } from './handlers/remove/remove-social-networks-handler.provider';
+import { SocialNetworksCli } from './social-networks.cli';
 
 @Module({
   imports: [CqrsModule],
@@ -22,6 +23,7 @@ import { RemoveSocialNetworksHandlerProvider } from './handlers/remove/remove-so
     RemoveSocialNetworksHandlerProvider,
     SocialNetworksListener,
     SocialNetworksCron,
+    SocialNetworksCli,
   ],
 })
 export class SocialNetworksModule {}

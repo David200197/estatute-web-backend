@@ -10,6 +10,7 @@ import { FindOneAdminHandlerProvider } from './handlers/find-one/find-one-admin-
 import { UpdateAdminHandlerProvider } from './handlers/update/update-admin-handler.provider';
 import { RemoveAdminHandlerProvider } from './handlers/remove/remove-admin-handler.provider';
 import { HashPasswordModule } from '@src/shared/hash-password/hash-password.module';
+import { AdminCli } from './admin.cli';
 
 @Module({
   imports: [CqrsModule, HashPasswordModule],
@@ -23,6 +24,7 @@ import { HashPasswordModule } from '@src/shared/hash-password/hash-password.modu
     RemoveAdminHandlerProvider,
     AdminListener,
     AdminCron,
+    AdminCli,
   ],
 })
 export class AdminModule {}

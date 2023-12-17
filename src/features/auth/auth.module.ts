@@ -13,6 +13,7 @@ import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.modu
 import { LogoutAuthHandler } from './handlers/logout-auth/logout-auth.handler';
 import { AuthUtilsServiceProvider } from './providers/auth-util-service.provider';
 import { AdminServiceProvider } from './providers/admin-service.provider';
+import { AuthCli } from './auth.cli';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AdminServiceProvider } from './providers/admin-service.provider';
     RefreshTokenStrategy,
     AuthUtilsServiceProvider,
     AdminServiceProvider,
+    AuthCli,
   ],
 })
 export class AuthModule {}

@@ -9,6 +9,7 @@ import { CreateAnniversaryHandlerProvider } from './handlers/create/create-anniv
 import { FindOneAnniversaryHandlerProvider } from './handlers/find-one/find-one-anniversary-handler.provider';
 import { UpdateAnniversaryHandlerProvider } from './handlers/update/update-anniversary-handler.provider';
 import { RemoveAnniversaryHandlerProvider } from './handlers/remove/remove-anniversary-handler.provider';
+import { AnniversaryCli } from './anniversary.cli';
 
 @Module({
   imports: [CqrsModule],
@@ -22,6 +23,7 @@ import { RemoveAnniversaryHandlerProvider } from './handlers/remove/remove-anniv
     RemoveAnniversaryHandlerProvider,
     AnniversaryListener,
     AnniversaryCron,
+    AnniversaryCli,
   ],
 })
 export class AnniversaryModule {}

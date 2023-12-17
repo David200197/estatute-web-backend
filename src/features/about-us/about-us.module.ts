@@ -9,6 +9,7 @@ import { CreateAboutUsHandlerProvider } from './handlers/create/create-about-us-
 import { FindOneAboutUsHandlerProvider } from './handlers/find-one/find-one-about-us-handler.provider';
 import { UpdateAboutUsHandlerProvider } from './handlers/update/update-about-us-handler.provider';
 import { RemoveAboutUsHandlerProvider } from './handlers/remove/remove-about-us-handler.provider';
+import { AboutUsCli } from './about-us.cli';
 
 @Module({
   imports: [CqrsModule],
@@ -22,6 +23,7 @@ import { RemoveAboutUsHandlerProvider } from './handlers/remove/remove-about-us-
     RemoveAboutUsHandlerProvider,
     AboutUsListener,
     AboutUsCron,
+    AboutUsCli,
   ],
 })
 export class AboutUsModule {}

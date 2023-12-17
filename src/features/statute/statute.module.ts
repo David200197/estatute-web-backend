@@ -9,6 +9,7 @@ import { CreateStatuteHandlerProvider } from './handlers/create/create-statute-h
 import { FindOneStatuteHandlerProvider } from './handlers/find-one/find-one-statute-handler.provider';
 import { UpdateStatuteHandlerProvider } from './handlers/update/update-statute-handler.provider';
 import { RemoveStatuteHandlerProvider } from './handlers/remove/remove-statute-handler.provider';
+import { StatuteCli } from './statute.cli';
 
 @Module({
   imports: [CqrsModule],
@@ -22,6 +23,7 @@ import { RemoveStatuteHandlerProvider } from './handlers/remove/remove-statute-h
     RemoveStatuteHandlerProvider,
     StatuteListener,
     StatuteCron,
+    StatuteCli,
   ],
 })
 export class StatuteModule {}

@@ -13,14 +13,14 @@ import { DeepPartial } from '@src/common/interfaces/deep-partial';
 export class AdminListener {
   constructor(private readonly queryBus: QueryBus) {}
 
-  @OnEvent(EmitterKey.authValidateAdmin, { async: true })
+  @OnEvent(EmitterKey.authValidateAdmin)
   async loginValidateAdmin(filter: DeepPartial<AdminProperties>) {
     const admin: Either<HttpException, AdminModel> =
       await this.queryBus.execute(new FindOneAdminQuery(filter));
     return new ListenerResponse(ListenerKey.adminAuthValidateAdmin, admin);
   }
 
-  @OnEvent(EmitterKey.authUpdateRefreshToken, { async: true })
+  @OnEvent(EmitterKey.authUpdateRefreshToken)
   async updateRefreshToken(
     filter: DeepPartial<AdminProperties>,
     refreshToken: string = null,

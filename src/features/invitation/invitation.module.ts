@@ -9,6 +9,7 @@ import { CreateInvitationHandlerProvider } from './handlers/create/create-invita
 import { FindOneInvitationHandlerProvider } from './handlers/find-one/find-one-invitation-handler.provider';
 import { UpdateInvitationHandlerProvider } from './handlers/update/update-invitation-handler.provider';
 import { RemoveInvitationHandlerProvider } from './handlers/remove/remove-invitation-handler.provider';
+import { InvitationCli } from './invitation.cli';
 
 @Module({
   imports: [CqrsModule],
@@ -22,6 +23,7 @@ import { RemoveInvitationHandlerProvider } from './handlers/remove/remove-invita
     RemoveInvitationHandlerProvider,
     InvitationListener,
     InvitationCron,
+    InvitationCli,
   ],
 })
 export class InvitationModule {}

@@ -19,6 +19,26 @@ export class AdminLocalRepository implements AdminRepositoryModel {
     this.adminCrud = new CrudMockMethods();
   }
 
+  __changeStore(store: AdminModel[]): void {
+    this.adminCrud.__changeStore(store);
+  }
+
+  __reset(): void {
+    this.adminCrud.__reset();
+  }
+
+  __setIsError(value: boolean): void {
+    this.adminCrud.__setIsError(value);
+  }
+
+  __getStore(): AdminModel[] {
+    return this.__getStore();
+  }
+
+  __isError(): boolean {
+    return this.__isError();
+  }
+
   async findOne(
     filter: DeepPartial<AdminProperties>,
   ): Promise<AdminModel | null> {

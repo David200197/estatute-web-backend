@@ -15,7 +15,7 @@ import { Either } from '@src/common/lib/either.lib';
 export class PhotoListener {
   constructor(private readonly commandBus: CommandBus) {}
 
-  @OnEvent(EmitterKey.eventStorePhotos, { async: true })
+  @OnEvent(EmitterKey.eventStorePhotos)
   async storePhotos(storePhotoDto: StorePhotoDto) {
     const photos: string[] = await this.commandBus.execute(
       new StorePhotoCommand(storePhotoDto),
@@ -23,7 +23,7 @@ export class PhotoListener {
     return new ListenerResponse(ListenerKey.photoEventStorePhotos, photos);
   }
 
-  @OnEvent(EmitterKey.eventUpdatePhotos, { async: true })
+  @OnEvent(EmitterKey.eventUpdatePhotos)
   async updatePhotos(updatePhotoDto: UpdatePhotoDto) {
     const updatePhotos: Either<HttpException, string[]> =
       await this.commandBus.execute(new UpdatePhotoCommand(updatePhotoDto));
@@ -33,7 +33,7 @@ export class PhotoListener {
     );
   }
 
-  @OnEvent(EmitterKey.eventDeletePhotos, { async: true })
+  @OnEvent(EmitterKey.eventDeletePhotos)
   async deletePhotos(deletePhotoDto: DeletePhotoDto) {
     const deletedPhotos: Either<HttpException, boolean> =
       await this.commandBus.execute(new DeletePhotoCommand(deletePhotoDto));
