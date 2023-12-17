@@ -10,7 +10,7 @@ import { FindOneEventHandlerProvider } from './handlers/find-one/find-one-event-
 import { UpdateEventHandlerProvider } from './handlers/update/update-event-handler.provider';
 import { RemoveEventHandlerProvider } from './handlers/remove/remove-event-handler.provider';
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
-import { EventUtilsServiceProvider } from './providers/event-utils.provider';
+import { PhotoServiceProvider } from './providers/photo-service.provider';
 
 @Module({
   imports: [CqrsModule, EventEmitterModule],
@@ -22,7 +22,7 @@ import { EventUtilsServiceProvider } from './providers/event-utils.provider';
     FindOneEventHandlerProvider,
     UpdateEventHandlerProvider,
     RemoveEventHandlerProvider,
-    EventUtilsServiceProvider,
+    PhotoServiceProvider,
     EventListener,
     EventCron,
   ],

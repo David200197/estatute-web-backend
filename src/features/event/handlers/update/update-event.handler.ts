@@ -7,16 +7,16 @@ import { EVENT_REPOSITORY_TOKEN } from '../../providers/event-repository.provide
 import { EventModel } from '../../models/event.model';
 import { EventNotFoundException } from '../../exceptions/event-not-found.exception';
 import { Either } from '@src/common/lib/either.lib';
-import { EVENT_UTILS_SERVICE_TOKEN } from '../../providers/event-utils.provider';
-import { EventUtilServiceModel } from '../../models/event-util-service.model';
+import { PHOTO_SERVICE_TOKEN } from '../../providers/photo-service.provider';
+import { PhotoServiceModel } from '../../models/photo-service.model';
 
 @CommandHandler(UpdateEventCommand)
 export class UpdateEventHandler implements UpdateEventHandlerModel {
   constructor(
     @Inject(EVENT_REPOSITORY_TOKEN)
     private eventRepository: EventRepositoryModel,
-    @Inject(EVENT_UTILS_SERVICE_TOKEN)
-    private readonly eventUtilsService: EventUtilServiceModel,
+    @Inject(PHOTO_SERVICE_TOKEN)
+    private readonly photoService: PhotoServiceModel,
   ) {}
 
   async execute({
@@ -34,7 +34,7 @@ export class UpdateEventHandler implements UpdateEventHandlerModel {
       if (!event) return Either.left(new EventNotFoundException());
       return Either.right(event);
     }
-    const eitherUrls = await this.eventUtilsService.updateFiles(
+    const eitherUrls = await this.photoService.updateFiles(
       photos,
       findEvent.photos,
     );

@@ -12,12 +12,12 @@ export class UpdatePhotoHandler
 {
   constructor(
     @Inject(PHOTO_FILE_MANAGER_SERVICE_TOKEN)
-    private readonly photoFileManager: PhotoFileManagerServiceModel,
+    private readonly photoFileManagerService: PhotoFileManagerServiceModel,
   ) {}
 
   execute({
     updatePhotoDto,
   }: UpdatePhotoCommand): Promise<Either<HttpException, string[]>> {
-    return this.photoFileManager.update(updatePhotoDto);
+    return this.photoFileManagerService.update(updatePhotoDto);
   }
 }

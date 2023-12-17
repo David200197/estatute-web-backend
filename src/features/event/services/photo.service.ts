@@ -1,12 +1,12 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
-import { EventUtilServiceModel } from '../models/event-util-service.model';
+import { PhotoServiceModel } from '../models/photo-service.model';
 import { EVENT_EMITTER_SERVICE_TOKEN } from '@src/shared/event-emitter/event-emitter-service.provider';
 import { EventEmitterServiceModel } from '@src/shared/event-emitter/event-emitter-service.model';
 import { EmitterKey, ListenerKey } from '@src/common/constants/emitters';
 import { Either } from '@src/common/lib/either.lib';
 
 @Injectable()
-export class EventUtilService implements EventUtilServiceModel {
+export class PhotoService implements PhotoServiceModel {
   constructor(
     @Inject(EVENT_EMITTER_SERVICE_TOKEN)
     private readonly eventEmitterService: EventEmitterServiceModel,

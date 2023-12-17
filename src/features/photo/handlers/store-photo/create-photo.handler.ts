@@ -9,10 +9,10 @@ import { PHOTO_FILE_MANAGER_SERVICE_TOKEN } from '../../providers/photo-file-man
 export class StorePhotoHandler implements StorePhotoHandlerModel {
   constructor(
     @Inject(PHOTO_FILE_MANAGER_SERVICE_TOKEN)
-    private readonly photoFileManager: PhotoFileManagerServiceModel,
+    private readonly photoFileManagerService: PhotoFileManagerServiceModel,
   ) {}
 
   execute({ storePhotoDto }: StorePhotoCommand): Promise<string[]> {
-    return this.photoFileManager.store(storePhotoDto);
+    return this.photoFileManagerService.store(storePhotoDto);
   }
 }

@@ -12,12 +12,12 @@ export class DeletePhotoHandler
 {
   constructor(
     @Inject(PHOTO_FILE_MANAGER_SERVICE_TOKEN)
-    private readonly photoFileManager: PhotoFileManagerServiceModel,
+    private readonly photoFileManagerService: PhotoFileManagerServiceModel,
   ) {}
 
   execute({
     deletePhotoDto,
   }: DeletePhotoCommand): Promise<Either<HttpException, boolean>> {
-    return this.photoFileManager.delete(deletePhotoDto);
+    return this.photoFileManagerService.delete(deletePhotoDto);
   }
 }

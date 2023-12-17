@@ -7,16 +7,16 @@ import { EVENT_REPOSITORY_TOKEN } from '../../providers/event-repository.provide
 import { EventModel } from '../../models/event.model';
 import { EventNotFoundException } from '../../exceptions/event-not-found.exception';
 import { Either } from '@src/common/lib/either.lib';
-import { EVENT_UTILS_SERVICE_TOKEN } from '../../providers/event-utils.provider';
-import { EventUtilServiceModel } from '../../models/event-util-service.model';
+import { PHOTO_SERVICE_TOKEN } from '../../providers/photo-service.provider';
+import { PhotoServiceModel } from '../../models/photo-service.model';
 
 @CommandHandler(RemoveEventCommand)
 export class RemoveEventHandler implements RemoveEventHandlerModel {
   constructor(
     @Inject(EVENT_REPOSITORY_TOKEN)
     private eventRepository: EventRepositoryModel,
-    @Inject(EVENT_UTILS_SERVICE_TOKEN)
-    private readonly eventUtilsService: EventUtilServiceModel,
+    @Inject(PHOTO_SERVICE_TOKEN)
+    private readonly photoService: PhotoServiceModel,
   ) {}
 
   async execute({
@@ -24,9 +24,7 @@ export class RemoveEventHandler implements RemoveEventHandlerModel {
   }: RemoveEventCommand): Promise<Either<HttpException, EventModel>> {
     const findEvent = await this.eventRepository.findOne(filter);
     if (!findEvent) return Either.left(new EventNotFoundException());
-    const deletedEither = await this.eventUtilsService.deleteFiles(
-      findEvent.photos,
-    );
+    const deletedEither = await this.photoService.deleteFiles(findEvent.photos);
     if (deletedEither.isLeft())
       return Either.left(deletedEither.getLeftOrElse(null));
     const event = await this.eventRepository.removeOne(filter);
