@@ -8,7 +8,7 @@ import { AdminModel } from '../../models/admin.model';
 import { AdminNotFoundException } from '../../exceptions/admin-not-found.exception';
 import { Either } from '@src/common/lib/either.lib';
 import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-password-service.provider';
-import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper.service';
+import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper-service.model';
 
 @CommandHandler(UpdateAdminCommand)
 export class UpdateAdminHandler implements UpdateAdminHandlerModel {

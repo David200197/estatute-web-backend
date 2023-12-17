@@ -1,6 +1,7 @@
 import { EntityCollectionModel } from '@src/common/abstracts/entity-collection.abstracts';
-import { AdminModel } from './admin.model';
+import { AdminModel, AdminProperties } from './admin.model';
 
 export interface AdminsModel extends EntityCollectionModel<AdminModel> {
   readonly value: AdminModel[];
+  getJson(): Pick<AdminProperties, 'username'>[];
 }

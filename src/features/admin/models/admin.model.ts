@@ -5,6 +5,8 @@ export interface AdminModel extends EntityModel {
   readonly username: string;
   readonly password: string;
   readonly refreshToken?: string;
+
+  getJson(): Pick<AdminProperties, 'username'>;
 }
 
 export type AdminProperties = NonFunctionProperties<AdminModel>;

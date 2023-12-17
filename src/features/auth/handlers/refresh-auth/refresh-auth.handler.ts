@@ -5,7 +5,7 @@ import { RefreshAuthResponseDto } from '../../dto/refresh-auth-response.dto';
 import { HttpException, Inject } from '@nestjs/common';
 import { Either } from '@src/common/lib/either.lib';
 import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-password-service.provider';
-import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper.service';
+import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper-service.model';
 import { AUTH_UTILS_SERVICE_MODEL } from '../../providers/auth-util-service.provider';
 import { AuthUtilServiceModel } from '../../models/auth-util-service.model';
 import { AuthForbiddenException } from '../../exceptions/auth-forbidden.exception';
@@ -33,8 +33,8 @@ export class RefreshAuthHandler
     const { admin, refreshToken } = refreshAuthDto;
     if (!admin.refreshToken) return Either.left(new AuthForbiddenException());
     const isValid = await this.hashPasswordService.verify(
-      admin.refreshToken,
       refreshToken,
+      admin.refreshToken,
     );
     if (!isValid) return Either.left(new AuthForbiddenException());
     const tokens = this.authUtilsService.getTokens(admin.username);

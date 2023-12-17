@@ -35,14 +35,14 @@ export class AdminController {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: admins,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<AdminsModel> = await this.queryBus.execute(
       new FindAllAdminQuery({}, findAllDto),
     );
     return new SerializerResponse('admins was founded', {
-      admins,
+      admins: entities.getJson(),
       totalElement,
       totalPage,
     });
@@ -59,7 +59,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was founded', {
-      admin,
+      admin: admin.getJson(),
     });
   }
 
@@ -75,7 +75,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was created', {
-      admin,
+      admin: admin.getJson(),
     });
   }
 
@@ -96,7 +96,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was updated', {
-      admin,
+      admin: admin.getJson(),
     });
   }
 
@@ -112,7 +112,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was removed', {
-      admin,
+      admin: admin.getJson(),
     });
   }
 }
