@@ -1,4 +1,4 @@
-import { AboutUssModel } from './about-uss.model';
+import { AllAboutUsModel } from './all-about-us.model';
 import { AboutUsModel, AboutUsProperties } from './about-us.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAboutUsDto } from '../dto/create-about-us.dto';
@@ -11,7 +11,7 @@ export interface AboutUsRepositoryModel {
   findAll(
     filter: DeepPartial<AboutUsProperties>,
     options: FindAllDto,
-  ): Promise<ResponseWithPaginate<AboutUssModel>>;
+  ): Promise<ResponseWithPaginate<AllAboutUsModel>>;
   create(options: CreateAboutUsDto): Promise<AboutUsModel>;
   updateOne(
     filter: DeepPartial<AboutUsProperties>,

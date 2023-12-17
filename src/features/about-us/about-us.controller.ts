@@ -16,7 +16,7 @@ import { SerializerResponse } from '@src/common/lib/response.lib';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Either } from '@src/common/lib/either.lib';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
-import { AboutUssModel } from './models/about-uss.model';
+import { AllAboutUsModel } from './models/all-about-us.model';
 import { AboutUsModel } from './models/about-us.model';
 import { FindAllAboutUsQuery } from './handlers/find-all/find-all-about-us.query';
 import { FindOneAboutUsQuery } from './handlers/find-one/find-one-about-us.query';
@@ -38,7 +38,7 @@ export class AboutUsController {
       entities: aboutUss,
       totalElement,
       totalPage,
-    }: ResponseWithPaginate<AboutUssModel> = await this.queryBus.execute(
+    }: ResponseWithPaginate<AllAboutUsModel> = await this.queryBus.execute(
       new FindAllAboutUsQuery({}, findAllDto),
     );
     return new SerializerResponse('aboutUss was founded', {

@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { AboutUsRepositoryModel } from '../models/about-us-repository.model';
-import { AboutUssModel } from '../models/about-uss.model';
+import { AllAboutUsModel } from '../models/all-about-us.model';
 import { AboutUsModel, AboutUsProperties } from '../models/about-us.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAboutUsDto } from '../dto/create-about-us.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
-import { AboutUss } from '../entities/about-uss';
+import { AllAboutUs } from '../entities/all-about-us';
 import { UpdateAboutUsDto } from '../dto/update-about-us.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
@@ -52,13 +52,13 @@ export class AboutUsLocalRepository
   async findAll(
     filter: DeepPartial<AboutUsProperties>,
     options: FindAllDto,
-  ): Promise<ResponseWithPaginate<AboutUssModel>> {
+  ): Promise<ResponseWithPaginate<AllAboutUsModel>> {
     //using options
     options;
     //code
     const aboutUss = this.aboutUsCrud.findAll(filter);
     return Promise.resolve({
-      entities: new AboutUss(aboutUss),
+      entities: new AllAboutUs(aboutUss),
       totalElement: 1,
       totalPage: 1,
     });

@@ -5,7 +5,7 @@ import { FindAllAboutUsHandlerModel } from './find-all-about-us-handler.model';
 import { Inject } from '@nestjs/common';
 import { ABOUT_US_REPOSITORY_TOKEN } from '../../providers/about-us-repository.provider';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
-import { AboutUssModel } from '../../models/about-uss.model';
+import { AllAboutUsModel } from '../../models/all-about-us.model';
 
 @QueryHandler(FindAllAboutUsQuery)
 export class FindAllAboutUsHandler implements FindAllAboutUsHandlerModel {
@@ -17,7 +17,7 @@ export class FindAllAboutUsHandler implements FindAllAboutUsHandlerModel {
   async execute({
     filter,
     options,
-  }: FindAllAboutUsQuery): Promise<ResponseWithPaginate<AboutUssModel>> {
+  }: FindAllAboutUsQuery): Promise<ResponseWithPaginate<AllAboutUsModel>> {
     return await this.aboutUsRepository.findAll(filter, options);
   }
 }
