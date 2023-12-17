@@ -3,10 +3,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Request } from 'express';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AuthUtilServiceModel } from '../models/auth-util-service.model';
-import { AUTH_UTILS_SERVICE_MODEL } from '../providers/auth-util-service.provider';
 import { AuthForbiddenException } from '../exceptions/auth-forbidden.exception';
 import { AdminNotFoundException } from '@src/features/admin/exceptions/admin-not-found.exception';
+import { ADMIN_SERVICE_TOKEN } from '../providers/admin-service.provider';
+import { AdminServiceModel } from '../models/admin-service.model';
 
 type RefreshPayload = {
   username: string;
@@ -19,8 +19,8 @@ export class RefreshTokenStrategy extends PassportStrategy(
 ) {
   constructor(
     configService: ConfigService,
-    @Inject(AUTH_UTILS_SERVICE_MODEL)
-    private readonly authUtilsService: AuthUtilServiceModel,
+    @Inject(ADMIN_SERVICE_TOKEN)
+    private readonly adminService: AdminServiceModel,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -31,7 +31,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
 
   async validate(req: Request, payload: RefreshPayload) {
     const refreshToken = req.get('Authorization').replace('Bearer', '').trim();
-    const adminEther = await this.authUtilsService.validateAdmin(payload);
+    const adminEther = await this.adminService.validateAdmin(payload);
     const admin = adminEther.fold(
       (error) => {
         if (error instanceof AdminNotFoundException)

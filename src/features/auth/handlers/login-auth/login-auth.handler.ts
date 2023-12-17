@@ -10,6 +10,8 @@ import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-pass
 import { AdminUnauthorizedException } from '@src/features/admin/exceptions/admin-unauthorized.exception';
 import { AUTH_UTILS_SERVICE_MODEL } from '../../providers/auth-util-service.provider';
 import { AuthUtilServiceModel } from '../../models/auth-util-service.model';
+import { ADMIN_SERVICE_TOKEN } from '../../providers/admin-service.provider';
+import { AdminServiceModel } from '../../models/admin-service.model';
 
 @CommandHandler(LoginAuthCommand)
 export class LoginAuthHandler
@@ -18,6 +20,8 @@ export class LoginAuthHandler
   constructor(
     @Inject(AUTH_UTILS_SERVICE_MODEL)
     private readonly authUtilsService: AuthUtilServiceModel,
+    @Inject(ADMIN_SERVICE_TOKEN)
+    private readonly adminService: AdminServiceModel,
     @Inject(HASH_PASSWORD_SERVICE_TOKEN)
     private readonly hashPasswordService: HashPasswordServiceModel,
   ) {}
@@ -26,7 +30,7 @@ export class LoginAuthHandler
     loginAuthDto,
   }: LoginAuthCommand): Promise<Either<HttpException, LoginAuthResponseDto>> {
     const { password, username } = loginAuthDto;
-    const validatedAdmin = await this.authUtilsService.validateAdmin({
+    const validatedAdmin = await this.adminService.validateAdmin({
       username,
     });
     const verifiedAdmin = await validatedAdmin.flatMapAsync<AdminModel>(
@@ -45,7 +49,7 @@ export class LoginAuthHandler
     const refreshTokenHashed = await this.hashPasswordService.hash(
       tokens.refreshToken,
     );
-    const updatedAdmin = await this.authUtilsService.updateRefreshToken(
+    const updatedAdmin = await this.adminService.updateRefreshToken(
       { username },
       refreshTokenHashed,
     );

@@ -9,6 +9,8 @@ import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-passwor
 import { AUTH_UTILS_SERVICE_MODEL } from '../../providers/auth-util-service.provider';
 import { AuthUtilServiceModel } from '../../models/auth-util-service.model';
 import { AuthForbiddenException } from '../../exceptions/auth-forbidden.exception';
+import { ADMIN_SERVICE_TOKEN } from '../../providers/admin-service.provider';
+import { AdminServiceModel } from '../../models/admin-service.model';
 
 @CommandHandler(RefreshAuthCommand)
 export class RefreshAuthHandler
@@ -19,6 +21,8 @@ export class RefreshAuthHandler
     private readonly hashPasswordService: HashPasswordServiceModel,
     @Inject(AUTH_UTILS_SERVICE_MODEL)
     private readonly authUtilsService: AuthUtilServiceModel,
+    @Inject(ADMIN_SERVICE_TOKEN)
+    private readonly adminService: AdminServiceModel,
   ) {}
 
   async execute({
@@ -37,7 +41,7 @@ export class RefreshAuthHandler
     const refreshTokenHashed = await this.hashPasswordService.hash(
       tokens.refreshToken,
     );
-    const updatedAdmin = await this.authUtilsService.updateRefreshToken(
+    const updatedAdmin = await this.adminService.updateRefreshToken(
       { username: admin.username },
       refreshTokenHashed,
     );

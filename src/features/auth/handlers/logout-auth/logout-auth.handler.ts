@@ -3,16 +3,16 @@ import { LogoutAuthCommand } from './logout-auth.command';
 import { LogoutAuthHandlerModel } from './logout-auth-handler.model';
 import { HttpException, Inject } from '@nestjs/common';
 import { Either } from '@src/common/lib/either.lib';
-import { AUTH_UTILS_SERVICE_MODEL } from '../../providers/auth-util-service.provider';
-import { AuthUtilServiceModel } from '../../models/auth-util-service.model';
+import { ADMIN_SERVICE_TOKEN } from '../../providers/admin-service.provider';
+import { AdminServiceModel } from '../../models/admin-service.model';
 
 @CommandHandler(LogoutAuthCommand)
 export class LogoutAuthHandler
   implements LogoutAuthHandlerModel, ICommandHandler<LogoutAuthCommand>
 {
   constructor(
-    @Inject(AUTH_UTILS_SERVICE_MODEL)
-    private readonly authUtilsService: AuthUtilServiceModel,
+    @Inject(ADMIN_SERVICE_TOKEN)
+    private readonly adminService: AdminServiceModel,
   ) {}
 
   async execute(
@@ -20,7 +20,7 @@ export class LogoutAuthHandler
   ): Promise<Either<HttpException, void>> {
     const { logoutAuthDto } = logoutAuthCommand;
     const { admin } = logoutAuthDto;
-    const updatedAdmin = await this.authUtilsService.updateRefreshToken(
+    const updatedAdmin = await this.adminService.updateRefreshToken(
       { username: admin.username },
       null,
     );

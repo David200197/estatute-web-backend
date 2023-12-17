@@ -12,6 +12,7 @@ import { HashPasswordModule } from '@src/shared/hash-password/hash-password.modu
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
 import { LogoutAuthHandler } from './handlers/logout-auth/logout-auth.handler';
 import { AuthUtilsServiceProvider } from './providers/auth-util-service.provider';
+import { AdminServiceProvider } from './providers/admin-service.provider';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthUtilsServiceProvider } from './providers/auth-util-service.provider
     AccessTokenStrategy,
     RefreshTokenStrategy,
     AuthUtilsServiceProvider,
+    AdminServiceProvider,
   ],
 })
 export class AuthModule {}
