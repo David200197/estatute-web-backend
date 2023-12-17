@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PhotoListener } from '../photo.listener';
 import { CqrsModule } from '@nestjs/cqrs';
 import { StorePhotoHandlerProvider } from '../handlers/store-photo/create-photo-handler.provider';
-import { PhotoFileManager } from '../file-manager/photo.file-manager';
-import { PHOTO_FILE_MANAGER_TOKEN } from '../providers/photo-file-manager.provider';
+import { PhotoFileManagerService } from '../services/photo-file-manager.service';
+import { PHOTO_FILE_MANAGER_SERVICE_TOKEN } from '../providers/photo-file-manager-service.provider';
 import { ListenerKey } from '@src/common/constants/emitters';
 import { PhotoMotherObject } from './photo.mother-object';
 import { DeletePhotoHandlerProvider } from '../handlers/delete-photo/delete-photo-handler.provider';
@@ -19,7 +19,10 @@ describe('StorePhoto - PhotoListener', () => {
         PhotoListener,
         StorePhotoHandlerProvider,
         DeletePhotoHandlerProvider,
-        { provide: PHOTO_FILE_MANAGER_TOKEN, useClass: PhotoFileManager },
+        {
+          provide: PHOTO_FILE_MANAGER_SERVICE_TOKEN,
+          useClass: PhotoFileManagerService,
+        },
       ],
     }).compile();
     await module.init();

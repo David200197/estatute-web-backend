@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { PhotoCron } from './photo.cron';
 import { PhotoListener } from './photo.listener';
 import { StorePhotoHandlerProvider } from './handlers/store-photo/create-photo-handler.provider';
-import { PhotoFileManagerProvider } from './providers/photo-file-manager.provider';
+import { PhotoFileManagerServiceProvider } from './providers/photo-file-manager-service.provider';
 import { UpdatePhotoHandlerProvider } from './handlers/update-photo/update-photo-handler.provider';
 import { DeletePhotoHandlerProvider } from './handlers/delete-photo/delete-photo-handler.provider';
 
@@ -16,7 +16,7 @@ import { DeletePhotoHandlerProvider } from './handlers/delete-photo/delete-photo
     DeletePhotoHandlerProvider,
     PhotoListener,
     PhotoCron,
-    PhotoFileManagerProvider,
+    PhotoFileManagerServiceProvider,
   ],
 })
 export class PhotoModule {}

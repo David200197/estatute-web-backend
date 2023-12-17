@@ -4,7 +4,7 @@ import { Either } from '@src/common/lib/either.lib';
 import { UpdatePhotoDto } from '../dto/update-photo.dto';
 import { DeletePhotoDto } from '../dto/delete-photo.dto';
 
-export interface PhotoFileManagerModel {
+export interface PhotoFileManagerServiceModel {
   store(storePhotoDto: StorePhotoDto): Promise<string[]>;
   update(
     updatePhotoDto: UpdatePhotoDto,

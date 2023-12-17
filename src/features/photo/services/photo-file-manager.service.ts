@@ -3,12 +3,12 @@ import { Either } from '@src/common/lib/either.lib';
 import { DeletePhotoDto } from '../dto/delete-photo.dto';
 import { StorePhotoDto } from '../dto/store-photo.dto';
 import { UpdatePhotoDto } from '../dto/update-photo.dto';
-import { PhotoFileManagerModel } from '../models/photo-file-manager.model';
+import { PhotoFileManagerServiceModel } from '../models/photo-file-manager-service.model';
 import { FileControl } from '@src/common/lib/file-control.lib';
 import { writeFile, unlink } from 'fs/promises';
 import path from 'path';
 
-export class PhotoFileManager implements PhotoFileManagerModel {
+export class PhotoFileManagerService implements PhotoFileManagerServiceModel {
   private async saveFile(photo: FileControl) {
     const eventFolder = path.join(process.cwd(), 'public', 'events');
     writeFile(path.join(eventFolder, photo.nameGenerated), photo.value.buffer);

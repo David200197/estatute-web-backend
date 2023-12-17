@@ -3,16 +3,16 @@ import { DeletePhotoCommand } from './delete-photo.command';
 import { DeletePhotoHandlerModel } from './delete-photo-handler.model';
 import { Either } from '@src/common/lib/either.lib';
 import { HttpException, Inject } from '@nestjs/common';
-import { PHOTO_FILE_MANAGER_TOKEN } from '../../providers/photo-file-manager.provider';
-import { PhotoFileManagerModel } from '../../models/photo-file-manager.model';
+import { PHOTO_FILE_MANAGER_SERVICE_TOKEN } from '../../providers/photo-file-manager-service.provider';
+import { PhotoFileManagerServiceModel } from '../../models/photo-file-manager-service.model';
 
 @CommandHandler(DeletePhotoCommand)
 export class DeletePhotoHandler
   implements DeletePhotoHandlerModel, ICommandHandler<DeletePhotoCommand>
 {
   constructor(
-    @Inject(PHOTO_FILE_MANAGER_TOKEN)
-    private readonly photoFileManager: PhotoFileManagerModel,
+    @Inject(PHOTO_FILE_MANAGER_SERVICE_TOKEN)
+    private readonly photoFileManager: PhotoFileManagerServiceModel,
   ) {}
 
   execute({
