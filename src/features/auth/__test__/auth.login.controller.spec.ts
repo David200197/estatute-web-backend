@@ -10,13 +10,14 @@ import { AdminServiceProvider } from '../providers/admin-service.provider';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
-import { HashPasswordModule } from '@src/shared/hash-password/hash-password.module';
 import { FindOneAdminHandlerProvider } from '@src/features/admin/handlers/find-one/find-one-admin-handler.provider';
 import { CreateAdminHandlerProvider } from '@src/features/admin/handlers/create/create-admin-handler.provider';
 import { AdminListener } from '@src/features/admin/admin.listener';
 import { ConfigModule } from '@src/config/config.module';
 import { UpdateAdminHandlerProvider } from '@src/features/admin/handlers/update/update-admin-handler.provider';
 import { AdminUnauthorizedException } from '@src/features/admin/exceptions/admin-unauthorized.exception';
+import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-password-service.provider';
+import { HashPasswordLocalService } from '@src/shared/hash-password/hash-password-local.service';
 
 describe('Login - AuthController', () => {
   let authController: AuthController;
@@ -26,12 +27,7 @@ describe('Login - AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController, AdminController],
-      imports: [
-        CqrsModule,
-        EventEmitterModule,
-        HashPasswordModule,
-        ConfigModule,
-      ],
+      imports: [CqrsModule, EventEmitterModule, ConfigModule],
       providers: [
         AuthController,
         LoginAuthHandlerProvider,
@@ -47,6 +43,10 @@ describe('Login - AuthController', () => {
         {
           provide: ADMIN_REPOSITORY_TOKEN,
           useClass: AdminLocalRepository,
+        },
+        {
+          provide: HASH_PASSWORD_SERVICE_TOKEN,
+          useClass: HashPasswordLocalService,
         },
       ],
     }).compile();
@@ -76,6 +76,10 @@ describe('Login - AuthController', () => {
     expect(response).toEqual('login user success');
     expect(data.accessToken).toEqual(expect.any(String));
     expect(data.refreshToken).toEqual(expect.any(String));
+    const [admin] = adminRepository.__getStore();
+    expect(admin.refreshToken).toEqual(expect.any(String));
+    expect(admin.username).toEqual(expect.any(String));
+    expect(admin.password).toEqual(expect.any(String));
   });
 
   it('should be not login if user not exist', async () => {
@@ -105,11 +109,11 @@ describe('Login - AuthController', () => {
   });
 
   it('should be not login if user cannot be updated', async () => {
-    adminRepository.__setUpdateRes(null);
     const username = 'David200197';
     const password = '12345';
+    adminRepository.__setUpdateRes(null);
     await adminController.create({ username, password });
-    authController
+    await authController
       .login({
         username,
         password,

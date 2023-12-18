@@ -24,7 +24,7 @@ export class LogoutAuthHandler
       { username: admin.username },
       null,
     );
-    if (updatedAdmin.isRight()) return;
+    if (updatedAdmin.isRight()) return Either.right(null);
     return Either.left(updatedAdmin.getLeftOrElse(null));
   }
 }

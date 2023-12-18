@@ -5,7 +5,7 @@ import { LoginAuthResponseDto } from '../../dto/login-auth-response.dto';
 import { AdminModel } from '@src/features/admin/models/admin.model';
 import { HttpException, Inject } from '@nestjs/common';
 import { Either } from '@src/common/lib/either.lib';
-import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-helper-service.model';
+import { HashPasswordServiceModel } from '@src/shared/hash-password/hash-password-service.model';
 import { HASH_PASSWORD_SERVICE_TOKEN } from '@src/shared/hash-password/hash-password-service.provider';
 import { AdminUnauthorizedException } from '@src/features/admin/exceptions/admin-unauthorized.exception';
 import { AUTH_UTILS_SERVICE_MODEL } from '../../providers/auth-util-service.provider';
@@ -54,7 +54,7 @@ export class LoginAuthHandler
       refreshTokenHashed,
     );
     if (updatedAdmin.isLeft())
-      return Either.left(validatedAdmin.getLeftOrElse(null));
+      return Either.left(updatedAdmin.getLeftOrElse(null));
     return Either.right(tokens);
   }
 }

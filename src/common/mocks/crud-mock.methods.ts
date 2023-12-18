@@ -1,17 +1,29 @@
 import { HelperMockMethods } from '../interfaces/helper-mock.methods';
 import { SetOperation } from '../lib/set-operation.lib';
 
-const NORMAL_RETURN = '__NORMAL_RETURN__';
 export class CrudMockMethods<T> implements HelperMockMethods<T> {
-  private store: T[] = [];
-  private isError = false;
-  private findAllRes: any = NORMAL_RETURN;
-  private findOneRes: any = NORMAL_RETURN;
-  private createRes: any = NORMAL_RETURN;
-  private updateRes: any = NORMAL_RETURN;
-  private updateManyRes: any = NORMAL_RETURN;
-  private deleteManyRes: any = NORMAL_RETURN;
-  private deleteRes: any = NORMAL_RETURN;
+  private NORMAL_RESPONSE = '__NORMAL_RESPONSE__';
+  private store: T[];
+  private isError: any;
+  private findAllRes: any;
+  private findOneRes: any;
+  private createRes: any;
+  private updateRes: any;
+  private updateManyRes: any;
+  private deleteManyRes: any;
+  private deleteRes: any;
+
+  constructor() {
+    this.store = [];
+    this.isError = false;
+    this.findAllRes = this.NORMAL_RESPONSE;
+    this.findOneRes = this.NORMAL_RESPONSE;
+    this.createRes = this.NORMAL_RESPONSE;
+    this.updateRes = this.NORMAL_RESPONSE;
+    this.updateManyRes = this.NORMAL_RESPONSE;
+    this.deleteManyRes = this.NORMAL_RESPONSE;
+    this.deleteRes = this.NORMAL_RESPONSE;
+  }
 
   __getStore(): T[] {
     return this.store;
@@ -27,13 +39,13 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
   __reset(): void {
     this.store = [];
     this.isError = false;
-    this.findAllRes = NORMAL_RETURN;
-    this.findOneRes = NORMAL_RETURN;
-    this.createRes = NORMAL_RETURN;
-    this.updateRes = NORMAL_RETURN;
-    this.updateManyRes = NORMAL_RETURN;
-    this.deleteManyRes = NORMAL_RETURN;
-    this.deleteRes = NORMAL_RETURN;
+    this.findAllRes = this.NORMAL_RESPONSE;
+    this.findOneRes = this.NORMAL_RESPONSE;
+    this.createRes = this.NORMAL_RESPONSE;
+    this.updateRes = this.NORMAL_RESPONSE;
+    this.updateManyRes = this.NORMAL_RESPONSE;
+    this.deleteManyRes = this.NORMAL_RESPONSE;
+    this.deleteRes = this.NORMAL_RESPONSE;
   }
 
   __setIsError(value: boolean): void {
@@ -70,42 +82,48 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   findAll(find?: Partial<T>) {
     if (this.isError) throw new Error('Base Error');
-    if (this.findAllRes !== NORMAL_RETURN) return this.findAllRes;
+    if (this.findAllRes !== this.NORMAL_RESPONSE) return this.findAllRes;
     if (!find) return this.store;
     const keys = Object.keys(find);
     if (!keys) return this.store;
     return this.store.filter((data) => {
-      return keys.every((key) => find[key] === data[key]);
+      return keys.every((key) => {
+        if (find[key] === undefined || data[key] === undefined) return false;
+        find[key] === data[key];
+      });
     });
   }
 
   findOne(find: Partial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
-    if (this.findOneRes !== NORMAL_RETURN) return this.findOneRes;
+    if (this.findOneRes !== this.NORMAL_RESPONSE) return this.findOneRes;
     const index = this.findOneIndex(find);
     return this.store[index];
   }
 
   create(dto: T): T {
     if (this.isError) throw new Error('Base Error');
-    if (this.createRes !== NORMAL_RETURN) return this.createRes;
+    if (this.createRes !== this.NORMAL_RESPONSE) return this.createRes;
     this.store.push(dto);
     return dto;
   }
 
   update(find: Partial<T>, dto: Partial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
-    if (this.updateRes !== NORMAL_RETURN) return this.updateRes;
+    if (this.updateRes !== this.NORMAL_RESPONSE) return this.updateRes;
     const index = this.findOneIndex(find);
     if (index === -1) return null;
     const keysDto = Object.keys(dto);
-    for (const key of keysDto) this.store[index][key] = dto[key];
+    for (const key of keysDto) {
+      if (dto[key] === undefined) continue;
+      this.store[index][key] = dto[key];
+    }
     return this.store[index];
   }
 
   updateMany(find: Partial<T>, dto: Partial<T>): boolean {
     if (this.isError) throw new Error('Base Error');
-    if (this.updateManyRes !== NORMAL_RETURN) return this.updateManyRes;
+    if (this.updateManyRes !== this.NORMAL_RESPONSE) return this.updateManyRes;
     this.store = this.store.map(({ ...data }) => {
       const findKeys = Object.keys(find);
       const dataKeys = Object.keys(data);
@@ -122,7 +140,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   deleteMany(find: Partial<T>): boolean {
     if (this.isError) throw new Error('Base Error');
-    if (this.deleteManyRes !== NORMAL_RETURN) return this.deleteManyRes;
+    if (this.deleteManyRes !== this.NORMAL_RESPONSE) return this.deleteManyRes;
     this.store = this.store.filter(({ ...data }) => {
       const findKeys = Object.keys(find);
       const dataKeys = Object.keys(data);
@@ -137,7 +155,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   delete(find: Partial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
-    if (this.deleteRes !== NORMAL_RETURN) return this.deleteRes;
+    if (this.deleteRes !== this.NORMAL_RESPONSE) return this.deleteRes;
     const index = this.findOneIndex(find);
     if (index === -1) return null;
     const data = { ...this.store[index] };
@@ -148,7 +166,10 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
   private findOneIndex(find: Partial<T>): number {
     const keys = Object.keys(find);
     return this.store.findIndex((data) => {
-      return keys.every((key) => find[key] === data[key]);
+      return keys.every((key) => {
+        if (find[key] === undefined || !data[key] === undefined) return false;
+        return find[key] === data[key];
+      });
     });
   }
 }

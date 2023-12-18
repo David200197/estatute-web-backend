@@ -57,7 +57,7 @@ export class AuthController {
 
   @AccessTokenAuth()
   @Get('logout')
-  async profile(@GetAdmin() admin: AdminModel) {
+  async logout(@GetAdmin() admin: AdminModel) {
     const either: Either<HttpException, void> = await this.commandBus.execute(
       new LogoutAuthCommand({ admin }),
     );
@@ -67,6 +67,6 @@ export class AuthController {
       },
       () => null,
     );
-    return new SerializerResponse('profile success');
+    return new SerializerResponse('logout user success');
   }
 }
