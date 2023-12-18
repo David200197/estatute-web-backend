@@ -11,9 +11,12 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
 import { HashPasswordModule } from '@src/shared/hash-password/hash-password.module';
-import { EventEmitterModule as EventEmitterModuleNest } from '@nestjs/event-emitter';
 import { FindOneAdminHandlerProvider } from '@src/features/admin/handlers/find-one/find-one-admin-handler.provider';
 import { CreateAdminHandlerProvider } from '@src/features/admin/handlers/create/create-admin-handler.provider';
+import { AdminListener } from '@src/features/admin/admin.listener';
+import { ConfigModule } from '@src/config/config.module';
+import { UpdateAdminHandlerProvider } from '@src/features/admin/handlers/update/update-admin-handler.provider';
+import { AdminUnauthorizedException } from '@src/features/admin/exceptions/admin-unauthorized.exception';
 
 describe('Login - AuthController', () => {
   let authController: AuthController;
@@ -27,7 +30,7 @@ describe('Login - AuthController', () => {
         CqrsModule,
         EventEmitterModule,
         HashPasswordModule,
-        EventEmitterModuleNest.forRoot({ verboseMemoryLeak: true }),
+        ConfigModule,
       ],
       providers: [
         AuthController,
@@ -39,6 +42,8 @@ describe('Login - AuthController', () => {
         AdminServiceProvider,
         FindOneAdminHandlerProvider,
         CreateAdminHandlerProvider,
+        UpdateAdminHandlerProvider,
+        AdminListener,
         {
           provide: ADMIN_REPOSITORY_TOKEN,
           useClass: AdminLocalRepository,
@@ -59,7 +64,7 @@ describe('Login - AuthController', () => {
     expect(authController).toBeDefined();
   });
 
-  it('should be login auth', async () => {
+  it('should be login', async () => {
     const password = '12345';
     const username = 'David200197';
     await adminController.create({ username, password });
@@ -68,8 +73,34 @@ describe('Login - AuthController', () => {
       password,
     });
     expect(ok).toEqual(true);
-    expect(response).toEqual('');
+    expect(response).toEqual('login user success');
     expect(data.accessToken).toEqual(expect.any(String));
     expect(data.refreshToken).toEqual(expect.any(String));
+  });
+
+  it('should be not login if user not exist', async () => {
+    const password = '12345';
+    const username = 'David200197';
+    authController
+      .login({
+        username,
+        password,
+      })
+      .catch((error) => {
+        expect(error).toEqual(new AdminUnauthorizedException());
+      });
+  });
+
+  it('should be not login if user exist but different password', async () => {
+    const username = 'David200197';
+    await adminController.create({ username, password: '1234' });
+    authController
+      .login({
+        username,
+        password: '123',
+      })
+      .catch((error) => {
+        expect(error).toEqual(new AdminUnauthorizedException());
+      });
   });
 });

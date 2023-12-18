@@ -13,6 +13,8 @@ import { RefreshTokenAuth } from '@src/common/decorator/refresh-token-auth.decor
 import { GetRefreshToken } from '@src/common/decorator/get-refresh-token';
 import { AdminModel } from '../admin/models/admin.model';
 import { GetAdmin } from '@src/common/decorator/get-admin';
+import { AdminNotFoundException } from '../admin/exceptions/admin-not-found.exception';
+import { AdminUnauthorizedException } from '../admin/exceptions/admin-unauthorized.exception';
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +26,8 @@ export class AuthController {
       await this.commandBus.execute(new LoginAuthCommand(loginAuthDto));
     const response = either.fold(
       (error) => {
+        if (error instanceof AdminNotFoundException)
+          throw new AdminUnauthorizedException();
         throw error;
       },
       (value) => value,

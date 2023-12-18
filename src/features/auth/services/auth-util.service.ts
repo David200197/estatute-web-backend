@@ -12,19 +12,23 @@ export class AuthUtilService implements AuthUtilServiceModel {
   ) {}
 
   getTokens(username: string): LoginAuthResponseDto {
+    const jwtSecret = this.configService.get('jwt.secret');
+    const jwtTime = this.configService.get('jwt.time');
+    const jwtRefreshSecret = this.configService.get('jwt.refresh_secret');
+    const jwtRefreshTime = this.configService.get('jwt.refresh_time');
     return {
       accessToken: this.jwtService.sign(
         { username },
         {
-          privateKey: this.configService.get('jwt.secret'),
-          expiresIn: this.configService.get('jwt.time'),
+          privateKey: jwtSecret,
+          expiresIn: jwtTime,
         },
       ),
       refreshToken: this.jwtService.sign(
         { username },
         {
-          privateKey: this.configService.get('jwt.refresh_secret'),
-          expiresIn: this.configService.get('jwt.refresh_time'),
+          privateKey: jwtRefreshSecret,
+          expiresIn: jwtRefreshTime,
         },
       ),
     };
