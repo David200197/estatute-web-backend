@@ -9,6 +9,7 @@ import { Create<%= name.pascalCase %>HandlerProvider } from './handlers/create/c
 import { FindOne<%= name.pascalCase %>HandlerProvider } from './handlers/find-one/find-one-<%= name.kebabCase %>-handler.provider';
 import { Update<%= name.pascalCase %>HandlerProvider } from './handlers/update/update-<%= name.kebabCase %>-handler.provider';
 import { Remove<%= name.pascalCase %>HandlerProvider } from './handlers/remove/remove-<%= name.kebabCase %>-handler.provider';
+import { <%= name.pascalCase %>Cli } from './<%= name.kebabCase %>.cli';
 
 @Module({
   imports: [CqrsModule],
@@ -22,6 +23,7 @@ import { Remove<%= name.pascalCase %>HandlerProvider } from './handlers/remove/r
     Remove<%= name.pascalCase %>HandlerProvider,
     <%= name.pascalCase %>Listener,
     <%= name.pascalCase %>Cron,
+    <%= name.pascalCase %>Cli,
   ],
 })
 export class <%= name.pascalCase %>Module {}

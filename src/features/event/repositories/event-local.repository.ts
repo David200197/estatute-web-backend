@@ -3,10 +3,8 @@ import { EventRepositoryModel } from '../models/event-repository.model';
 import { EventsModel } from '../models/events.model';
 import { EventModel, EventProperties } from '../models/event.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
-import { CreateEventDto } from '../dto/create-event.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
 import { Events } from '../entities/events';
-import { UpdateEventDto } from '../dto/update-event.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
@@ -35,11 +33,39 @@ export class EventLocalRepository
   }
 
   __getStore(): EventModel[] {
-    return this.__getStore();
+    return this.eventCrud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.eventCrud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.eventCrud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.eventCrud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.eventCrud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.eventCrud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.eventCrud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.eventCrud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.eventCrud.__setDeleteRes(value);
   }
 
   async findOne(

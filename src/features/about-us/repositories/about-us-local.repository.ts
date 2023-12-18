@@ -35,11 +35,39 @@ export class AboutUsLocalRepository
   }
 
   __getStore(): AboutUsModel[] {
-    return this.__getStore();
+    return this.aboutUsCrud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.aboutUsCrud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.aboutUsCrud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.aboutUsCrud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.aboutUsCrud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.aboutUsCrud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.aboutUsCrud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.aboutUsCrud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.aboutUsCrud.__setDeleteRes(value);
   }
 
   async findOne(

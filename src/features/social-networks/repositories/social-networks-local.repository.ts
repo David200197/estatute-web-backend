@@ -40,11 +40,39 @@ export class SocialNetworksLocalRepository
   }
 
   __getStore(): SocialNetworksModel[] {
-    return this.__getStore();
+    return this.socialNetworksCrud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.socialNetworksCrud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.socialNetworksCrud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.socialNetworksCrud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.socialNetworksCrud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.socialNetworksCrud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.socialNetworksCrud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.socialNetworksCrud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.socialNetworksCrud.__setDeleteRes(value);
   }
 
   async findOne(

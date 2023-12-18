@@ -35,11 +35,39 @@ export class StatuteLocalRepository
   }
 
   __getStore(): StatuteModel[] {
-    return this.__getStore();
+    return this.statuteCrud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.statuteCrud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.statuteCrud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.statuteCrud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.statuteCrud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.statuteCrud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.statuteCrud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.statuteCrud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.statuteCrud.__setDeleteRes(value);
   }
 
   async findOne(

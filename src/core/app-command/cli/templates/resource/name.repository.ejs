@@ -33,11 +33,39 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
   }
 
   __getStore(): <%= name.pascalCase %>Model[] {
-    return this.__getStore();
+    return this.<%= name.camelCase %>Crud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.<%= name.camelCase %>Crud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.<%= name.camelCase %>Crud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.<%= name.camelCase %>Crud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.<%= name.camelCase %>Crud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.<%= name.camelCase %>Crud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.<%= name.camelCase %>Crud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.<%= name.camelCase %>Crud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.<%= name.camelCase %>Crud.__setDeleteRes(value);
   }
 
   async findOne(filter: DeepPartial<<%= name.pascalCase %>Properties>): Promise<<%= name.pascalCase %>Model | null> {

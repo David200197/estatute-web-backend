@@ -38,11 +38,39 @@ export class AnniversaryLocalRepository
   }
 
   __getStore(): AnniversaryModel[] {
-    return this.__getStore();
+    return this.anniversaryCrud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.anniversaryCrud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.anniversaryCrud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.anniversaryCrud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.anniversaryCrud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.anniversaryCrud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.anniversaryCrud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.anniversaryCrud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.anniversaryCrud.__setDeleteRes(value);
   }
 
   async findOne(

@@ -32,11 +32,39 @@ export class AdminLocalRepository implements AdminRepositoryModel {
   }
 
   __getStore(): AdminModel[] {
-    return this.__getStore();
+    return this.adminCrud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.adminCrud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.adminCrud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.adminCrud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.adminCrud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.adminCrud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.adminCrud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.adminCrud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.adminCrud.__setDeleteRes(value);
   }
 
   async findOne(

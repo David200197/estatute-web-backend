@@ -34,11 +34,39 @@ export class InvitationLocalRepository
   }
 
   __getStore(): InvitationModel[] {
-    return this.__getStore();
+    return this.invitationCrud.__getStore();
   }
 
   __isError(): boolean {
-    return this.__isError();
+    return this.invitationCrud.__isError();
+  }
+
+  __setFindAllRes(value: any) {
+    this.invitationCrud.__setFindAllRes(value);
+  }
+
+  __setFindOneRes(value: any) {
+    this.invitationCrud.__setFindOneRes(value);
+  }
+
+  __setCreateRes(value: any) {
+    this.invitationCrud.__setCreateRes(value);
+  }
+
+  __setUpdateRes(value: any) {
+    this.invitationCrud.__setUpdateRes(value);
+  }
+
+  __setUpdateManyRes(value: any) {
+    this.invitationCrud.__setUpdateManyRes(value);
+  }
+
+  __setDeleteManyRes(value: any) {
+    this.invitationCrud.__setDeleteManyRes(value);
+  }
+
+  __setDeleteRes(value: any) {
+    this.invitationCrud.__setDeleteRes(value);
   }
 
   async findOne(
