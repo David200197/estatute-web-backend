@@ -103,4 +103,19 @@ describe('Login - AuthController', () => {
         expect(error).toEqual(new AdminUnauthorizedException());
       });
   });
+
+  it('should be not login if user cannot be updated', async () => {
+    adminRepository.__setUpdateRes(null);
+    const username = 'David200197';
+    const password = '12345';
+    await adminController.create({ username, password });
+    authController
+      .login({
+        username,
+        password,
+      })
+      .catch((error) => {
+        expect(error).toEqual(new AdminUnauthorizedException());
+      });
+  });
 });

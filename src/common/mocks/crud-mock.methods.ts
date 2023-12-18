@@ -1,16 +1,17 @@
 import { HelperMockMethods } from '../interfaces/helper-mock.methods';
 import { SetOperation } from '../lib/set-operation.lib';
 
+const NORMAL_RETURN = '__NORMAL_RETURN__';
 export class CrudMockMethods<T> implements HelperMockMethods<T> {
   private store: T[] = [];
   private isError = false;
-  private findAllRes = null;
-  private findOneRes = null;
-  private createRes = null;
-  private updateRes = null;
-  private updateManyRes = null;
-  private deleteManyRes = null;
-  private deleteRes = null;
+  private findAllRes: any = NORMAL_RETURN;
+  private findOneRes: any = NORMAL_RETURN;
+  private createRes: any = NORMAL_RETURN;
+  private updateRes: any = NORMAL_RETURN;
+  private updateManyRes: any = NORMAL_RETURN;
+  private deleteManyRes: any = NORMAL_RETURN;
+  private deleteRes: any = NORMAL_RETURN;
 
   __getStore(): T[] {
     return this.store;
@@ -26,13 +27,13 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
   __reset(): void {
     this.store = [];
     this.isError = false;
-    this.findAllRes = null;
-    this.findOneRes = null;
-    this.createRes = null;
-    this.updateRes = null;
-    this.updateManyRes = null;
-    this.deleteManyRes = null;
-    this.deleteRes = null;
+    this.findAllRes = NORMAL_RETURN;
+    this.findOneRes = NORMAL_RETURN;
+    this.createRes = NORMAL_RETURN;
+    this.updateRes = NORMAL_RETURN;
+    this.updateManyRes = NORMAL_RETURN;
+    this.deleteManyRes = NORMAL_RETURN;
+    this.deleteRes = NORMAL_RETURN;
   }
 
   __setIsError(value: boolean): void {
@@ -69,7 +70,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   findAll(find?: Partial<T>) {
     if (this.isError) throw new Error('Base Error');
-    if (this.findAllRes) return this.findAllRes;
+    if (this.findAllRes !== NORMAL_RETURN) return this.findAllRes;
     if (!find) return this.store;
     const keys = Object.keys(find);
     if (!keys) return this.store;
@@ -80,21 +81,21 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   findOne(find: Partial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
-    if (this.findOneRes) return this.findOneRes;
+    if (this.findOneRes !== NORMAL_RETURN) return this.findOneRes;
     const index = this.findOneIndex(find);
     return this.store[index];
   }
 
   create(dto: T): T {
     if (this.isError) throw new Error('Base Error');
-    if (this.createRes) return this.createRes;
+    if (this.createRes !== NORMAL_RETURN) return this.createRes;
     this.store.push(dto);
     return dto;
   }
 
   update(find: Partial<T>, dto: Partial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
-    if (this.updateRes) return this.updateRes;
+    if (this.updateRes !== NORMAL_RETURN) return this.updateRes;
     const index = this.findOneIndex(find);
     if (index === -1) return null;
     const keysDto = Object.keys(dto);
@@ -104,7 +105,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   updateMany(find: Partial<T>, dto: Partial<T>): boolean {
     if (this.isError) throw new Error('Base Error');
-    if (this.updateManyRes) return this.updateManyRes;
+    if (this.updateManyRes !== NORMAL_RETURN) return this.updateManyRes;
     this.store = this.store.map(({ ...data }) => {
       const findKeys = Object.keys(find);
       const dataKeys = Object.keys(data);
@@ -121,7 +122,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   deleteMany(find: Partial<T>): boolean {
     if (this.isError) throw new Error('Base Error');
-    if (this.deleteManyRes) return this.deleteManyRes;
+    if (this.deleteManyRes !== NORMAL_RETURN) return this.deleteManyRes;
     this.store = this.store.filter(({ ...data }) => {
       const findKeys = Object.keys(find);
       const dataKeys = Object.keys(data);
@@ -136,7 +137,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
 
   delete(find: Partial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
-    if (this.deleteRes) return this.deleteRes;
+    if (this.deleteRes !== NORMAL_RETURN) return this.deleteRes;
     const index = this.findOneIndex(find);
     if (index === -1) return null;
     const data = { ...this.store[index] };
