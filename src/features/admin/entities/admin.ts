@@ -10,8 +10,4 @@ export class Admin extends Entity implements AdminModel {
     super();
     Object.assign(this, options);
   }
-
-  getJson(): Pick<AdminProperties, 'username'> {
-    return { username: this.username };
-  }
 }

@@ -42,7 +42,7 @@ export class AdminController {
       new FindAllAdminQuery({}, findAllDto),
     );
     return new SerializerResponse('admins was founded', {
-      admins: entities.getJson(),
+      admins: entities.select({ username: true }),
       totalElement,
       totalPage,
     });
@@ -59,12 +59,12 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was founded', {
-      admin: admin.getJson(),
+      admin: admin.select({ username: true }),
     });
   }
 
   @Post()
-  @AccessTokenAuth()
+  //@AccessTokenAuth()
   async create(@Body() createAdminDto: CreateAdminDto) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(new CreateAdminCommand(createAdminDto));
@@ -75,7 +75,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was created', {
-      admin: admin.getJson(),
+      admin: admin.select({ username: true }),
     });
   }
 
@@ -96,7 +96,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was updated', {
-      admin: admin.getJson(),
+      admin: admin.select({ username: true }),
     });
   }
 
@@ -112,7 +112,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was removed', {
-      admin: admin.getJson(),
+      admin: admin.select({ username: true }),
     });
   }
 }

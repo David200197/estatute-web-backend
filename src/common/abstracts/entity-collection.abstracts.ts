@@ -1,3 +1,5 @@
+import { NonFunctionProperties } from '../interfaces/manipulate-properties';
+import { OptionsFlags } from '../interfaces/options-flags';
 import { EntityModel } from './entity.abstract';
 
 export interface EntityCollectionModel<A extends EntityModel> {
@@ -19,6 +21,9 @@ export interface EntityCollectionModel<A extends EntityModel> {
     method: (value: A, index: number, array: A[]) => void,
   ): Promise<PromiseSettledResult<void>[]>;
   clone(): EntityCollectionModel<A>;
+  select(
+    options: Partial<OptionsFlags<NonFunctionProperties<A>>>,
+  ): Record<string, unknown>[];
 }
 
 export class EntityCollection<A extends EntityModel>
@@ -92,5 +97,11 @@ export class EntityCollection<A extends EntityModel>
 
   clone() {
     return new EntityCollection([...this.value.map((data) => data.clone())]);
+  }
+
+  select(
+    options: Partial<OptionsFlags<NonFunctionProperties<A>>>,
+  ): Record<string, unknown>[] {
+    return this.value.map((data) => data.select(options));
   }
 }

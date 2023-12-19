@@ -1,3 +1,5 @@
+import { NonFunctionProperties } from '../interfaces/manipulate-properties';
+import { OptionsFlags } from '../interfaces/options-flags';
 import { deepClone } from '../utils/deep-clone';
 
 export interface EntityModel {
@@ -7,6 +9,9 @@ export interface EntityModel {
   map<T>(mutate: (value: this) => T): T;
   clone(): this;
   forEachProperty(method: (key: unknown, value: string) => void): void;
+  select(
+    options: Partial<OptionsFlags<NonFunctionProperties<this>>>,
+  ): Record<string, unknown>;
 }
 
 export class Entity implements EntityModel {
@@ -37,5 +42,16 @@ export class Entity implements EntityModel {
   forEachProperty(method: (key: unknown, value: string) => void) {
     const entry = this.getEntries();
     for (const [key, value] of entry) method(key, value);
+  }
+
+  select(
+    options: Partial<OptionsFlags<NonFunctionProperties<this>>>,
+  ): Record<string, unknown> {
+    const res: Record<string, unknown> = {};
+    for (const key in options) {
+      if (!options[key]) continue;
+      res[key] = this[key];
+    }
+    return res;
   }
 }

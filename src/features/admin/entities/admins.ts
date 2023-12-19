@@ -1,5 +1,5 @@
 import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
-import { AdminModel, AdminProperties } from '../models/admin.model';
+import { AdminModel } from '../models/admin.model';
 import { AdminsModel } from '../models/admins.model';
 
 export class Admins
@@ -8,9 +8,5 @@ export class Admins
 {
   constructor(public readonly value: AdminModel[]) {
     super(value);
-  }
-
-  getJson(): Pick<AdminProperties, 'username'>[] {
-    return this.value.map((data) => data.getJson());
   }
 }

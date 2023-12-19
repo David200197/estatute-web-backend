@@ -22,5 +22,6 @@ export class FindAllDto {
   order?: Order;
 
   @IsString()
+  @IsOptional()
   orderBy?: string;
 }
