@@ -24,6 +24,7 @@ import { CreateInvitationCommand } from './handlers/create/create-invitation.com
 import { UpdateInvitationCommand } from './handlers/update/update-invitation.command';
 import { RemoveInvitationCommand } from './handlers/remove/remove-invitation.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('invitation')
 export class InvitationController {
@@ -64,6 +65,7 @@ export class InvitationController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async create(@Body() createInvitationDto: CreateInvitationDto) {
     const invitation: InvitationModel = await this.commandBus.execute(
@@ -75,6 +77,7 @@ export class InvitationController {
   }
 
   @Patch(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
@@ -96,6 +99,7 @@ export class InvitationController {
   }
 
   @Delete(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, InvitationModel> =

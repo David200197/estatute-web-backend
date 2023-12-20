@@ -24,6 +24,7 @@ import { CreateAboutUsCommand } from './handlers/create/create-about-us.command'
 import { UpdateAboutUsCommand } from './handlers/update/update-about-us.command';
 import { RemoveAboutUsCommand } from './handlers/remove/remove-about-us.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('about-us')
 export class AboutUsController {
@@ -64,6 +65,7 @@ export class AboutUsController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async create(@Body() createAboutUsDto: CreateAboutUsDto) {
     const aboutUs: AboutUsModel = await this.commandBus.execute(
@@ -75,6 +77,7 @@ export class AboutUsController {
   }
 
   @Patch(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
@@ -96,6 +99,7 @@ export class AboutUsController {
   }
 
   @Delete(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AboutUsModel> =

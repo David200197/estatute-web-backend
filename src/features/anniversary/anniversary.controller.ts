@@ -24,6 +24,7 @@ import { CreateAnniversaryCommand } from './handlers/create/create-anniversary.c
 import { UpdateAnniversaryCommand } from './handlers/update/update-anniversary.command';
 import { RemoveAnniversaryCommand } from './handlers/remove/remove-anniversary.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('anniversary')
 export class AnniversaryController {
@@ -64,6 +65,7 @@ export class AnniversaryController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async create(@Body() createAnniversaryDto: CreateAnniversaryDto) {
     const anniversary: AnniversaryModel = await this.commandBus.execute(
@@ -75,6 +77,7 @@ export class AnniversaryController {
   }
 
   @Patch(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
@@ -96,6 +99,7 @@ export class AnniversaryController {
   }
 
   @Delete(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, AnniversaryModel> =

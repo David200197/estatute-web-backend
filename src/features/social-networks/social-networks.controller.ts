@@ -24,6 +24,7 @@ import { CreateSocialNetworksCommand } from './handlers/create/create-social-net
 import { UpdateSocialNetworksCommand } from './handlers/update/update-social-networks.command';
 import { RemoveSocialNetworksCommand } from './handlers/remove/remove-social-networks.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('social-networks')
 export class SocialNetworksController {
@@ -64,6 +65,7 @@ export class SocialNetworksController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async create(@Body() createSocialNetworksDto: CreateSocialNetworksDto) {
     const socialNetworks: SocialNetworksModel = await this.commandBus.execute(
@@ -75,6 +77,7 @@ export class SocialNetworksController {
   }
 
   @Patch(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
@@ -96,6 +99,7 @@ export class SocialNetworksController {
   }
 
   @Delete(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, SocialNetworksModel> =

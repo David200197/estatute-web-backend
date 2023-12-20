@@ -15,6 +15,7 @@ import { AdminModel } from '../admin/models/admin.model';
 import { GetAdmin } from '@src/common/decorator/get-admin';
 import { AdminNotFoundException } from '../admin/exceptions/admin-not-found.exception';
 import { AdminUnauthorizedException } from '../admin/exceptions/admin-unauthorized.exception';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -55,6 +56,7 @@ export class AuthController {
     return new SerializerResponse('refresh token success', { ...response });
   }
 
+  @ApiBearerAuth()
   @AccessTokenAuth()
   @Get('logout')
   async logout(@GetAdmin() admin: AdminModel) {

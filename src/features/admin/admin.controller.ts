@@ -24,6 +24,7 @@ import { UpdateAdminCommand } from './handlers/update/update-admin.command';
 import { RemoveAdminCommand } from './handlers/remove/remove-admin.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 import { UpdateApiAdminDto } from './dto/update-crud-admin.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('admin')
 export class AdminController {
@@ -64,7 +65,8 @@ export class AdminController {
   }
 
   @Post()
-  //@AccessTokenAuth()
+  //@ApiBearerAuth()
+  @AccessTokenAuth()
   async create(@Body() createAdminDto: CreateAdminDto) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(new CreateAdminCommand(createAdminDto));
@@ -80,6 +82,7 @@ export class AdminController {
   }
 
   @Patch(':username')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async update(
     @Param('username') username: string,
@@ -101,6 +104,7 @@ export class AdminController {
   }
 
   @Delete(':username')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async remove(@Param('username') username: string) {
     const eitherResponse: Either<HttpException, AdminModel> =

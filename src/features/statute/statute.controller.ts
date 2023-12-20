@@ -24,6 +24,7 @@ import { CreateStatuteCommand } from './handlers/create/create-statute.command';
 import { UpdateStatuteCommand } from './handlers/update/update-statute.command';
 import { RemoveStatuteCommand } from './handlers/remove/remove-statute.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('statute')
 export class StatuteController {
@@ -64,6 +65,7 @@ export class StatuteController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async create(@Body() createStatuteDto: CreateStatuteDto) {
     const statute: StatuteModel = await this.commandBus.execute(
@@ -75,6 +77,7 @@ export class StatuteController {
   }
 
   @Patch(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
@@ -96,6 +99,7 @@ export class StatuteController {
   }
 
   @Delete(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, StatuteModel> =

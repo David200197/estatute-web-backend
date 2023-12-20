@@ -29,6 +29,7 @@ import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorat
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { StorePhotoPipe } from './pipes/store-photo/store-photo.pipe';
 import { UpdatePhotoPipe } from './pipes/update-photo/update-photo.pipe';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('event')
 export class EventController {
@@ -69,6 +70,7 @@ export class EventController {
   }
 
   @Post()
+  @ApiBearerAuth()
   @AccessTokenAuth()
   @UseInterceptors(FilesInterceptor('photos'))
   async create(
@@ -84,6 +86,7 @@ export class EventController {
   }
 
   @Patch(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async update(
     @Param('uuid') uuid: string,
@@ -106,6 +109,7 @@ export class EventController {
   }
 
   @Delete(':uuid')
+  @ApiBearerAuth()
   @AccessTokenAuth()
   async remove(@Param('uuid') uuid: string) {
     const eitherResponse: Either<HttpException, EventModel> =
