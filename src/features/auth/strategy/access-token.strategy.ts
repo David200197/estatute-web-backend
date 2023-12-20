@@ -21,11 +21,12 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: configService.get('jwt.secret'),
+      passReqToCallback: true,
     });
   }
 
-  async validate(payload: JwtPayload) {
-    const adminEther = await this.adminService.validateAdmin(payload);
+  async validate(req: Request, { username }: JwtPayload) {
+    const adminEther = await this.adminService.validateAdmin({ username });
     const admin = adminEther.fold(
       (error) => {
         if (error instanceof AdminNotFoundException)
@@ -34,6 +35,7 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
       },
       (value) => value,
     );
-    return { admin };
+    req['admin'] = admin;
+    return true;
   }
 }

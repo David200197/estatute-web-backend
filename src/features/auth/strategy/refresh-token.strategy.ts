@@ -40,6 +40,8 @@ export class RefreshTokenStrategy extends PassportStrategy(
       },
       (value) => value,
     );
-    return { admin, refreshToken };
+    req['admin'] = admin;
+    req['refreshToken'] = refreshToken;
+    return true;
   }
 }
