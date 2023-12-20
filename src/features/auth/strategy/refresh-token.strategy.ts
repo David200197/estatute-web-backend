@@ -29,9 +29,9 @@ export class RefreshTokenStrategy extends PassportStrategy(
     });
   }
 
-  async validate(req: Request, payload: RefreshPayload) {
+  async validate(req: Request, { username }: RefreshPayload) {
     const refreshToken = req.get('Authorization').replace('Bearer', '').trim();
-    const adminEther = await this.adminService.validateAdmin(payload);
+    const adminEther = await this.adminService.validateAdmin({ username });
     const admin = adminEther.fold(
       (error) => {
         if (error instanceof AdminNotFoundException)
