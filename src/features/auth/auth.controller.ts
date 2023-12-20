@@ -37,6 +37,7 @@ export class AuthController {
   }
 
   @RefreshTokenAuth()
+  @ApiBearerAuth()
   @Post('refresh')
   async refresh(
     @GetRefreshToken() refreshToken: string,
