@@ -1,8 +1,10 @@
 import { NonFunctionProperties } from '../interfaces/manipulate-properties';
 import { OptionsFlags } from '../interfaces/options-flags';
+import { isDeeplyEqual } from '../utils/is-deeply-equal';
 import { EntityModel } from './entity.abstract';
 
 export interface EntityCollectionModel<A extends EntityModel> {
+  readonly value: A[];
   groupBy(getKey: (event: A) => number | string): Record<number | string, A[]>;
   isEmpty(): boolean;
   isNotEmpty(): boolean;
@@ -24,6 +26,8 @@ export interface EntityCollectionModel<A extends EntityModel> {
   select(
     options: Partial<OptionsFlags<NonFunctionProperties<A>>>,
   ): Record<string, unknown>[];
+  isEqual(entities: EntityCollectionModel<A>): boolean;
+  add(entities: EntityCollectionModel<A>): EntityCollectionModel<A>;
 }
 
 export class EntityCollection<A extends EntityModel>
@@ -103,5 +107,13 @@ export class EntityCollection<A extends EntityModel>
     options: Partial<OptionsFlags<NonFunctionProperties<A>>>,
   ): Record<string, unknown>[] {
     return this.value.map((data) => data.select(options));
+  }
+
+  isEqual(entities: EntityCollectionModel<A>): boolean {
+    return isDeeplyEqual(this.value, entities.value);
+  }
+
+  add(entities: EntityCollectionModel<A>): EntityCollectionModel<A> {
+    return new EntityCollection([...this.value, ...entities.value]);
   }
 }

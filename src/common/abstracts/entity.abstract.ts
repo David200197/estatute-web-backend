@@ -1,6 +1,7 @@
 import { NonFunctionProperties } from '../interfaces/manipulate-properties';
 import { OptionsFlags } from '../interfaces/options-flags';
 import { deepClone } from '../utils/deep-clone';
+import { isDeeplyEqual } from '../utils/is-deeply-equal';
 
 export interface EntityModel {
   getProperties(): string[];
@@ -12,6 +13,7 @@ export interface EntityModel {
   select(
     options: Partial<OptionsFlags<NonFunctionProperties<this>>>,
   ): Record<string, unknown>;
+  isEqual(entity: this): boolean;
 }
 
 export class Entity implements EntityModel {
@@ -53,5 +55,9 @@ export class Entity implements EntityModel {
       res[key] = this[key];
     }
     return res;
+  }
+
+  isEqual(entity: this): boolean {
+    return isDeeplyEqual(this, entity);
   }
 }
