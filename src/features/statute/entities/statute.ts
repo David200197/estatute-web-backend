@@ -1,10 +1,15 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
 import { StatuteModel, StatuteProperties } from '../models/statute.model';
+import { UuidObjectValue } from '@src/common/object-value/uuid.object-value';
 
 export class Statute extends Entity implements StatuteModel {
-  readonly uuid: string;
+  private readonly _uuid: UuidObjectValue;
   constructor(options: StatuteProperties) {
     super();
-    Object.assign(this, options);
+    this._uuid = new UuidObjectValue(options.uuid);
+  }
+
+  get uuid() {
+    return this._uuid.value;
   }
 }

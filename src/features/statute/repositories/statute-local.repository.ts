@@ -86,7 +86,7 @@ export class StatuteLocalRepository
     //code
     const statutes = this.statuteCrud.findAll(filter);
     return Promise.resolve({
-      entities: new Statutes(statutes),
+      entities: Statutes.instance(statutes),
       totalElement: 1,
       totalPage: 1,
     });
