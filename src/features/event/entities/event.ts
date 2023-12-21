@@ -9,13 +9,13 @@ import { RapporteurshipObjectValue } from './object-value/rapporteurship.object-
 import { PhotosObjectValue } from './object-value/photos.object-value';
 
 export class Event extends Entity implements EventModel {
-  readonly _uuid: UuidObjectValue;
-  readonly _name: NameObjectValue;
-  readonly _date: DateObjectValue;
-  readonly _campus: CampusObjectValue;
-  readonly _sponsors: SponsorsObjectValue;
-  readonly _rapporteurship: RapporteurshipObjectValue;
-  readonly _photos: PhotosObjectValue;
+  private readonly _uuid: UuidObjectValue;
+  private _name: NameObjectValue;
+  private _date: DateObjectValue;
+  private _campus: CampusObjectValue;
+  private _sponsors: SponsorsObjectValue;
+  private _rapporteurship: RapporteurshipObjectValue;
+  private _photos: PhotosObjectValue;
 
   constructor(options: EventProperties) {
     super();
@@ -33,22 +33,52 @@ export class Event extends Entity implements EventModel {
   get uuid() {
     return this._uuid.value;
   }
+
   get name() {
     return this._name.value;
   }
+
+  set name(value: string) {
+    this._name = new NameObjectValue(value);
+  }
+
   get date() {
     return this._date.value;
   }
+
+  set date(value: string) {
+    this._date = new DateObjectValue(value);
+  }
+
   get campus() {
     return this._campus.value;
   }
+
+  set campus(value: string) {
+    this._campus = new CampusObjectValue(value);
+  }
+
   get sponsors() {
     return this._sponsors.value;
   }
+
+  set sponsors(value: string) {
+    this._sponsors = new SponsorsObjectValue(value);
+  }
+
   get rapporteurship() {
     return this._rapporteurship.value;
   }
+
+  set rapporteurship(value: string) {
+    this._rapporteurship = new RapporteurshipObjectValue(value);
+  }
+
   get photos() {
     return this._photos.value;
+  }
+
+  set photos(value: string[]) {
+    this._photos = new PhotosObjectValue(value);
   }
 }

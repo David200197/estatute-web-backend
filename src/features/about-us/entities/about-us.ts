@@ -1,5 +1,11 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
-import { AboutUsModel, AboutUsProperties } from '../models/about-us.model';
+import {
+  AboutUsModel,
+  AboutUsProperties,
+  InvestigativeCategory,
+  SpecialtyDegree,
+  TeachingCategory,
+} from '../models/about-us.model';
 import { UuidObjectValue } from '@src/common/object-value/uuid.object-value';
 import { NameObjectValue } from './object-value/name.object-value';
 import { LastNameObjectValue } from './object-value/last-name.object-value';
@@ -13,15 +19,15 @@ import { SpecialtyDegreeObjectValue } from './object-value/specialty-degree.obje
 
 export class AboutUs extends Entity implements AboutUsModel {
   private readonly _uuid: UuidObjectValue;
-  private readonly _name: NameObjectValue;
-  private readonly _lastName: LastNameObjectValue;
-  private readonly _scientificCategory: ScientificCategoryObjectValue;
-  private readonly _specialty: SpecialtyObjectValue;
-  private readonly _yearsOfWorkExperience: YearsOfWorkExperienceObjectValue;
-  private readonly _teachingExperience: TeachingExperienceObjectValue;
-  private readonly _teachingCategory: TeachingCategoryObjectValue;
-  private readonly _investigativeCategory: InvestigativeCategoryObjectValue;
-  private readonly _specialtyDegree: SpecialtyDegreeObjectValue;
+  private _name: NameObjectValue;
+  private _lastName: LastNameObjectValue;
+  private _scientificCategory: ScientificCategoryObjectValue;
+  private _specialty: SpecialtyObjectValue;
+  private _yearsOfWorkExperience: YearsOfWorkExperienceObjectValue;
+  private _teachingExperience: TeachingExperienceObjectValue;
+  private _teachingCategory: TeachingCategoryObjectValue;
+  private _investigativeCategory: InvestigativeCategoryObjectValue;
+  private _specialtyDegree: SpecialtyDegreeObjectValue;
 
   constructor(options: AboutUsProperties) {
     super();
@@ -57,35 +63,71 @@ export class AboutUs extends Entity implements AboutUsModel {
     return this._name.value;
   }
 
+  set name(value: string) {
+    this._name = new NameObjectValue(value);
+  }
+
   get lastName() {
     return this._lastName.value;
+  }
+
+  set lastName(value: string) {
+    this._lastName = new LastNameObjectValue(value);
   }
 
   get scientificCategory() {
     return this._scientificCategory.value;
   }
 
+  set scientificCategory(value: string) {
+    this._scientificCategory = new ScientificCategoryObjectValue(value);
+  }
+
   get specialty() {
     return this._specialty.value;
+  }
+
+  set specialty(value: string) {
+    this._specialty = new SpecialtyObjectValue(value);
   }
 
   get yearsOfWorkExperience() {
     return this._yearsOfWorkExperience.value;
   }
 
+  set yearsOfWorkExperience(value: number) {
+    this._yearsOfWorkExperience = new YearsOfWorkExperienceObjectValue(value);
+  }
+
   get teachingExperience() {
     return this._teachingExperience.value;
+  }
+
+  set teachingExperience(value: string) {
+    this._teachingExperience = new TeachingExperienceObjectValue(value);
   }
 
   get teachingCategory() {
     return this._teachingCategory.value;
   }
 
+  set teachingCategory(value: TeachingCategory) {
+    this._teachingCategory = new TeachingCategoryObjectValue(value);
+  }
+
   get investigativeCategory() {
     return this._investigativeCategory.value;
   }
 
+  set investigativeCategory(value: InvestigativeCategory) {
+    this._investigativeCategory = new InvestigativeCategoryObjectValue(value);
+  }
+
   get specialtyDegree() {
     return this._specialtyDegree.value;
+  }
+
+  set specialtyDegree(value: SpecialtyDegree) {
+    this._specialtyDegree = new SpecialtyDegreeObjectValue(value);
   }
 }

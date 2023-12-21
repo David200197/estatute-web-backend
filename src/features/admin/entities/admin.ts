@@ -5,9 +5,9 @@ import { UsernameObjectValue } from './object-value/username.object-value';
 import { RefreshTokenObjectValue } from './object-value/refresh-token.object-value';
 
 export class Admin extends Entity implements AdminModel {
-  private readonly _password: PasswordObjectValue;
-  private readonly _username: UsernameObjectValue;
-  private readonly _refreshToken: RefreshTokenObjectValue;
+  private _password: PasswordObjectValue;
+  private _username: UsernameObjectValue;
+  private _refreshToken: RefreshTokenObjectValue;
 
   constructor(options: AdminProperties) {
     super();
@@ -20,11 +20,23 @@ export class Admin extends Entity implements AdminModel {
     return this._password.value;
   }
 
+  set password(value: string) {
+    this._password = new PasswordObjectValue(value);
+  }
+
   get username() {
     return this._username.value;
   }
 
+  set username(value: string) {
+    this._username = new UsernameObjectValue(value);
+  }
+
   get refreshToken() {
     return this._refreshToken.value;
+  }
+
+  set refreshToken(value: string) {
+    this._refreshToken = new RefreshTokenObjectValue(value);
   }
 }

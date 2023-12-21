@@ -10,9 +10,9 @@ import { IconObjectValue } from './object-value/icon.object-value';
 
 export class SocialNetwork extends Entity implements SocialNetworkModel {
   readonly _uuid: UuidObjectValue;
-  readonly _name: NameObjectValue;
-  readonly _link: LinkObjectValue;
-  readonly _icon: IconObjectValue;
+  _name: NameObjectValue;
+  _link: LinkObjectValue;
+  _icon: IconObjectValue;
 
   constructor(options: SocialNetworkProperties) {
     super();
@@ -30,11 +30,23 @@ export class SocialNetwork extends Entity implements SocialNetworkModel {
     return this._name.value;
   }
 
+  set name(value: string) {
+    this._name = new NameObjectValue(value);
+  }
+
   get link() {
     return this._link.value;
   }
 
+  set link(value: string) {
+    this._link = new LinkObjectValue(value);
+  }
+
   get icon() {
     return this._icon.value;
+  }
+
+  set icon(value: string) {
+    this._icon = new IconObjectValue(value);
   }
 }
