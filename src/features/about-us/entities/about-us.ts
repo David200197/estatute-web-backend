@@ -56,27 +56,35 @@ export class AboutUs extends Entity implements AboutUsModel {
   get name() {
     return this._name.value;
   }
+
   get lastName() {
     return this._lastName.value;
   }
+
   get scientificCategory() {
     return this._scientificCategory.value;
   }
+
   get specialty() {
     return this._specialty.value;
   }
+
   get yearsOfWorkExperience() {
     return this._yearsOfWorkExperience.value;
   }
+
   get teachingExperience() {
     return this._teachingExperience.value;
   }
+
   get teachingCategory() {
     return this._teachingCategory.value;
   }
+
   get investigativeCategory() {
     return this._investigativeCategory.value;
   }
+
   get specialtyDegree() {
     return this._specialtyDegree.value;
   }
