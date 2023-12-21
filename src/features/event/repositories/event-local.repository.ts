@@ -84,7 +84,7 @@ export class EventLocalRepository
     //code
     const events = this.eventCrud.findAll(filter);
     return Promise.resolve({
-      entities: new Events(events),
+      entities: Events.instance(events),
       totalElement: 1,
       totalPage: 1,
     });

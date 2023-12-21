@@ -1,12 +1,19 @@
 import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
 import { EventModel } from '../models/event.model';
 import { EventsModel } from '../models/events.model';
+import { Event } from './event';
 
 export class Events
   extends EntityCollection<EventModel>
   implements EventsModel
 {
-  constructor(public readonly value: EventModel[]) {
+  private constructor(public readonly value: EventModel[]) {
     super(value);
+  }
+
+  static instance(value: EventModel[]) {
+    if (!Array.isArray(value))
+      throw new TypeError('Anniversaries is not a array');
+    return new Events(value.map((data) => new Event(data)));
   }
 }
