@@ -91,7 +91,7 @@ export class SocialNetworkLocalRepository
     //code
     const socialNetworks = this.socialNetworkCrud.findAll(filter);
     return Promise.resolve({
-      entities: new SocialNetworks(socialNetworks),
+      entities: SocialNetworks.instance(socialNetworks),
       totalElement: 1,
       totalPage: 1,
     });

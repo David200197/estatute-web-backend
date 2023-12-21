@@ -7,7 +7,7 @@ export class SocialNetworks
   extends EntityCollection<SocialNetworkModel>
   implements SocialNetworksModel
 {
-  constructor(public readonly value: SocialNetworkModel[]) {
+  private constructor(public readonly value: SocialNetworkModel[]) {
     super(value);
   }
 
