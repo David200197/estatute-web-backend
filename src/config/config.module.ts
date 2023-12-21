@@ -5,6 +5,8 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import configuration from './configuration';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { configDB } from './mikro.config';
 
 @Module({
   imports: [
@@ -14,6 +16,7 @@ import { join } from 'path';
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'public'),
     }),
+    MikroOrmModule.forRoot(configDB),
   ],
 })
 export class ConfigModule {}

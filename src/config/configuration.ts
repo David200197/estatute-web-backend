@@ -3,7 +3,11 @@ dotenv.config();
 
 export default () => ({
   database: {
-    uri: process.env.DB_URI,
+    name: process.env.DB_NAME,
+    port: Number(process.env.DB_PORT || 0),
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
   },
   api: {
     front: process.env.API_FRONT,
