@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { CliModule } from './cli/cli.module';
+import { CommandModule } from 'nestjs-command';
 
 @Module({
-  imports: [CliModule],
+  imports: [CommandModule, CliModule],
   providers: [],
   exports: [],
 })
