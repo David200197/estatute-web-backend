@@ -83,7 +83,7 @@ export class AdminLocalRepository implements AdminRepositoryModel {
     //code
     const admins = this.adminCrud.findAll(filter);
     return Promise.resolve({
-      entities: new Admins(admins),
+      entities: Admins.instance(admins),
       totalElement: 1,
       totalPage: 1,
     });

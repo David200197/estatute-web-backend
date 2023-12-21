@@ -87,9 +87,9 @@ export class AnniversaryLocalRepository
     //using options
     options;
     //code
-    const anniversarys = this.anniversaryCrud.findAll(filter);
+    const anniversaries = this.anniversaryCrud.findAll(filter);
     return Promise.resolve({
-      entities: new Anniversaries(anniversarys),
+      entities: Anniversaries.instance(anniversaries),
       totalElement: 1,
       totalPage: 1,
     });

@@ -3,11 +3,16 @@ import {
   AnniversaryModel,
   AnniversaryProperties,
 } from '../models/anniversary.model';
+import { UuidObjectValue } from '@src/common/object-value/uuid.object-value';
 
 export class Anniversary extends Entity implements AnniversaryModel {
-  readonly uuid: string;
+  readonly _uuid: UuidObjectValue;
   constructor(options: AnniversaryProperties) {
     super();
-    Object.assign(this, options);
+    this._uuid = new UuidObjectValue(options.uuid);
+  }
+
+  get uuid() {
+    return this._uuid.value;
   }
 }
