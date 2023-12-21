@@ -31,11 +31,9 @@ describe('Logout - AuthController', () => {
       controllers: [AuthController, AdminController],
       imports: [CqrsModule, EventEmitterModule, ConfigModule],
       providers: [
-        AuthController,
         LogoutAuthHandlerProvider,
         LoginAuthHandlerProvider,
         AuthUtilsServiceProvider,
-        AdminServiceProvider,
         JwtService,
         ConfigService,
         AdminServiceProvider,

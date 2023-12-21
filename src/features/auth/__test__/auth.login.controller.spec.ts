@@ -29,13 +29,11 @@ describe('Login - AuthController', () => {
       controllers: [AuthController, AdminController],
       imports: [CqrsModule, EventEmitterModule, ConfigModule],
       providers: [
-        AuthController,
         LoginAuthHandlerProvider,
         AuthUtilsServiceProvider,
         AdminServiceProvider,
         JwtService,
         ConfigService,
-        AdminServiceProvider,
         FindOneAdminHandlerProvider,
         CreateAdminHandlerProvider,
         UpdateAdminHandlerProvider,
