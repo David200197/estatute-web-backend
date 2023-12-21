@@ -86,7 +86,7 @@ export class AboutUsLocalRepository
     //code
     const aboutUss = this.aboutUsCrud.findAll(filter);
     return Promise.resolve({
-      entities: new AllAboutUs(aboutUss),
+      entities: AllAboutUs.instance(aboutUss),
       totalElement: 1,
       totalPage: 1,
     });

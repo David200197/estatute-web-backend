@@ -82,7 +82,7 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
     //code
     const <%= name.camelCase %>s = this.<%= name.camelCase %>Crud.findAll(filter);
     return Promise.resolve({
-      entities: new <%= name.pascalCase %>s(<%= name.camelCase %>s),
+      entities: <%= name.pascalCase %>s.instance(<%= name.camelCase %>s),
       totalElement: 1,
       totalPage: 1,
     });
