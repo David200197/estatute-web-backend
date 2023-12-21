@@ -5,10 +5,12 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import configuration from './configuration';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CommandModule } from 'nestjs-command';
 //import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
+    CommandModule,
     ConfigEnvironmentModule.forRoot({ isGlobal: true, load: [configuration] }),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot({ verboseMemoryLeak: true }),
