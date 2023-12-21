@@ -5,7 +5,7 @@ import { AnniversaryModule } from './anniversary/anniversary.module';
 import { AuthModule } from './auth/auth.module';
 import { EventModule } from './event/event.module';
 import { InvitationModule } from './invitation/invitation.module';
-import { SocialNetworksModule } from './social-networks/social-networks.module';
+import { SocialNetworkModule } from './social-network/social-network.module';
 import { StatuteModule } from './statute/statute.module';
 import { PhotoModule } from './photo/photo.module';
 
@@ -17,7 +17,7 @@ import { PhotoModule } from './photo/photo.module';
     AuthModule,
     EventModule,
     InvitationModule,
-    SocialNetworksModule,
+    SocialNetworkModule,
     StatuteModule,
     PhotoModule,
   ],

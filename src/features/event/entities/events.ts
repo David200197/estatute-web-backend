@@ -12,8 +12,7 @@ export class Events
   }
 
   static instance(value: EventModel[]) {
-    if (!Array.isArray(value))
-      throw new TypeError('Anniversaries is not a array');
+    if (!Array.isArray(value)) throw new TypeError('Events is not a array');
     return new Events(value.map((data) => new Event(data)));
   }
 }

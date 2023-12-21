@@ -13,7 +13,7 @@ export class Invitations
 
   static instance(value: InvitationModel[]) {
     if (!Array.isArray(value))
-      throw new TypeError('Anniversaries is not a array');
+      throw new TypeError('Invitations is not a array');
     return new Invitations(value.map((data) => new Invitation(data)));
   }
 }
