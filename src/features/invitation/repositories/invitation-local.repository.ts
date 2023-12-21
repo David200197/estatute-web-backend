@@ -85,7 +85,7 @@ export class InvitationLocalRepository
     //code
     const invitations = this.invitationCrud.findAll(filter);
     return Promise.resolve({
-      entities: new Invitations(invitations),
+      entities: Invitations.instance(invitations),
       totalElement: 1,
       totalPage: 1,
     });
