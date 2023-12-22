@@ -33,7 +33,7 @@ export class AboutUs extends Entity implements AboutUsModel {
     super();
     this.uuid = new UuidValueObject(options.uuid).value;
     this.name = new NameValueObject(options.name).value;
-    this.lastName = new LastNameValueObject(options.name).value;
+    this.lastName = new LastNameValueObject(options.lastName).value;
     this.scientificCategory = new ScientificCategoryValueObject(
       options.scientificCategory,
     ).value;
