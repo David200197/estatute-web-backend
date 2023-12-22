@@ -1,7 +1,7 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
 import {
   AboutUsModel,
-  AboutUsProperties,
+  AboutUsOptions,
   InvestigativeCategory,
   SpecialtyDegree,
   TeachingCategory,
@@ -29,7 +29,7 @@ export class AboutUs extends Entity implements AboutUsModel {
   private _investigativeCategory: InvestigativeCategoryObjectValue;
   private _specialtyDegree: SpecialtyDegreeObjectValue;
 
-  constructor(options: AboutUsProperties) {
+  constructor(options: AboutUsOptions) {
     super();
     this._uuid = new UuidObjectValue(options.uuid);
     this._name = new NameObjectValue(options.name);

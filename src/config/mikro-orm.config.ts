@@ -1,8 +1,8 @@
 import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import configuration from './configuration';
-import { AboutUsMikroEntity } from '@src/features/about-us/orm/about-us-mikro.entity';
+import { AboutUsMikroEntity } from '@src/features/about-us/orm-entities/about-us-mikro.entity';
 
-export const configDB: MikroOrmModuleSyncOptions = {
+const configDB: MikroOrmModuleSyncOptions = {
   entities: [AboutUsMikroEntity],
   debug: true,
   dbName: configuration().database.name,
@@ -12,3 +12,5 @@ export const configDB: MikroOrmModuleSyncOptions = {
   user: configuration().database.user,
   type: 'postgresql',
 };
+
+export default configDB;

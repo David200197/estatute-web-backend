@@ -1,10 +1,10 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
-import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Properties } from '../models/<%= name.kebabCase %>.model';
+import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Options } from '../models/<%= name.kebabCase %>.model';
 import { UuidObjectValue } from '@src/common/object-value/uuid.object-value';
 
 export class <%= name.pascalCase %> extends Entity implements <%= name.pascalCase %>Model {
     private readonly _uuid: UuidObjectValue;
-    constructor(options: <%= name.pascalCase %>Properties) {
+    constructor(options: <%= name.pascalCase %>Options) {
         super();
         this._uuid = new UuidObjectValue(options.uuid);
     }

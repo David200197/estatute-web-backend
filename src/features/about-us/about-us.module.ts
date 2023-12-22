@@ -11,7 +11,7 @@ import { UpdateAboutUsHandlerProvider } from './handlers/update/update-about-us-
 import { RemoveAboutUsHandlerProvider } from './handlers/remove/remove-about-us-handler.provider';
 import { AboutUsCli } from './about-us.cli';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { AboutUsMikroEntity } from './orm/about-us-mikro.entity';
+import { AboutUsMikroEntity } from './orm-entities/about-us-mikro.entity';
 
 @Module({
   imports: [CqrsModule, MikroOrmModule.forFeature([AboutUsMikroEntity])],

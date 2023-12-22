@@ -6,7 +6,7 @@ import configuration from './configuration';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { configDB } from './mikro.config';
+import configDB from './mikro-orm.config';
 
 @Module({
   imports: [

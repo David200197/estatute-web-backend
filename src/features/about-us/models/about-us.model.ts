@@ -1,5 +1,6 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
 import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
 export enum TeachingCategory {
   assistant = 'asistente',
@@ -31,4 +32,7 @@ export interface AboutUsModel extends EntityModel {
   readonly teachingExperience: string;
 }
 
-export type AboutUsProperties = NonFunctionProperties<AboutUsModel>;
+export type AboutUsOnlyProperties = NonFunctionProperties<AboutUsModel>;
+export type AboutUsOptions = NonFunctionProperties<
+  SelfPartial<AboutUsModel, 'uuid'>
+>;

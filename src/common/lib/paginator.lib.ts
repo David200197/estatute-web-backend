@@ -29,6 +29,10 @@ export class Paginator {
     return (this.page - 1) * this.perPage;
   }
 
+  get offset() {
+    return this.skip;
+  }
+
   /** Returns the number of elements to skip to show the current page. */
   get limit() {
     return this.perPage;
@@ -36,7 +40,7 @@ export class Paginator {
 
   /** take: Returns the maximum number of elements to take from the list of elements to show on the current page. */
   get take() {
-    return this.perPage;
+    return this.limit;
   }
 
   /**Returns the total number of pages needed to show all available elements

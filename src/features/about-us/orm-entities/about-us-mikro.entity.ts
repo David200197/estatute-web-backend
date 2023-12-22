@@ -1,15 +1,15 @@
 import { Entity, Property, PrimaryKey } from '@mikro-orm/core';
 import {
-  AboutUsProperties,
+  AboutUsOnlyProperties,
   InvestigativeCategory,
   SpecialtyDegree,
   TeachingCategory,
 } from '../models/about-us.model';
 
 @Entity({
-  tableName: 'about-us',
+  tableName: 'AboutUs',
 })
-export class AboutUsMikroEntity implements AboutUsProperties {
+export class AboutUsMikroEntity implements AboutUsOnlyProperties {
   @PrimaryKey()
   uuid: string;
   @Property()

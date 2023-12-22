@@ -6,8 +6,6 @@ import {
 } from '../models/about-us.model';
 
 export class CreateAboutUsDto {
-  @IsUUID()
-  readonly uuid: string;
   @IsString()
   readonly name: string;
   @IsString()

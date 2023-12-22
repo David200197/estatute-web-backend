@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AboutUsRepositoryModel } from '../models/about-us-repository.model';
 import { AllAboutUsModel } from '../models/all-about-us.model';
-import { AboutUsModel, AboutUsProperties } from '../models/about-us.model';
+import { AboutUsModel, AboutUsOnlyProperties } from '../models/about-us.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAboutUsDto } from '../dto/create-about-us.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -71,14 +71,14 @@ export class AboutUsLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<AboutUsProperties>,
+    filter: DeepPartial<AboutUsOnlyProperties>,
   ): Promise<AboutUsModel | null> {
     const aboutUs = this.aboutUsCrud.findOne(filter);
     return Promise.resolve(aboutUs);
   }
 
   async findAll(
-    filter: DeepPartial<AboutUsProperties>,
+    filter: DeepPartial<AboutUsOnlyProperties>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<AllAboutUsModel>> {
     //using options
@@ -98,26 +98,28 @@ export class AboutUsLocalRepository
   }
 
   async updateOne(
-    filter: DeepPartial<AboutUsProperties>,
+    filter: DeepPartial<AboutUsOnlyProperties>,
     options: UpdateAboutUsDto,
   ): Promise<AboutUsModel> {
     return this.aboutUsCrud.update(filter, options);
   }
 
   async removeOne(
-    filter: DeepPartial<AboutUsProperties>,
+    filter: DeepPartial<AboutUsOnlyProperties>,
   ): Promise<AboutUsModel> {
     return this.aboutUsCrud.delete(filter);
   }
 
   async updateMany(
-    filter: DeepPartial<AboutUsProperties>,
+    filter: DeepPartial<AboutUsOnlyProperties>,
     options: UpdateAboutUsDto,
   ): Promise<boolean> {
     return this.aboutUsCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<AboutUsProperties>): Promise<boolean> {
+  async removeMany(
+    filter: DeepPartial<AboutUsOnlyProperties>,
+  ): Promise<boolean> {
     return this.aboutUsCrud.deleteMany(filter);
   }
 }

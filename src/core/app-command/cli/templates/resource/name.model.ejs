@@ -1,8 +1,10 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
 import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
 export interface <%= name.pascalCase %>Model extends EntityModel {
     readonly uuid: string;
 }
 
-export type <%= name.pascalCase %>Properties = NonFunctionProperties<<%= name.pascalCase %>Model>;
+export type <%= name.pascalCase %>OnlyProperties = NonFunctionProperties<<%= name.pascalCase %>Model>;
+export type <%= name.pascalCase %>Options = NonFunctionProperties<SelfPartial<<%= name.pascalCase %>Model, 'uuid'>>;
