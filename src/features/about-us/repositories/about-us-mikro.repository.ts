@@ -21,7 +21,9 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
     private readonly aboutUsRepository: EntityRepository<AboutUsMikroEntity>,
   ) {}
 
-  async findOne(filter: DeepPartial<AboutUsOnlyProperties>): Promise<AboutUsModel> {
+  async findOne(
+    filter: DeepPartial<AboutUsOnlyProperties>,
+  ): Promise<AboutUsModel> {
     const aboutUs = await this.aboutUsRepository.findOne(filter);
     return new AboutUs(aboutUs);
   }
@@ -93,7 +95,9 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
     return result.every((res) => res.status === 'fulfilled' && res.value);
   }
 
-  async removeMany(filter: DeepPartial<AboutUsOnlyProperties>): Promise<boolean> {
+  async removeMany(
+    filter: DeepPartial<AboutUsOnlyProperties>,
+  ): Promise<boolean> {
     const { entities: allAboutUs } = await this.findAll(filter);
     const result = await allAboutUs.mapParallel((aboutUs) =>
       this.aboutUsRepository.nativeDelete(aboutUs),
