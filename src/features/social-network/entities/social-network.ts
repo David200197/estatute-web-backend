@@ -9,44 +9,16 @@ import { LinkObjectValue } from './object-value/link.object-value';
 import { IconObjectValue } from './object-value/icon.object-value';
 
 export class SocialNetwork extends Entity implements SocialNetworkModel {
-  readonly _uuid: UuidObjectValue;
-  _name: NameObjectValue;
-  _link: LinkObjectValue;
-  _icon: IconObjectValue;
+  public readonly uuid: string;
+  public readonly name: string;
+  public readonly link: string;
+  public readonly icon: string;
 
   constructor(options: SocialNetworkProperties) {
     super();
-    this._uuid = new UuidObjectValue(options.uuid);
-    this._name = new NameObjectValue(options.name);
-    this._link = new LinkObjectValue(options.link);
-    this._icon = new IconObjectValue(options.icon);
-  }
-
-  get uuid() {
-    return this._uuid.value;
-  }
-
-  get name() {
-    return this._name.value;
-  }
-
-  set name(value: string) {
-    this._name = new NameObjectValue(value);
-  }
-
-  get link() {
-    return this._link.value;
-  }
-
-  set link(value: string) {
-    this._link = new LinkObjectValue(value);
-  }
-
-  get icon() {
-    return this._icon.value;
-  }
-
-  set icon(value: string) {
-    this._icon = new IconObjectValue(value);
+    this.uuid = new UuidObjectValue(options.uuid).value;
+    this.name = new NameObjectValue(options.name).value;
+    this.link = new LinkObjectValue(options.link).value;
+    this.icon = new IconObjectValue(options.icon).value;
   }
 }

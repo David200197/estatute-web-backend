@@ -9,76 +9,24 @@ import { RapporteurshipObjectValue } from './object-value/rapporteurship.object-
 import { PhotosObjectValue } from './object-value/photos.object-value';
 
 export class Event extends Entity implements EventModel {
-  private readonly _uuid: UuidObjectValue;
-  private _name: NameObjectValue;
-  private _date: DateObjectValue;
-  private _campus: CampusObjectValue;
-  private _sponsors: SponsorsObjectValue;
-  private _rapporteurship: RapporteurshipObjectValue;
-  private _photos: PhotosObjectValue;
+  public readonly uuid: string;
+  public readonly name: string;
+  public readonly date: string;
+  public readonly campus: string;
+  public readonly sponsors: string;
+  public readonly rapporteurship: string;
+  public readonly photos: string[];
 
   constructor(options: EventProperties) {
     super();
-    this._uuid = new UuidObjectValue(options.uuid);
-    this._name = new NameObjectValue(options.name);
-    this._date = new DateObjectValue(options.date);
-    this._campus = new CampusObjectValue(options.campus);
-    this._sponsors = new SponsorsObjectValue(options.sponsors);
-    this._rapporteurship = new RapporteurshipObjectValue(
+    this.uuid = new UuidObjectValue(options.uuid).value;
+    this.name = new NameObjectValue(options.name).value;
+    this.date = new DateObjectValue(options.date).value;
+    this.campus = new CampusObjectValue(options.campus).value;
+    this.sponsors = new SponsorsObjectValue(options.sponsors).value;
+    this.rapporteurship = new RapporteurshipObjectValue(
       options.rapporteurship,
-    );
-    this._photos = new PhotosObjectValue(options.photos);
-  }
-
-  get uuid() {
-    return this._uuid.value;
-  }
-
-  get name() {
-    return this._name.value;
-  }
-
-  set name(value: string) {
-    this._name = new NameObjectValue(value);
-  }
-
-  get date() {
-    return this._date.value;
-  }
-
-  set date(value: string) {
-    this._date = new DateObjectValue(value);
-  }
-
-  get campus() {
-    return this._campus.value;
-  }
-
-  set campus(value: string) {
-    this._campus = new CampusObjectValue(value);
-  }
-
-  get sponsors() {
-    return this._sponsors.value;
-  }
-
-  set sponsors(value: string) {
-    this._sponsors = new SponsorsObjectValue(value);
-  }
-
-  get rapporteurship() {
-    return this._rapporteurship.value;
-  }
-
-  set rapporteurship(value: string) {
-    this._rapporteurship = new RapporteurshipObjectValue(value);
-  }
-
-  get photos() {
-    return this._photos.value;
-  }
-
-  set photos(value: string[]) {
-    this._photos = new PhotosObjectValue(value);
+    ).value;
+    this.photos = new PhotosObjectValue(options.photos).value;
   }
 }

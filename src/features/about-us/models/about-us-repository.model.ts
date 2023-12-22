@@ -7,7 +7,9 @@ import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 
 export interface AboutUsRepositoryModel {
-  findOne(filter: DeepPartial<AboutUsOnlyProperties>): Promise<AboutUsModel | null>;
+  findOne(
+    filter: DeepPartial<AboutUsOnlyProperties>,
+  ): Promise<AboutUsModel | null>;
   findAll(
     filter: DeepPartial<AboutUsOnlyProperties>,
     options: FindAllDto,
