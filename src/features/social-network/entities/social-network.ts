@@ -3,10 +3,10 @@ import {
   SocialNetworkModel,
   SocialNetworkProperties,
 } from '../models/social-network.model';
-import { UuidObjectValue } from '@src/common/object-value/uuid.object-value';
-import { NameObjectValue } from './object-value/name.object-value';
-import { LinkObjectValue } from './object-value/link.object-value';
-import { IconObjectValue } from './object-value/icon.object-value';
+import { UuidValueObject } from '@src/common/value-object/uuid.value-object';
+import { NameValueObject } from './value-object/name.value-object';
+import { LinkValueObject } from './value-object/link.value-object';
+import { IconValueObject } from './value-object/icon.value-object';
 
 export class SocialNetwork extends Entity implements SocialNetworkModel {
   public readonly uuid: string;
@@ -16,9 +16,9 @@ export class SocialNetwork extends Entity implements SocialNetworkModel {
 
   constructor(options: SocialNetworkProperties) {
     super();
-    this.uuid = new UuidObjectValue(options.uuid).value;
-    this.name = new NameObjectValue(options.name).value;
-    this.link = new LinkObjectValue(options.link).value;
-    this.icon = new IconObjectValue(options.icon).value;
+    this.uuid = new UuidValueObject(options.uuid).value;
+    this.name = new NameValueObject(options.name).value;
+    this.link = new LinkValueObject(options.link).value;
+    this.icon = new IconValueObject(options.icon).value;
   }
 }

@@ -1,6 +1,6 @@
 import { isString } from 'class-validator';
 
-export class PhotosObjectValue {
+export class PhotosValueObject {
   constructor(public readonly value: string[] = []) {
     this.validateType();
   }

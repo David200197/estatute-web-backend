@@ -1,6 +1,6 @@
 import { InvestigativeCategory } from '../../models/about-us.model';
 
-export class InvestigativeCategoryObjectValue {
+export class InvestigativeCategoryValueObject {
   constructor(public readonly value: InvestigativeCategory) {
     this.validateType();
   }

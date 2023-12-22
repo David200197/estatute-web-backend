@@ -1,11 +1,11 @@
 import { isString } from 'class-validator';
 
-export class SponsorsObjectValue {
+export class SpecialtyValueObject {
   constructor(public readonly value: string) {
     this.validateType();
   }
 
   private validateType() {
-    if (!isString(this.value)) throw new TypeError('sponsors is not string');
+    if (!isString(this.value)) throw new TypeError('specialty is not string');
   }
 }

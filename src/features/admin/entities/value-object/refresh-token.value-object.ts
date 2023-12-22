@@ -1,6 +1,6 @@
 import { isString } from 'class-validator';
 
-export class RefreshTokenObjectValue {
+export class RefreshTokenValueObject {
   constructor(public readonly value?: string) {
     this.validateType();
   }

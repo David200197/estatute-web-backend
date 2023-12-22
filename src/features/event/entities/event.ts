@@ -1,12 +1,12 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
 import { EventModel, EventProperties } from '../models/event.model';
-import { UuidObjectValue } from '@src/common/object-value/uuid.object-value';
-import { NameObjectValue } from './object-value/name.object-value';
-import { DateObjectValue } from './object-value/date.object-value';
-import { CampusObjectValue } from './object-value/campus.object-value';
-import { SponsorsObjectValue } from './object-value/sponsors.object-value';
-import { RapporteurshipObjectValue } from './object-value/rapporteurship.object-value';
-import { PhotosObjectValue } from './object-value/photos.object-value';
+import { UuidValueObject } from '@src/common/value-object/uuid.value-object';
+import { NameValueObject } from './value-object/name.value-object';
+import { DateValueObject } from './value-object/date.value-object';
+import { CampusValueObject } from './value-object/campus.value-object';
+import { SponsorsValueObject } from './value-object/sponsors.value-object';
+import { RapporteurshipValueObject } from './value-object/rapporteurship.value-object';
+import { PhotosValueObject } from './value-object/photos.value-object';
 
 export class Event extends Entity implements EventModel {
   public readonly uuid: string;
@@ -19,14 +19,14 @@ export class Event extends Entity implements EventModel {
 
   constructor(options: EventProperties) {
     super();
-    this.uuid = new UuidObjectValue(options.uuid).value;
-    this.name = new NameObjectValue(options.name).value;
-    this.date = new DateObjectValue(options.date).value;
-    this.campus = new CampusObjectValue(options.campus).value;
-    this.sponsors = new SponsorsObjectValue(options.sponsors).value;
-    this.rapporteurship = new RapporteurshipObjectValue(
+    this.uuid = new UuidValueObject(options.uuid).value;
+    this.name = new NameValueObject(options.name).value;
+    this.date = new DateValueObject(options.date).value;
+    this.campus = new CampusValueObject(options.campus).value;
+    this.sponsors = new SponsorsValueObject(options.sponsors).value;
+    this.rapporteurship = new RapporteurshipValueObject(
       options.rapporteurship,
     ).value;
-    this.photos = new PhotosObjectValue(options.photos).value;
+    this.photos = new PhotosValueObject(options.photos).value;
   }
 }

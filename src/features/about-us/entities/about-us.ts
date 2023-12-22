@@ -6,16 +6,16 @@ import {
   SpecialtyDegree,
   TeachingCategory,
 } from '../models/about-us.model';
-import { UuidObjectValue } from '@src/common/object-value/uuid.object-value';
-import { NameObjectValue } from './object-value/name.object-value';
-import { LastNameObjectValue } from './object-value/last-name.object-value';
-import { ScientificCategoryObjectValue } from './object-value/scientific-category.object-value';
-import { SpecialtyObjectValue } from './object-value/specialty.object-value';
-import { YearsOfWorkExperienceObjectValue } from './object-value/years-of-work-experience.object-value';
-import { TeachingExperienceObjectValue } from './object-value/teaching-experience.object-value';
-import { TeachingCategoryObjectValue } from './object-value/teaching-category.object-value';
-import { InvestigativeCategoryObjectValue } from './object-value/investigative-category.object-value';
-import { SpecialtyDegreeObjectValue } from './object-value/specialty-degree.object-value';
+import { UuidValueObject } from '@src/common/value-object/uuid.value-object';
+import { NameValueObject } from './value-object/name.value-object';
+import { LastNameValueObject } from './value-object/last-name.value-object';
+import { ScientificCategoryValueObject } from './value-object/scientific-category.value-object';
+import { SpecialtyValueObject } from './value-object/specialty.value-object';
+import { YearsOfWorkExperienceValueObject } from './value-object/years-of-work-experience.value-object';
+import { TeachingExperienceValueObject } from './value-object/teaching-experience.value-object';
+import { TeachingCategoryValueObject } from './value-object/teaching-category.value-object';
+import { InvestigativeCategoryValueObject } from './value-object/investigative-category.value-object';
+import { SpecialtyDegreeValueObject } from './value-object/specialty-degree.value-object';
 
 export class AboutUs extends Entity implements AboutUsModel {
   public readonly uuid: string;
@@ -31,26 +31,26 @@ export class AboutUs extends Entity implements AboutUsModel {
 
   constructor(options: AboutUsOptions) {
     super();
-    this.uuid = new UuidObjectValue(options.uuid).value;
-    this.name = new NameObjectValue(options.name).value;
-    this.lastName = new LastNameObjectValue(options.name).value;
-    this.scientificCategory = new ScientificCategoryObjectValue(
+    this.uuid = new UuidValueObject(options.uuid).value;
+    this.name = new NameValueObject(options.name).value;
+    this.lastName = new LastNameValueObject(options.name).value;
+    this.scientificCategory = new ScientificCategoryValueObject(
       options.scientificCategory,
     ).value;
-    this.specialty = new SpecialtyObjectValue(options.specialty).value;
-    this.yearsOfWorkExperience = new YearsOfWorkExperienceObjectValue(
+    this.specialty = new SpecialtyValueObject(options.specialty).value;
+    this.yearsOfWorkExperience = new YearsOfWorkExperienceValueObject(
       options.yearsOfWorkExperience,
     ).value;
-    this.teachingExperience = new TeachingExperienceObjectValue(
+    this.teachingExperience = new TeachingExperienceValueObject(
       options.teachingExperience,
     ).value;
-    this.teachingCategory = new TeachingCategoryObjectValue(
+    this.teachingCategory = new TeachingCategoryValueObject(
       options.teachingCategory,
     ).value;
-    this.investigativeCategory = new InvestigativeCategoryObjectValue(
+    this.investigativeCategory = new InvestigativeCategoryValueObject(
       options.investigativeCategory,
     ).value;
-    this.specialtyDegree = new SpecialtyDegreeObjectValue(
+    this.specialtyDegree = new SpecialtyDegreeValueObject(
       options.specialtyDegree,
     ).value;
   }

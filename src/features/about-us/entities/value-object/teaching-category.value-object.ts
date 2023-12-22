@@ -1,6 +1,6 @@
 import { TeachingCategory } from '../../models/about-us.model';
 
-export class TeachingCategoryObjectValue {
+export class TeachingCategoryValueObject {
   constructor(public readonly value: TeachingCategory) {
     this.validateType();
   }

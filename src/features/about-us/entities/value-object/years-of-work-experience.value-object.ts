@@ -1,6 +1,6 @@
 import { isNumber } from 'class-validator';
 
-export class YearsOfWorkExperienceObjectValue {
+export class YearsOfWorkExperienceValueObject {
   constructor(public readonly value: number) {
     this.validateType();
   }

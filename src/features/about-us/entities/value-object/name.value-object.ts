@@ -1,11 +1,11 @@
 import { isString } from 'class-validator';
 
-export class PasswordObjectValue {
+export class NameValueObject {
   constructor(public readonly value: string) {
     this.validateType();
   }
 
   private validateType() {
-    if (!isString(this.value)) throw new TypeError('password is not string');
+    if (!isString(this.value)) throw new TypeError('name is not string');
   }
 }

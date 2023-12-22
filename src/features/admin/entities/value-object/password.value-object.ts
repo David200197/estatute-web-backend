@@ -1,12 +1,11 @@
 import { isString } from 'class-validator';
 
-export class ScientificCategoryObjectValue {
+export class PasswordValueObject {
   constructor(public readonly value: string) {
     this.validateType();
   }
 
   private validateType() {
-    if (!isString(this.value))
-      throw new TypeError('scientificCategory is not string');
+    if (!isString(this.value)) throw new TypeError('password is not string');
   }
 }

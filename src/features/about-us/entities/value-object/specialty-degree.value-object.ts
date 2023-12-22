@@ -1,6 +1,6 @@
 import { SpecialtyDegree } from '../../models/about-us.model';
 
-export class SpecialtyDegreeObjectValue {
+export class SpecialtyDegreeValueObject {
   constructor(public readonly value: SpecialtyDegree) {
     this.validateType();
   }

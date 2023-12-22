@@ -1,8 +1,8 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
 import { AdminModel, AdminProperties } from '../models/admin.model';
-import { PasswordObjectValue } from './object-value/password.object-value';
-import { UsernameObjectValue } from './object-value/username.object-value';
-import { RefreshTokenObjectValue } from './object-value/refresh-token.object-value';
+import { PasswordValueObject } from './value-object/password.value-object';
+import { UsernameValueObject } from './value-object/username.value-object';
+import { RefreshTokenValueObject } from './value-object/refresh-token.value-object';
 
 export class Admin extends Entity implements AdminModel {
   public readonly password: string;
@@ -11,8 +11,8 @@ export class Admin extends Entity implements AdminModel {
 
   constructor(options: AdminProperties) {
     super();
-    this.password = new PasswordObjectValue(options.password).value;
-    this.username = new UsernameObjectValue(options.username).value;
-    this.refreshToken = new RefreshTokenObjectValue(options.refreshToken).value;
+    this.password = new PasswordValueObject(options.password).value;
+    this.username = new UsernameValueObject(options.username).value;
+    this.refreshToken = new RefreshTokenValueObject(options.refreshToken).value;
   }
 }

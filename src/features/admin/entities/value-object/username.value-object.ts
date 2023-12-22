@@ -1,6 +1,6 @@
 import { isString } from 'class-validator';
 
-export class UsernameObjectValue {
+export class UsernameValueObject {
   constructor(public readonly value: string) {
     this.validateType();
   }
