@@ -65,8 +65,8 @@ export class AdminController {
   }
 
   @Post()
-  @ApiBearerAuth()
-  @AccessTokenAuth()
+  //@ApiBearerAuth()
+  //@AccessTokenAuth()
   async create(@Body() createAdminDto: CreateAdminDto) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(new CreateAdminCommand(createAdminDto));

@@ -70,6 +70,7 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
 
   async findOne(filter: DeepPartial<<%= name.pascalCase %>Props>): Promise<<%= name.pascalCase %>Model | null> {
     const <%= name.camelCase %> = this.<%= name.camelCase %>Crud.findOne(filter);
+    if(!<%= name.camelCase %>) return null;
     return Promise.resolve(<%= name.pascalCase %>.create(<%= name.camelCase %>));
   }
 
@@ -99,11 +100,13 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
     options: Update<%= name.pascalCase %>Dto,
   ): Promise<<%= name.pascalCase %>Model> {
     const <%= name.camelCase %> = this.<%= name.camelCase %>Crud.update(filter, options);
+    if(!<%= name.camelCase %>) return null;
     return <%= name.pascalCase %>.create(<%= name.camelCase %>) 
   }
 
   async removeOne(filter: DeepPartial<<%= name.pascalCase %>Props>): Promise<<%= name.pascalCase %>Model> {
     const <%= name.camelCase %> = this.<%= name.camelCase %>Crud.delete(filter);
+    if(!<%= name.camelCase %>) return null;
     return <%= name.pascalCase %>.create(<%= name.camelCase %>) 
   }
 

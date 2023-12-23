@@ -105,7 +105,6 @@ describe('Login - AuthController', () => {
         expect(error).toEqual(new AdminUnauthorizedException());
       });
   });
-
   it('should be not login if user cannot be updated', async () => {
     const username = 'David200197';
     const password = '12345';

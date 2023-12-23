@@ -69,6 +69,7 @@ export class AdminLocalRepository implements AdminRepositoryModel {
 
   async findOne(filter: DeepPartial<AdminProps>): Promise<AdminModel | null> {
     const admin = this.adminCrud.findOne(filter);
+    if (!admin) return null;
     return Promise.resolve(Admin.create(admin));
   }
 
@@ -98,11 +99,13 @@ export class AdminLocalRepository implements AdminRepositoryModel {
     options: UpdateAdminDto,
   ): Promise<AdminModel> {
     const admin = this.adminCrud.update(filter, options);
+    if (!admin) return null;
     return Admin.create(admin);
   }
 
   async removeOne(filter: DeepPartial<AdminProps>): Promise<AdminModel> {
     const admin = this.adminCrud.delete(filter);
+    if (!admin) return null;
     return Admin.create(admin);
   }
 
