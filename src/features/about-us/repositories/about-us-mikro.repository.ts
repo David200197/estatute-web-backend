@@ -53,7 +53,7 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
 
   async create(options: CreateAboutUsDto): Promise<AboutUsModel> {
     const aboutUs = AboutUs.create(options);
-    const createdAboutUs = this.aboutUsRepository.create(aboutUs);
+    const createdAboutUs = this.aboutUsRepository.create(aboutUs.toObject());
     await this.aboutUsRepository.nativeInsert(createdAboutUs);
     return aboutUs;
   }
