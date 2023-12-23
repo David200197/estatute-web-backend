@@ -3,7 +3,7 @@ import { AnniversaryRepositoryModel } from '../models/anniversary-repository.mod
 import { AnniversariesModel } from '../models/anniversaries.model';
 import {
   AnniversaryModel,
-  AnniversaryProperties,
+  AnniversaryProps,
 } from '../models/anniversary.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAnniversaryDto } from '../dto/create-anniversary.dto';
@@ -19,14 +19,14 @@ import { Anniversary } from '../entities/anniversary';
 export class AnniversaryLocalRepository
   implements AnniversaryRepositoryModel, HelperMockMethods<AnniversaryModel>
 {
-  private anniversaryCrud: CrudMockMethods<AnniversaryModel>;
+  private anniversaryCrud: CrudMockMethods<AnniversaryProps>;
 
   constructor() {
     this.anniversaryCrud = new CrudMockMethods();
   }
 
   __changeStore(store: AnniversaryModel[]): void {
-    this.anniversaryCrud.__changeStore(store);
+    this.anniversaryCrud.__changeStore(store.map((data) => data.toObject()));
   }
 
   __reset(): void {
@@ -38,7 +38,9 @@ export class AnniversaryLocalRepository
   }
 
   __getStore(): AnniversaryModel[] {
-    return this.anniversaryCrud.__getStore();
+    return this.anniversaryCrud
+      .__getStore()
+      .map((data) => Anniversary.create(data));
   }
 
   __isError(): boolean {
@@ -74,14 +76,14 @@ export class AnniversaryLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<AnniversaryProperties>,
+    filter: DeepPartial<AnniversaryProps>,
   ): Promise<AnniversaryModel | null> {
     const anniversary = this.anniversaryCrud.findOne(filter);
-    return Promise.resolve(anniversary);
+    return Promise.resolve(Anniversary.create(anniversary));
   }
 
   async findAll(
-    filter: DeepPartial<AnniversaryProperties>,
+    filter: DeepPartial<AnniversaryProps>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<AnniversariesModel>> {
     //using options
@@ -89,40 +91,41 @@ export class AnniversaryLocalRepository
     //code
     const anniversaries = this.anniversaryCrud.findAll(filter);
     return Promise.resolve({
-      entities: Anniversaries.instance(anniversaries),
+      entities: Anniversaries.create(anniversaries),
       totalElement: 1,
       totalPage: 1,
     });
   }
 
   async create(options: CreateAnniversaryDto): Promise<AnniversaryModel> {
-    const anniversary = new Anniversary(options);
-    return this.anniversaryCrud.create(anniversary);
+    const anniversary = Anniversary.create(options);
+    this.anniversaryCrud.create(anniversary.toObject());
+    return anniversary;
   }
 
   async updateOne(
-    filter: DeepPartial<AnniversaryProperties>,
+    filter: DeepPartial<AnniversaryProps>,
     options: UpdateAnniversaryDto,
   ): Promise<AnniversaryModel> {
-    return this.anniversaryCrud.update(filter, options);
+    const anniversary = this.anniversaryCrud.update(filter, options);
+    return Anniversary.create(anniversary);
   }
 
   async removeOne(
-    filter: DeepPartial<AnniversaryProperties>,
+    filter: DeepPartial<AnniversaryProps>,
   ): Promise<AnniversaryModel> {
-    return this.anniversaryCrud.delete(filter);
+    const anniversary = this.anniversaryCrud.delete(filter);
+    return Anniversary.create(anniversary);
   }
 
   async updateMany(
-    filter: DeepPartial<AnniversaryProperties>,
+    filter: DeepPartial<AnniversaryProps>,
     options: UpdateAnniversaryDto,
   ): Promise<boolean> {
     return this.anniversaryCrud.updateMany(filter, options);
   }
 
-  async removeMany(
-    filter: DeepPartial<AnniversaryProperties>,
-  ): Promise<boolean> {
+  async removeMany(filter: DeepPartial<AnniversaryProps>): Promise<boolean> {
     return this.anniversaryCrud.deleteMany(filter);
   }
 }

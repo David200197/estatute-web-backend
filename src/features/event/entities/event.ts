@@ -1,32 +1,36 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
-import { EventModel, EventProperties } from '../models/event.model';
-import { UuidValueObject } from '@src/common/value-object/uuid.value-object';
-import { NameValueObject } from './value-object/name.value-object';
-import { DateValueObject } from './value-object/date.value-object';
-import { CampusValueObject } from './value-object/campus.value-object';
-import { SponsorsValueObject } from './value-object/sponsors.value-object';
-import { RapporteurshipValueObject } from './value-object/rapporteurship.value-object';
-import { PhotosValueObject } from './value-object/photos.value-object';
+import { EventModel, EventProps } from '../models/event.model';
+import { Uuid } from '@src/common/value-object/uuid.value-object';
+import { Name } from './value-object/name.value-object';
+import { DateValue } from './value-object/date.value-object';
+import { Campus } from './value-object/campus.value-object';
+import { Sponsors } from './value-object/sponsors.value-object';
+import { Rapporteurship } from './value-object/rapporteurship.value-object';
+import { Photos } from './value-object/photos.value-object';
+import { PropsToValueObjects } from '@src/common/interfaces/props-to-value-objects';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
-export class Event extends Entity implements EventModel {
-  public readonly uuid: string;
-  public readonly name: string;
-  public readonly date: string;
-  public readonly campus: string;
-  public readonly sponsors: string;
-  public readonly rapporteurship: string;
-  public readonly photos: string[];
+export class Event extends Entity<EventProps> implements EventModel {
+  private constructor(options: PropsToValueObjects<EventProps>) {
+    super(options);
+  }
 
-  constructor(options: EventProperties) {
-    super();
-    this.uuid = new UuidValueObject(options.uuid).value;
-    this.name = new NameValueObject(options.name).value;
-    this.date = new DateValueObject(options.date).value;
-    this.campus = new CampusValueObject(options.campus).value;
-    this.sponsors = new SponsorsValueObject(options.sponsors).value;
-    this.rapporteurship = new RapporteurshipValueObject(
-      options.rapporteurship,
-    ).value;
-    this.photos = new PhotosValueObject(options.photos).value;
+  public static create(options: SelfPartial<EventProps, 'uuid'>): Event {
+    const uuid = Uuid.create(options.uuid);
+    const name = Name.create(options.name);
+    const date = DateValue.create(options.date);
+    const campus = Campus.create(options.campus);
+    const sponsors = Sponsors.create(options.sponsors);
+    const rapporteurship = Rapporteurship.create(options.rapporteurship);
+    const photos = Photos.create(options.photos);
+    return new Event({
+      uuid,
+      name,
+      date,
+      campus,
+      sponsors,
+      rapporteurship,
+      photos,
+    });
   }
 }

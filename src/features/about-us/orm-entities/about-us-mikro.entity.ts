@@ -1,15 +1,15 @@
 import { Entity, Property, PrimaryKey } from '@mikro-orm/core';
 import {
-  AboutUsOnlyProperties,
-  InvestigativeCategory,
-  SpecialtyDegree,
-  TeachingCategory,
+  AboutUsProps,
+  InvestigativeCategoryEnum,
+  SpecialtyDegreeEnum,
+  TeachingCategoryEnum,
 } from '../models/about-us.model';
 
 @Entity({
   tableName: 'AboutUs',
 })
-export class AboutUsMikroEntity implements AboutUsOnlyProperties {
+export class AboutUsMikroEntity implements AboutUsProps {
   @PrimaryKey()
   uuid: string;
   @Property()
@@ -25,9 +25,9 @@ export class AboutUsMikroEntity implements AboutUsOnlyProperties {
   @Property()
   teachingExperience: string;
   @Property({ type: 'string' })
-  teachingCategory: TeachingCategory;
+  teachingCategory: TeachingCategoryEnum;
   @Property({ type: 'string' })
-  investigativeCategory: InvestigativeCategory;
+  investigativeCategory: InvestigativeCategoryEnum;
   @Property({ type: 'string' })
-  specialtyDegree: SpecialtyDegree;
+  specialtyDegree: SpecialtyDegreeEnum;
 }

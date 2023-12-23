@@ -1,15 +1,18 @@
-import { SpecialtyDegree } from '../../models/about-us.model';
+import { SpecialtyDegreeEnum } from '../../models/about-us.model';
 
-export class SpecialtyDegreeValueObject {
-  constructor(public readonly value: SpecialtyDegree) {
-    this.validateType();
-  }
+export class SpecialtyDegree {
+  private constructor(public readonly value: SpecialtyDegreeEnum) {}
 
-  private validateType() {
+  public static checkIsSpecialtyDegree(value: SpecialtyDegreeEnum): void {
     if (
-      this.value !== SpecialtyDegree.firstDegree &&
-      this.value !== SpecialtyDegree.secondDegree
+      value !== SpecialtyDegreeEnum.firstDegree &&
+      value !== SpecialtyDegreeEnum.secondDegree
     )
       throw new TypeError('specialtyDegree is not string');
+  }
+
+  public static create(value: SpecialtyDegreeEnum): SpecialtyDegree {
+    this.checkIsSpecialtyDegree(value);
+    return new SpecialtyDegree(value);
   }
 }

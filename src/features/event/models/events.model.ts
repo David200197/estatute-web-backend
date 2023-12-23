@@ -1,6 +1,5 @@
-import { EntityCollectionModel } from '@src/common/abstracts/entity-collection.abstracts';
+import { EntitiesModel } from '@src/common/abstracts/entities.abstracts';
 import { EventModel } from './event.model';
 
-export interface EventsModel extends EntityCollectionModel<EventModel> {
-  readonly value: EventModel[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface EventsModel extends EntitiesModel<EventModel> {}

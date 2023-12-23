@@ -1,16 +1,19 @@
-import { TeachingCategory } from '../../models/about-us.model';
+import { TeachingCategoryEnum } from '../../models/about-us.model';
 
-export class TeachingCategoryValueObject {
-  constructor(public readonly value: TeachingCategory) {
-    this.validateType();
-  }
+export class TeachingCategory {
+  private constructor(public readonly value: TeachingCategoryEnum) {}
 
-  private validateType() {
+  public static checkIsTeachingCategory(value: TeachingCategoryEnum): void {
     if (
-      this.value !== TeachingCategory.assistant &&
-      this.value !== TeachingCategory.auxiliary &&
-      this.value !== TeachingCategory.headline
+      value !== TeachingCategoryEnum.assistant &&
+      value !== TeachingCategoryEnum.auxiliary &&
+      value !== TeachingCategoryEnum.headline
     )
       throw new TypeError('teachingCategory is not string');
+  }
+
+  public static create(value: TeachingCategoryEnum): TeachingCategory {
+    this.checkIsTeachingCategory(value);
+    return new TeachingCategory(value);
   }
 }

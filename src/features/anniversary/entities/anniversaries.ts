@@ -1,19 +1,23 @@
-import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
-import { AnniversaryModel } from '../models/anniversary.model';
+import { Entities } from '@src/common/abstracts/entities.abstracts';
+import {
+  AnniversaryModel,
+  AnniversaryProps,
+} from '../models/anniversary.model';
 import { AnniversariesModel } from '../models/anniversaries.model';
 import { Anniversary } from './anniversary';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
 export class Anniversaries
-  extends EntityCollection<AnniversaryModel>
+  extends Entities<AnniversaryModel>
   implements AnniversariesModel
 {
   private constructor(public readonly value: AnniversaryModel[]) {
     super(value);
   }
 
-  static instance(value: AnniversaryModel[]) {
+  static create(value: SelfPartial<AnniversaryProps, 'uuid'>[]) {
     if (!Array.isArray(value))
       throw new TypeError('Anniversaries is not a array');
-    return new Anniversaries(value.map((data) => new Anniversary(data)));
+    return new Anniversaries(value.map((data) => Anniversary.create(data)));
   }
 }

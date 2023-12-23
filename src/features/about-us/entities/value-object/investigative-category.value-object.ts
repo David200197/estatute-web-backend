@@ -1,16 +1,21 @@
-import { InvestigativeCategory } from '../../models/about-us.model';
+import { InvestigativeCategoryEnum } from '../../models/about-us.model';
 
-export class InvestigativeCategoryValueObject {
-  constructor(public readonly value: InvestigativeCategory) {
-    this.validateType();
-  }
+export class InvestigativeCategory {
+  private constructor(public readonly value: InvestigativeCategoryEnum) {}
 
-  private validateType() {
+  public static checkIsInvestigativeCategory(value: string): void {
     if (
-      this.value !== InvestigativeCategory.attache &&
-      this.value !== InvestigativeCategory.auxiliary &&
-      this.value !== InvestigativeCategory.headline
+      value !== InvestigativeCategoryEnum.attache &&
+      value !== InvestigativeCategoryEnum.auxiliary &&
+      value !== InvestigativeCategoryEnum.headline
     )
       throw new TypeError('investigativeCategory is not string');
+  }
+
+  public static create(
+    value: InvestigativeCategoryEnum,
+  ): InvestigativeCategory {
+    this.checkIsInvestigativeCategory(value);
+    return new InvestigativeCategory(value);
   }
 }

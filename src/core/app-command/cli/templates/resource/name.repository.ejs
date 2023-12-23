@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { <%= name.pascalCase %>RepositoryModel } from '../models/<%= name.kebabCase %>-repository.model';
 import { <%= name.pascalCase %>sModel } from '../models/<%= name.kebabCase %>s.model';
-import { <%= name.pascalCase %>Model, <%= name.pascalCase %>OnlyProperties } from '../models/<%= name.kebabCase %>.model';
+import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Props } from '../models/<%= name.kebabCase %>.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { Create<%= name.pascalCase %>Dto } from '../dto/create-<%= name.kebabCase %>.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -14,14 +14,14 @@ import { <%= name.pascalCase %> } from '../entities/<%= name.kebabCase %>';
 
 @Injectable()
 export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCase %>RepositoryModel, HelperMockMethods<<%= name.pascalCase %>Model> {
-  private <%= name.camelCase %>Crud: CrudMockMethods<<%= name.pascalCase %>Model>;
+  private <%= name.camelCase %>Crud: CrudMockMethods<<%= name.pascalCase %>Props>;
 
   constructor() {
     this.<%= name.camelCase %>Crud = new CrudMockMethods();
   }
   
   __changeStore(store: <%= name.pascalCase %>Model[]): void {
-    this.<%= name.camelCase %>Crud.__changeStore(store);
+    this.<%= name.camelCase %>Crud.__changeStore(store.map((data) => data.toObject()));
   }
 
   __reset(): void {
@@ -33,7 +33,7 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
   }
 
   __getStore(): <%= name.pascalCase %>Model[] {
-    return this.<%= name.camelCase %>Crud.__getStore();
+    return this.<%= name.camelCase %>Crud.__getStore().map((data) => <%= name.pascalCase %>.create(data));
   }
 
   __isError(): boolean {
@@ -68,13 +68,13 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
     this.<%= name.camelCase %>Crud.__setDeleteRes(value);
   }
 
-  async findOne(filter: DeepPartial<<%= name.pascalCase %>OnlyProperties>): Promise<<%= name.pascalCase %>Model | null> {
+  async findOne(filter: DeepPartial<<%= name.pascalCase %>Props>): Promise<<%= name.pascalCase %>Model | null> {
     const <%= name.camelCase %> = this.<%= name.camelCase %>Crud.findOne(filter);
-    return Promise.resolve(<%= name.camelCase %>);
+    return Promise.resolve(<%= name.pascalCase %>.create(<%= name.camelCase %>));
   }
 
   async findAll(
-    filter: DeepPartial<<%= name.pascalCase %>OnlyProperties>,
+    filter: DeepPartial<<%= name.pascalCase %>Props>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<<%= name.pascalCase %>sModel>> {
     //using options
@@ -82,36 +82,39 @@ export class <%= name.pascalCase %>LocalRepository implements <%= name.pascalCas
     //code
     const <%= name.camelCase %>s = this.<%= name.camelCase %>Crud.findAll(filter);
     return Promise.resolve({
-      entities: <%= name.pascalCase %>s.instance(<%= name.camelCase %>s),
+      entities: <%= name.pascalCase %>s.create(<%= name.camelCase %>s),
       totalElement: 1,
       totalPage: 1,
     });
   }
 
   async create(options: Create<%= name.pascalCase %>Dto): Promise<<%= name.pascalCase %>Model> {
-    const <%= name.camelCase %> = new <%= name.pascalCase %>(options);
-    return this.<%= name.camelCase %>Crud.create(<%= name.camelCase %>);
+    const <%= name.camelCase %> = <%= name.pascalCase %>.create(options);
+    this.<%= name.camelCase %>Crud.create(<%= name.camelCase %>.toObject());
+    return <%= name.camelCase %>
   }
 
   async updateOne(
-    filter: DeepPartial<<%= name.pascalCase %>OnlyProperties>,
+    filter: DeepPartial<<%= name.pascalCase %>Props>,
     options: Update<%= name.pascalCase %>Dto,
   ): Promise<<%= name.pascalCase %>Model> {
-    return this.<%= name.camelCase %>Crud.update(filter, options);
+    const <%= name.camelCase %> = this.<%= name.camelCase %>Crud.update(filter, options);
+    return <%= name.pascalCase %>.create(<%= name.camelCase %>) 
   }
 
-  async removeOne(filter: DeepPartial<<%= name.pascalCase %>OnlyProperties>): Promise<<%= name.pascalCase %>Model> {
-    return this.<%= name.camelCase %>Crud.delete(filter);
+  async removeOne(filter: DeepPartial<<%= name.pascalCase %>Props>): Promise<<%= name.pascalCase %>Model> {
+    const <%= name.camelCase %> = this.<%= name.camelCase %>Crud.delete(filter);
+    return <%= name.pascalCase %>.create(<%= name.camelCase %>) 
   }
 
   async updateMany(
-    filter: DeepPartial<<%= name.pascalCase %>OnlyProperties>,
+    filter: DeepPartial<<%= name.pascalCase %>Props>,
     options: Update<%= name.pascalCase %>Dto,
   ): Promise<boolean> {
     return this.<%= name.camelCase %>Crud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<<%= name.pascalCase %>OnlyProperties>): Promise<boolean> {
+  async removeMany(filter: DeepPartial<<%= name.pascalCase %>Props>): Promise<boolean> {
     return this.<%= name.camelCase %>Crud.deleteMany(filter);
   }
 }

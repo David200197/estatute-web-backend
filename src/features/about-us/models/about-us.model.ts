@@ -1,38 +1,34 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
-import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
-import { SelfPartial } from '@src/common/interfaces/self-partial';
 
-export enum TeachingCategory {
+export enum TeachingCategoryEnum {
   assistant = 'asistente',
   auxiliary = 'auxiliar',
   headline = 'titular',
 }
 
-export enum InvestigativeCategory {
+export enum InvestigativeCategoryEnum {
   attache = 'agregado',
   auxiliary = 'auxiliar',
   headline = 'titular',
 }
 
-export enum SpecialtyDegree {
+export enum SpecialtyDegreeEnum {
   firstDegree = 'primer grado',
   secondDegree = 'segundo grado',
 }
 
-export interface AboutUsModel extends EntityModel {
+export type AboutUsProps = {
   readonly uuid: string;
   readonly name: string;
   readonly lastName: string;
   readonly scientificCategory: string;
-  readonly teachingCategory: TeachingCategory;
-  readonly investigativeCategory: InvestigativeCategory;
+  readonly teachingCategory: TeachingCategoryEnum;
+  readonly investigativeCategory: InvestigativeCategoryEnum;
   readonly specialty: string;
-  readonly specialtyDegree: SpecialtyDegree;
+  readonly specialtyDegree: SpecialtyDegreeEnum;
   readonly yearsOfWorkExperience: number;
   readonly teachingExperience: string;
-}
+};
 
-export type AboutUsOnlyProperties = NonFunctionProperties<AboutUsModel>;
-export type AboutUsOptions = NonFunctionProperties<
-  SelfPartial<AboutUsModel, 'uuid'>
->;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AboutUsModel extends EntityModel<AboutUsProps> {}

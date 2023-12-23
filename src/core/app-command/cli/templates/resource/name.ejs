@@ -1,11 +1,16 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
-import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Options } from '../models/<%= name.kebabCase %>.model';
-import { UuidValueObject } from '@src/common/value-object/uuid.value-object';
+import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Props } from '../models/<%= name.kebabCase %>.model';
+import { Uuid } from '@src/common/value-object/uuid.value-object';
+import { PropsToValueObjects } from '@src/common/interfaces/props-to-value-objects';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
-export class <%= name.pascalCase %> extends Entity implements <%= name.pascalCase %>Model {
-    public readonly uuid: string;
-    constructor(options: <%= name.pascalCase %>Options) {
-        super();
-        this.uuid = new UuidValueObject(options.uuid).value;
+export class <%= name.pascalCase %> extends Entity<<%= name.pascalCase %>Props> implements <%= name.pascalCase %>Model {
+    private constructor(options: PropsToValueObjects<<%= name.pascalCase %>Props>) {
+        super(options);
+    }
+
+    public static create(options: SelfPartial<<%= name.pascalCase %>Props, 'uuid'>): <%= name.pascalCase %> {
+        const uuid = Uuid.create(options.uuid);
+        return new <%= name.pascalCase %>({ uuid });
     }
 }

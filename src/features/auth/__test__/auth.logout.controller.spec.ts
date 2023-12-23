@@ -75,15 +75,15 @@ describe('Logout - AuthController', () => {
     expect(ok).toEqual(true);
     expect(response).toEqual('logout user success');
     const [admin] = adminRepository.__getStore();
-    expect(admin.refreshToken).toBeFalsy();
-    expect(admin.username).toEqual(expect.any(String));
-    expect(admin.password).toEqual(expect.any(String));
+    expect(admin.toObject().refreshToken).toBeFalsy();
+    expect(admin.toObject().username).toEqual(expect.any(String));
+    expect(admin.toObject().password).toEqual(expect.any(String));
   });
 
   it('should be no logout', async () => {
     authController
       .logout(
-        new Admin({
+        Admin.create({
           password: '123',
           username: 'david',
         }),

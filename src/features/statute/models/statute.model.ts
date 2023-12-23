@@ -1,8 +1,8 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
-import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
 
-export interface StatuteModel extends EntityModel {
+export type StatuteProps = {
   readonly uuid: string;
-}
+};
 
-export type StatuteProperties = NonFunctionProperties<StatuteModel>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface StatuteModel extends EntityModel<StatuteProps> {}

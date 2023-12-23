@@ -75,9 +75,9 @@ describe('Login - AuthController', () => {
     expect(data.accessToken).toEqual(expect.any(String));
     expect(data.refreshToken).toEqual(expect.any(String));
     const [admin] = adminRepository.__getStore();
-    expect(admin.refreshToken).toEqual(expect.any(String));
-    expect(admin.username).toEqual(expect.any(String));
-    expect(admin.password).toEqual(expect.any(String));
+    expect(admin.toObject().refreshToken).toEqual(expect.any(String));
+    expect(admin.toObject().username).toEqual(expect.any(String));
+    expect(admin.toObject().password).toEqual(expect.any(String));
   });
 
   it('should be not login if user not exist', async () => {

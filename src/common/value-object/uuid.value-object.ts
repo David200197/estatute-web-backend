@@ -1,12 +1,16 @@
 import { isUUID } from 'class-validator';
 import { randomUUID } from 'crypto';
+import { ValueObject } from '../interfaces/value-object';
 
-export class UuidValueObject {
-  constructor(public readonly value: string = randomUUID()) {
-    this.validateType();
+export class Uuid implements ValueObject<string> {
+  private constructor(public readonly value: string) {}
+
+  public static checkIsUuid(value: string): void {
+    if (!isUUID(value)) throw new TypeError('username is not string');
   }
 
-  private validateType() {
-    if (!isUUID(this.value)) throw new TypeError('uuid is not uuid');
+  public static create(value: string = randomUUID()): Uuid {
+    this.checkIsUuid(value);
+    return new Uuid(value);
   }
 }

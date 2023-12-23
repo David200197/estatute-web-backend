@@ -1,15 +1,16 @@
-import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
-import { <%= name.pascalCase %>Model } from '../models/<%= name.kebabCase %>.model';
+import { Entities } from '@src/common/abstracts/entities.abstracts';
+import { <%= name.pascalCase %>Model, <%= name.pascalCase %>Props } from '../models/<%= name.kebabCase %>.model';
 import { <%= name.pascalCase %>sModel } from '../models/<%= name.kebabCase %>s.model';
 import { <%= name.pascalCase %> } from './<%= name.kebabCase %>';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
-export class <%= name.pascalCase %>s extends EntityCollection<<%= name.pascalCase %>Model> implements <%= name.pascalCase %>sModel {
+export class <%= name.pascalCase %>s extends Entities<<%= name.pascalCase %>Model> implements <%= name.pascalCase %>sModel {
   private constructor(public readonly value: <%= name.pascalCase %>Model[]) {
-    super(value)
+    super(value);
   }
 
-  static instance(value: <%= name.pascalCase %>Model[]) {
+  public static create(value: SelfPartial<<%= name.pascalCase %>Props, 'uuid'>): <%= name.pascalCase %>s {
     if (!Array.isArray(value)) throw new TypeError('<%= name.pascalCase %>s is not a array');
-    return new <%= name.pascalCase %>s(value.map((data) => new <%= name.pascalCase %>(data)));
+    return <%= name.pascalCase %>s.create(value.map((data) => <%= name.pascalCase %>.create(data)));
   }
 }

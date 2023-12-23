@@ -1,11 +1,14 @@
 import { isString } from 'class-validator';
 
-export class CampusValueObject {
-  constructor(public readonly value: string) {
-    this.validateType();
+export class Campus {
+  private constructor(public readonly value: string) {}
+
+  public static checkIsCampus(value: string): void {
+    if (!isString(value)) throw new TypeError('campus is not string');
   }
 
-  private validateType() {
-    if (!isString(this.value)) throw new TypeError('campus is not string');
+  public static create(value: string): Campus {
+    this.checkIsCampus(value);
+    return new Campus(value);
   }
 }

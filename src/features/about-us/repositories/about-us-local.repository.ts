@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AboutUsRepositoryModel } from '../models/about-us-repository.model';
 import { AllAboutUsModel } from '../models/all-about-us.model';
-import { AboutUsModel, AboutUsOnlyProperties } from '../models/about-us.model';
+import { AboutUsModel, AboutUsProps } from '../models/about-us.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateAboutUsDto } from '../dto/create-about-us.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -16,14 +16,14 @@ import { AboutUs } from '../entities/about-us';
 export class AboutUsLocalRepository
   implements AboutUsRepositoryModel, HelperMockMethods<AboutUsModel>
 {
-  private aboutUsCrud: CrudMockMethods<AboutUsModel>;
+  private aboutUsCrud: CrudMockMethods<AboutUsProps>;
 
   constructor() {
     this.aboutUsCrud = new CrudMockMethods();
   }
 
   __changeStore(store: AboutUsModel[]): void {
-    this.aboutUsCrud.__changeStore(store);
+    this.aboutUsCrud.__changeStore(store.map((data) => data.toObject()));
   }
 
   __reset(): void {
@@ -35,7 +35,7 @@ export class AboutUsLocalRepository
   }
 
   __getStore(): AboutUsModel[] {
-    return this.aboutUsCrud.__getStore();
+    return this.aboutUsCrud.__getStore().map((data) => AboutUs.create(data));
   }
 
   __isError(): boolean {
@@ -71,55 +71,54 @@ export class AboutUsLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<AboutUsOnlyProperties>,
+    filter: DeepPartial<AboutUsProps>,
   ): Promise<AboutUsModel | null> {
     const aboutUs = this.aboutUsCrud.findOne(filter);
-    return Promise.resolve(aboutUs);
+    return Promise.resolve(AboutUs.create(aboutUs));
   }
 
   async findAll(
-    filter: DeepPartial<AboutUsOnlyProperties>,
+    filter: DeepPartial<AboutUsProps>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<AllAboutUsModel>> {
     //using options
     options;
     //code
-    const aboutUss = this.aboutUsCrud.findAll(filter);
+    const allAboutUs = this.aboutUsCrud.findAll(filter);
     return Promise.resolve({
-      entities: AllAboutUs.instance(aboutUss),
+      entities: AllAboutUs.create(allAboutUs),
       totalElement: 1,
       totalPage: 1,
     });
   }
 
   async create(options: CreateAboutUsDto): Promise<AboutUsModel> {
-    const aboutUs = new AboutUs(options);
-    return this.aboutUsCrud.create(aboutUs);
+    const aboutUs = AboutUs.create(options);
+    this.aboutUsCrud.create(aboutUs.toObject());
+    return aboutUs;
   }
 
   async updateOne(
-    filter: DeepPartial<AboutUsOnlyProperties>,
+    filter: DeepPartial<AboutUsProps>,
     options: UpdateAboutUsDto,
   ): Promise<AboutUsModel> {
-    return this.aboutUsCrud.update(filter, options);
+    const aboutUs = this.aboutUsCrud.update(filter, options);
+    return AboutUs.create(aboutUs);
   }
 
-  async removeOne(
-    filter: DeepPartial<AboutUsOnlyProperties>,
-  ): Promise<AboutUsModel> {
-    return this.aboutUsCrud.delete(filter);
+  async removeOne(filter: DeepPartial<AboutUsProps>): Promise<AboutUsModel> {
+    const aboutUs = this.aboutUsCrud.delete(filter);
+    return AboutUs.create(aboutUs);
   }
 
   async updateMany(
-    filter: DeepPartial<AboutUsOnlyProperties>,
+    filter: DeepPartial<AboutUsProps>,
     options: UpdateAboutUsDto,
   ): Promise<boolean> {
     return this.aboutUsCrud.updateMany(filter, options);
   }
 
-  async removeMany(
-    filter: DeepPartial<AboutUsOnlyProperties>,
-  ): Promise<boolean> {
+  async removeMany(filter: DeepPartial<AboutUsProps>): Promise<boolean> {
     return this.aboutUsCrud.deleteMany(filter);
   }
 }

@@ -1,8 +1,8 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
-import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
 
-export interface AnniversaryModel extends EntityModel {
+export type AnniversaryProps = {
   readonly uuid: string;
-}
+};
 
-export type AnniversaryProperties = NonFunctionProperties<AnniversaryModel>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AnniversaryModel extends EntityModel<AnniversaryProps> {}

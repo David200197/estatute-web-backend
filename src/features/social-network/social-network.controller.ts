@@ -36,14 +36,14 @@ export class SocialNetworksController {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: socialNetworks,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<SocialNetworksModel> = await this.queryBus.execute(
       new FindAllSocialNetworksQuery({}, findAllDto),
     );
     return new SerializerResponse('socialNetworks was founded', {
-      socialNetworks,
+      socialNetworks: entities.toObject(),
       totalElement,
       totalPage,
     });
@@ -60,7 +60,7 @@ export class SocialNetworksController {
       (data) => data,
     );
     return new SerializerResponse('socialNetwork was founded', {
-      socialNetwork,
+      socialNetwork: socialNetwork.toObject(),
     });
   }
 
@@ -72,7 +72,7 @@ export class SocialNetworksController {
       new CreateSocialNetworkCommand(createSocialNetworksDto),
     );
     return new SerializerResponse('socialNetwork was created', {
-      socialNetwork,
+      socialNetwork: socialNetwork.toObject(),
     });
   }
 
@@ -94,7 +94,7 @@ export class SocialNetworksController {
       (data) => data,
     );
     return new SerializerResponse('socialNetwork was updated', {
-      socialNetwork,
+      socialNetwork: socialNetwork.toObject(),
     });
   }
 
@@ -111,7 +111,7 @@ export class SocialNetworksController {
       (data) => data,
     );
     return new SerializerResponse('socialNetwork was removed', {
-      socialNetwork,
+      socialNetwork: socialNetwork.toObject(),
     });
   }
 }

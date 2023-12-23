@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InvitationRepositoryModel } from '../models/invitation-repository.model';
 import { InvitationsModel } from '../models/invitations.model';
-import { InvitationModel } from '../models/invitation.model';
+import { InvitationModel, InvitationProps } from '../models/invitation.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateInvitationDto } from '../dto/create-invitation.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -10,19 +10,20 @@ import { UpdateInvitationDto } from '../dto/update-invitation.dto';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { HelperMockMethods } from '@src/common/interfaces/helper-mock.methods';
+import { Invitation } from '../entities/invitation';
 
 @Injectable()
 export class InvitationLocalRepository
   implements InvitationRepositoryModel, HelperMockMethods<InvitationModel>
 {
-  private invitationCrud: CrudMockMethods<InvitationModel>;
+  private invitationCrud: CrudMockMethods<InvitationProps>;
 
   constructor() {
     this.invitationCrud = new CrudMockMethods();
   }
 
   __changeStore(store: InvitationModel[]): void {
-    this.invitationCrud.__changeStore(store);
+    this.invitationCrud.__changeStore(store.map((data) => data.toObject()));
   }
 
   __reset(): void {
@@ -34,7 +35,9 @@ export class InvitationLocalRepository
   }
 
   __getStore(): InvitationModel[] {
-    return this.invitationCrud.__getStore();
+    return this.invitationCrud
+      .__getStore()
+      .map((data) => Invitation.create(data));
   }
 
   __isError(): boolean {
@@ -70,14 +73,14 @@ export class InvitationLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
   ): Promise<InvitationModel | null> {
     const invitation = this.invitationCrud.findOne(filter);
-    return Promise.resolve(invitation);
+    return Promise.resolve(Invitation.create(invitation));
   }
 
   async findAll(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<InvitationsModel>> {
     //using options
@@ -85,37 +88,41 @@ export class InvitationLocalRepository
     //code
     const invitations = this.invitationCrud.findAll(filter);
     return Promise.resolve({
-      entities: Invitations.instance(invitations),
+      entities: Invitations.create(invitations),
       totalElement: 1,
       totalPage: 1,
     });
   }
 
   async create(options: CreateInvitationDto): Promise<InvitationModel> {
-    return this.invitationCrud.create(options);
+    const invitation = Invitation.create(options);
+    this.invitationCrud.create(invitation.toObject());
+    return invitation;
   }
 
   async updateOne(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
     options: UpdateInvitationDto,
   ): Promise<InvitationModel> {
-    return this.invitationCrud.update(filter, options);
+    const invitation = this.invitationCrud.update(filter, options);
+    return Invitation.create(invitation);
   }
 
   async removeOne(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
   ): Promise<InvitationModel> {
-    return this.invitationCrud.delete(filter);
+    const invitation = this.invitationCrud.delete(filter);
+    return Invitation.create(invitation);
   }
 
   async updateMany(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
     options: UpdateInvitationDto,
   ): Promise<boolean> {
     return this.invitationCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<InvitationModel>): Promise<boolean> {
+  async removeMany(filter: DeepPartial<InvitationProps>): Promise<boolean> {
     return this.invitationCrud.deleteMany(filter);
   }
 }

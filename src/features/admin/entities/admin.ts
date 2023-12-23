@@ -1,18 +1,19 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
-import { AdminModel, AdminProperties } from '../models/admin.model';
-import { PasswordValueObject } from './value-object/password.value-object';
-import { UsernameValueObject } from './value-object/username.value-object';
-import { RefreshTokenValueObject } from './value-object/refresh-token.value-object';
+import { AdminModel, AdminProps } from '../models/admin.model';
+import { Password } from './value-object/password.value-object';
+import { Username } from './value-object/username.value-object';
+import { RefreshToken } from './value-object/refresh-token.value-object';
+import { PropsToValueObjects } from '@src/common/interfaces/props-to-value-objects';
 
-export class Admin extends Entity implements AdminModel {
-  public readonly password: string;
-  public readonly username: string;
-  public readonly refreshToken?: string;
+export class Admin extends Entity<AdminProps> implements AdminModel {
+  private constructor(options: PropsToValueObjects<AdminProps>) {
+    super(options);
+  }
 
-  constructor(options: AdminProperties) {
-    super();
-    this.password = new PasswordValueObject(options.password).value;
-    this.username = new UsernameValueObject(options.username).value;
-    this.refreshToken = new RefreshTokenValueObject(options.refreshToken).value;
+  public static create(options: AdminProps): Admin {
+    const username = Username.create(options.username);
+    const password = Password.create(options.password);
+    const refreshToken = RefreshToken.create(options.refreshToken);
+    return new Admin({ username, password, refreshToken });
   }
 }

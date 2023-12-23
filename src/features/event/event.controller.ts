@@ -41,14 +41,14 @@ export class EventController {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: events,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<EventsModel> = await this.queryBus.execute(
       new FindAllEventQuery({}, findAllDto),
     );
     return new SerializerResponse('events was founded', {
-      events,
+      events: entities.toObject(),
       totalElement,
       totalPage,
     });
@@ -65,7 +65,7 @@ export class EventController {
       (data) => data,
     );
     return new SerializerResponse('event was founded', {
-      event,
+      event: event.toObject(),
     });
   }
 
@@ -81,7 +81,7 @@ export class EventController {
       new CreateEventCommand(createEventDto, photos),
     );
     return new SerializerResponse('event was created', {
-      event,
+      event: event.toObject(),
     });
   }
 
@@ -104,7 +104,7 @@ export class EventController {
       (data) => data,
     );
     return new SerializerResponse('event was updated', {
-      event,
+      event: event.toObject(),
     });
   }
 
@@ -121,7 +121,7 @@ export class EventController {
       (data) => data,
     );
     return new SerializerResponse('event was removed', {
-      event,
+      event: event.toObject(),
     });
   }
 }

@@ -1,5 +1,5 @@
+import { EntitiesModel } from '@src/common/abstracts/entities.abstracts';
 import { InvitationModel } from './invitation.model';
 
-export interface InvitationsModel {
-  readonly value: InvitationModel[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface InvitationsModel extends EntitiesModel<InvitationModel> {}

@@ -3,7 +3,7 @@ import { SocialNetworkRepositoryModel } from '../models/social-network-repositor
 import { SocialNetworksModel } from '../models/social-networks.model';
 import {
   SocialNetworkModel,
-  SocialNetworkProperties,
+  SocialNetworkProps,
 } from '../models/social-network.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateSocialNetworkDto } from '../dto/create-social-network.dto';
@@ -21,14 +21,14 @@ export class SocialNetworkLocalRepository
     SocialNetworkRepositoryModel,
     HelperMockMethods<SocialNetworkModel>
 {
-  private socialNetworkCrud: CrudMockMethods<SocialNetworkModel>;
+  private socialNetworkCrud: CrudMockMethods<SocialNetworkProps>;
 
   constructor() {
     this.socialNetworkCrud = new CrudMockMethods();
   }
 
   __changeStore(store: SocialNetworkModel[]): void {
-    this.socialNetworkCrud.__changeStore(store);
+    this.socialNetworkCrud.__changeStore(store.map((data) => data.toObject()));
   }
 
   __reset(): void {
@@ -40,7 +40,9 @@ export class SocialNetworkLocalRepository
   }
 
   __getStore(): SocialNetworkModel[] {
-    return this.socialNetworkCrud.__getStore();
+    return this.socialNetworkCrud
+      .__getStore()
+      .map((data) => SocialNetwork.create(data));
   }
 
   __isError(): boolean {
@@ -76,14 +78,14 @@ export class SocialNetworkLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<SocialNetworkProperties>,
+    filter: DeepPartial<SocialNetworkProps>,
   ): Promise<SocialNetworkModel | null> {
     const socialNetwork = this.socialNetworkCrud.findOne(filter);
-    return Promise.resolve(socialNetwork);
+    return Promise.resolve(SocialNetwork.create(socialNetwork));
   }
 
   async findAll(
-    filter: DeepPartial<SocialNetworkProperties>,
+    filter: DeepPartial<SocialNetworkProps>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<SocialNetworksModel>> {
     //using options
@@ -91,40 +93,41 @@ export class SocialNetworkLocalRepository
     //code
     const socialNetworks = this.socialNetworkCrud.findAll(filter);
     return Promise.resolve({
-      entities: SocialNetworks.instance(socialNetworks),
+      entities: SocialNetworks.create(socialNetworks),
       totalElement: 1,
       totalPage: 1,
     });
   }
 
   async create(options: CreateSocialNetworkDto): Promise<SocialNetworkModel> {
-    const socialNetwork = new SocialNetwork(options);
-    return this.socialNetworkCrud.create(socialNetwork);
+    const socialNetwork = SocialNetwork.create(options);
+    this.socialNetworkCrud.create(socialNetwork.toObject());
+    return socialNetwork;
   }
 
   async updateOne(
-    filter: DeepPartial<SocialNetworkProperties>,
+    filter: DeepPartial<SocialNetworkProps>,
     options: UpdateSocialNetworkDto,
   ): Promise<SocialNetworkModel> {
-    return this.socialNetworkCrud.update(filter, options);
+    const socialNetwork = this.socialNetworkCrud.update(filter, options);
+    return SocialNetwork.create(socialNetwork);
   }
 
   async removeOne(
-    filter: DeepPartial<SocialNetworkProperties>,
+    filter: DeepPartial<SocialNetworkProps>,
   ): Promise<SocialNetworkModel> {
-    return this.socialNetworkCrud.delete(filter);
+    const socialNetwork = this.socialNetworkCrud.delete(filter);
+    return SocialNetwork.create(socialNetwork);
   }
 
   async updateMany(
-    filter: DeepPartial<SocialNetworkProperties>,
+    filter: DeepPartial<SocialNetworkProps>,
     options: UpdateSocialNetworkDto,
   ): Promise<boolean> {
     return this.socialNetworkCrud.updateMany(filter, options);
   }
 
-  async removeMany(
-    filter: DeepPartial<SocialNetworkProperties>,
-  ): Promise<boolean> {
+  async removeMany(filter: DeepPartial<SocialNetworkProps>): Promise<boolean> {
     return this.socialNetworkCrud.deleteMany(filter);
   }
 }

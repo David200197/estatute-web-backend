@@ -1,18 +1,15 @@
-import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
-import { AdminModel } from '../models/admin.model';
+import { Entities } from '@src/common/abstracts/entities.abstracts';
+import { AdminModel, AdminProps } from '../models/admin.model';
 import { AdminsModel } from '../models/admins.model';
 import { Admin } from './admin';
 
-export class Admins
-  extends EntityCollection<AdminModel>
-  implements AdminsModel
-{
+export class Admins extends Entities<AdminModel> implements AdminsModel {
   private constructor(public readonly value: AdminModel[]) {
     super(value);
   }
 
-  static instance(value: AdminModel[]) {
+  static create(value: AdminProps[]): Admins {
     if (!Array.isArray(value)) throw new TypeError('Admins is not a array');
-    return new Admins(value.map((data) => new Admin(data)));
+    return new Admins(value.map((data) => Admin.create(data)));
   }
 }

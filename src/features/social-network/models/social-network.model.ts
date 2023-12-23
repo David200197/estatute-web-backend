@@ -1,11 +1,11 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
-import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
 
-export interface SocialNetworkModel extends EntityModel {
+export type SocialNetworkProps = {
   readonly uuid: string;
   readonly name: string;
   readonly link: string;
   readonly icon: string;
-}
+};
 
-export type SocialNetworkProperties = NonFunctionProperties<SocialNetworkModel>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SocialNetworkModel extends EntityModel<SocialNetworkProps> {}

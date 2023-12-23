@@ -36,14 +36,14 @@ export class StatuteController {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: statutes,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<StatutesModel> = await this.queryBus.execute(
       new FindAllStatuteQuery({}, findAllDto),
     );
     return new SerializerResponse('statutes was founded', {
-      statutes,
+      statutes: entities.toObject(),
       totalElement,
       totalPage,
     });
@@ -60,7 +60,7 @@ export class StatuteController {
       (data) => data,
     );
     return new SerializerResponse('statute was founded', {
-      statute,
+      statute: statute.toObject(),
     });
   }
 
@@ -72,7 +72,7 @@ export class StatuteController {
       new CreateStatuteCommand(createStatuteDto),
     );
     return new SerializerResponse('statute was created', {
-      statute,
+      statute: statute.toObject(),
     });
   }
 
@@ -94,7 +94,7 @@ export class StatuteController {
       (data) => data,
     );
     return new SerializerResponse('statute was updated', {
-      statute,
+      statute: statute.toObject(),
     });
   }
 
@@ -111,7 +111,7 @@ export class StatuteController {
       (data) => data,
     );
     return new SerializerResponse('statute was removed', {
-      statute,
+      statute: statute.toObject(),
     });
   }
 }

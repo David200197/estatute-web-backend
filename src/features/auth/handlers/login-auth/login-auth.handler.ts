@@ -37,7 +37,7 @@ export class LoginAuthHandler
       async (user) => {
         const isValid = await this.hashPasswordService.verify(
           password,
-          user.password,
+          user.toObject().password,
         );
         if (!isValid) return Either.left(new AdminUnauthorizedException());
         return Either.right(user);

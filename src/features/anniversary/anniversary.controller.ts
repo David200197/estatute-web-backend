@@ -36,14 +36,14 @@ export class AnniversaryController {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: anniversarys,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<AnniversariesModel> = await this.queryBus.execute(
       new FindAllAnniversaryQuery({}, findAllDto),
     );
-    return new SerializerResponse('anniversarys was founded', {
-      anniversarys,
+    return new SerializerResponse('anniversaries was founded', {
+      anniversaries: entities.toObject(),
       totalElement,
       totalPage,
     });
@@ -60,7 +60,7 @@ export class AnniversaryController {
       (data) => data,
     );
     return new SerializerResponse('anniversary was founded', {
-      anniversary,
+      anniversary: anniversary.toObject(),
     });
   }
 
@@ -72,7 +72,7 @@ export class AnniversaryController {
       new CreateAnniversaryCommand(createAnniversaryDto),
     );
     return new SerializerResponse('anniversary was created', {
-      anniversary,
+      anniversary: anniversary.toObject(),
     });
   }
 
@@ -94,7 +94,7 @@ export class AnniversaryController {
       (data) => data,
     );
     return new SerializerResponse('anniversary was updated', {
-      anniversary,
+      anniversary: anniversary.toObject(),
     });
   }
 
@@ -111,7 +111,7 @@ export class AnniversaryController {
       (data) => data,
     );
     return new SerializerResponse('anniversary was removed', {
-      anniversary,
+      anniversary: anniversary.toObject(),
     });
   }
 }

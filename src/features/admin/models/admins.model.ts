@@ -1,6 +1,5 @@
-import { EntityCollectionModel } from '@src/common/abstracts/entity-collection.abstracts';
+import { EntitiesModel } from '@src/common/abstracts/entities.abstracts';
 import { AdminModel } from './admin.model';
 
-export interface AdminsModel extends EntityCollectionModel<AdminModel> {
-  readonly value: AdminModel[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AdminsModel extends EntitiesModel<AdminModel> {}

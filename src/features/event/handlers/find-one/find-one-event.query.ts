@@ -1,6 +1,6 @@
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
-import { EventModel } from '../../models/event.model';
+import { EventProps } from '../../models/event.model';
 
 export class FindOneEventQuery {
-  constructor(public readonly filter: DeepPartial<EventModel>) {}
+  constructor(public readonly filter: DeepPartial<EventProps>) {}
 }

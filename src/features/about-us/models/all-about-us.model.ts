@@ -1,6 +1,5 @@
-import { EntityCollectionModel } from '@src/common/abstracts/entity-collection.abstracts';
+import { EntitiesModel } from '@src/common/abstracts/entities.abstracts';
 import { AboutUsModel } from './about-us.model';
 
-export interface AllAboutUsModel extends EntityCollectionModel<AboutUsModel> {
-  readonly value: AboutUsModel[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AllAboutUsModel extends EntitiesModel<AboutUsModel> {}

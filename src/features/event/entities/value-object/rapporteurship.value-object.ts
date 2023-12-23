@@ -1,12 +1,14 @@
 import { isString } from 'class-validator';
 
-export class RapporteurshipValueObject {
-  constructor(public readonly value: string) {
-    this.validateType();
+export class Rapporteurship {
+  constructor(public readonly value: string) {}
+
+  public static checkIsRapporteurship(value: string): void {
+    if (!isString(value)) throw new TypeError('rapporteurship is not string');
   }
 
-  private validateType() {
-    if (!isString(this.value))
-      throw new TypeError('rapporteurship is not string');
+  public static create(value: string): Rapporteurship {
+    this.checkIsRapporteurship(value);
+    return Rapporteurship.create(value);
   }
 }

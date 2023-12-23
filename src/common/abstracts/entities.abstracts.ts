@@ -1,9 +1,11 @@
-import { NonFunctionProperties } from '../interfaces/manipulate-properties';
 import { OptionsFlags } from '../interfaces/options-flags';
+import { ValueObject } from '../interfaces/value-object';
+import { ValueObjectsToProps } from '../interfaces/value-objects-to-props';
 import { isDeeplyEqual } from '../utils/is-deeply-equal';
 import { EntityModel } from './entity.abstract';
 
-export interface EntityCollectionModel<A extends EntityModel> {
+export interface EntitiesModel<A extends EntityModel<Record<string, unknown>>>
+  extends ValueObject<A[]> {
   readonly value: A[];
   groupBy(getKey: (event: A) => number | string): Record<number | string, A[]>;
   isEmpty(): boolean;
@@ -22,16 +24,15 @@ export interface EntityCollectionModel<A extends EntityModel> {
   forEachParallel(
     method: (value: A, index: number, array: A[]) => void,
   ): Promise<PromiseSettledResult<void>[]>;
-  clone(): EntityCollectionModel<A>;
-  select(
-    options: Partial<OptionsFlags<NonFunctionProperties<A>>>,
-  ): Record<string, unknown>[];
-  isEqual(entities: EntityCollectionModel<A>): boolean;
-  add(entities: EntityCollectionModel<A>): EntityCollectionModel<A>;
+  clone(): EntitiesModel<A>;
+  select(options: Partial<OptionsFlags<A['value']>>): Record<string, unknown>[];
+  isEqual(entities: EntitiesModel<A>): boolean;
+  add(entities: EntitiesModel<A>): EntitiesModel<A>;
+  toObject(): ValueObjectsToProps<A['value']>[];
 }
 
-export class EntityCollection<A extends EntityModel>
-  implements EntityCollectionModel<A>
+export class Entities<A extends EntityModel<Record<string, unknown>>>
+  implements EntitiesModel<A>
 {
   protected constructor(readonly value: A[]) {}
 
@@ -44,8 +45,8 @@ export class EntityCollection<A extends EntityModel>
       return {
         ...accumulator,
         [key]: accumulator[key]
-          ? new EntityCollection([...accumulator[key].value, currentValue])
-          : new EntityCollection([currentValue]),
+          ? new Entities([...accumulator[key].value, currentValue])
+          : new Entities([currentValue]),
       };
     }, {});
   };
@@ -100,20 +101,26 @@ export class EntityCollection<A extends EntityModel>
   }
 
   clone() {
-    return new EntityCollection([...this.value.map((data) => data.clone())]);
+    return new Entities([...this.value.map((data) => data.clone())]);
   }
 
   select(
-    options: Partial<OptionsFlags<NonFunctionProperties<A>>>,
+    options: Partial<OptionsFlags<A['value']>>,
   ): Record<string, unknown>[] {
     return this.value.map((data) => data.select(options));
   }
 
-  isEqual(entities: EntityCollectionModel<A>): boolean {
+  isEqual(entities: EntitiesModel<A>): boolean {
     return isDeeplyEqual(this.value, entities.value);
   }
 
-  add(entities: EntityCollectionModel<A>): EntityCollectionModel<A> {
-    return new EntityCollection([...this.value, ...entities.value]);
+  add(entities: EntitiesModel<A>): EntitiesModel<A> {
+    return new Entities([...this.value, ...entities.value]);
+  }
+
+  toObject(): ValueObjectsToProps<A['value']>[] {
+    return this.value.map((data) => data.toObject()) as ValueObjectsToProps<
+      A['value']
+    >[];
   }
 }

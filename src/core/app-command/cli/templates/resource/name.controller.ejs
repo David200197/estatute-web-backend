@@ -34,14 +34,14 @@ export class <%= name.pascalCase %>Controller {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: <%= name.camelCase %>s,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<<%= name.pascalCase %>sModel> = await this.queryBus.execute(
       new FindAll<%= name.pascalCase %>Query({}, findAllDto),
     );
     return new SerializerResponse('<%= name.camelCase %>s was founded', {
-      <%= name.camelCase %>s,
+      <%= name.camelCase %>s: entities.toObject(),
       totalElement,
       totalPage,
     });
@@ -59,7 +59,7 @@ export class <%= name.pascalCase %>Controller {
       (data) => data,
     );
     return new SerializerResponse('<%= name.camelCase %> was founded', {
-      <%= name.camelCase %>,
+      <%= name.camelCase %>: <%= name.camelCase %>.toObject(),
     });
   }
 
@@ -69,7 +69,7 @@ export class <%= name.pascalCase %>Controller {
       new Create<%= name.pascalCase %>Command(create<%= name.pascalCase %>Dto),
     );
     return new SerializerResponse('<%= name.camelCase %> was created', {
-      <%= name.camelCase %>,
+      <%= name.camelCase %>: <%= name.camelCase %>.toObject(),
     });
   }
 
@@ -88,7 +88,7 @@ export class <%= name.pascalCase %>Controller {
       (data) => data,
     );
     return new SerializerResponse('<%= name.camelCase %> was updated', {
-      <%= name.camelCase %>,
+      <%= name.camelCase %>: <%= name.camelCase %>.toObject(),
     });
   }
 
@@ -104,7 +104,7 @@ export class <%= name.pascalCase %>Controller {
       (data) => data,
     );
     return new SerializerResponse('<%= name.camelCase %> was removed', {
-      <%= name.camelCase %>,
+      <%= name.camelCase %>: <%= name.camelCase %>.toObject(),
     });
   }
 }

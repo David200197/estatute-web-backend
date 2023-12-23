@@ -1,6 +1,5 @@
-import { EntityCollectionModel } from '@src/common/abstracts/entity-collection.abstracts';
+import { EntitiesModel } from '@src/common/abstracts/entities.abstracts';
 import { <%= name.pascalCase %>Model } from './<%= name.kebabCase %>.model';
 
-export interface <%= name.pascalCase %>sModel extends EntityCollectionModel<<%= name.pascalCase %>Model> {
-  readonly value: <%= name.pascalCase %>Model[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface <%= name.pascalCase %>sModel extends EntitiesModel<<%= name.pascalCase %>Model> {}

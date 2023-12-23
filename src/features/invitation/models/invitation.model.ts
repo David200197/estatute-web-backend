@@ -1,5 +1,8 @@
-import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
+import { EntityModel } from '@src/common/abstracts/entity.abstract';
 
-export interface InvitationModel {}
+export type InvitationProps = {
+  readonly uuid: string;
+};
 
-export type InvitationProperties = NonFunctionProperties<InvitationModel>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface InvitationModel extends EntityModel<InvitationProps> {}

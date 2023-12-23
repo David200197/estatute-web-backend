@@ -1,19 +1,20 @@
-import { EntityCollection } from '@src/common/abstracts/entity-collection.abstracts';
-import { AboutUsModel } from '../models/about-us.model';
+import { Entities } from '@src/common/abstracts/entities.abstracts';
+import { AboutUsModel, AboutUsProps } from '../models/about-us.model';
 import { AllAboutUsModel } from '../models/all-about-us.model';
 import { AboutUs } from './about-us';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
 export class AllAboutUs
-  extends EntityCollection<AboutUsModel>
+  extends Entities<AboutUsModel>
   implements AllAboutUsModel
 {
   private constructor(public readonly value: AboutUsModel[]) {
     super(value);
   }
 
-  static instance(value: AboutUsModel[]) {
+  static create(value: SelfPartial<AboutUsProps, 'uuid'>[]) {
     if (!Array.isArray(value))
       throw new TypeError('AboutUsModel is not a array');
-    return new AllAboutUs(value.map((data) => new AboutUs(data)));
+    return new AllAboutUs(value.map((data) => AboutUs.create(data)));
   }
 }

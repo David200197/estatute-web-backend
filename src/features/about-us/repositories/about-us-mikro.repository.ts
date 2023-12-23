@@ -7,7 +7,7 @@ import { FindAllDto, Order } from '@src/common/dto/find-all.dto';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { CreateAboutUsDto } from '../dto/create-about-us.dto';
 import { UpdateAboutUsDto } from '../dto/update-about-us.dto';
-import { AboutUsModel, AboutUsOnlyProperties } from '../models/about-us.model';
+import { AboutUsModel, AboutUsProps } from '../models/about-us.model';
 import { AllAboutUsModel } from '../models/all-about-us.model';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { AboutUs } from '../entities/about-us';
@@ -21,15 +21,13 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
     private readonly aboutUsRepository: EntityRepository<AboutUsMikroEntity>,
   ) {}
 
-  async findOne(
-    filter: DeepPartial<AboutUsOnlyProperties>,
-  ): Promise<AboutUsModel> {
+  async findOne(filter: DeepPartial<AboutUsProps>): Promise<AboutUsModel> {
     const aboutUs = await this.aboutUsRepository.findOne(filter);
-    return new AboutUs(aboutUs);
+    return AboutUs.create(aboutUs);
   }
 
   async findAll(
-    filter: DeepPartial<AboutUsOnlyProperties>,
+    filter: DeepPartial<AboutUsProps>,
     { order, orderBy, page, perPage }: FindAllDto = {},
   ): Promise<ResponseWithPaginate<AllAboutUsModel>> {
     const pagination = new Paginator({
@@ -47,21 +45,21 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
           : null,
       });
     return {
-      entities: AllAboutUs.instance(allAboutUS as AboutUs[]),
+      entities: AllAboutUs.create(allAboutUS),
       totalElement,
       totalPage: pagination.getTotalPage(totalElement),
     };
   }
 
   async create(options: CreateAboutUsDto): Promise<AboutUsModel> {
-    const aboutUs = new AboutUs(options);
+    const aboutUs = AboutUs.create(options);
     const createdAboutUs = this.aboutUsRepository.create(aboutUs);
     await this.aboutUsRepository.nativeInsert(createdAboutUs);
     return aboutUs;
   }
 
   async updateOne(
-    filter: DeepPartial<AboutUsOnlyProperties>,
+    filter: DeepPartial<AboutUsProps>,
     options: UpdateAboutUsDto,
   ): Promise<AboutUsModel | null> {
     const countUpdated = await this.aboutUsRepository.nativeUpdate(
@@ -71,36 +69,32 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
     if (!countUpdated) return null;
     const aboutUs = await this.findOne(filter);
     if (!aboutUs) return null;
-    return new AboutUs(aboutUs);
+    return aboutUs;
   }
 
-  async removeOne(
-    filter: DeepPartial<AboutUsOnlyProperties>,
-  ): Promise<AboutUsModel> {
+  async removeOne(filter: DeepPartial<AboutUsProps>): Promise<AboutUsModel> {
     const aboutUs = await this.findOne(filter);
     if (!aboutUs) return null;
     const countDeleted = await this.aboutUsRepository.nativeDelete(filter);
     if (!countDeleted) return null;
-    return new AboutUs(aboutUs);
+    return aboutUs;
   }
 
   async updateMany(
-    filter: DeepPartial<AboutUsOnlyProperties>,
+    filter: DeepPartial<AboutUsProps>,
     options: UpdateAboutUsDto,
   ): Promise<boolean> {
     const { entities: allAboutUs } = await this.findAll(filter);
     const result = await allAboutUs.mapParallel((aboutUs) =>
-      this.aboutUsRepository.nativeUpdate(aboutUs, options),
+      this.aboutUsRepository.nativeUpdate(aboutUs.toObject(), options),
     );
     return result.every((res) => res.status === 'fulfilled' && res.value);
   }
 
-  async removeMany(
-    filter: DeepPartial<AboutUsOnlyProperties>,
-  ): Promise<boolean> {
+  async removeMany(filter: DeepPartial<AboutUsProps>): Promise<boolean> {
     const { entities: allAboutUs } = await this.findAll(filter);
     const result = await allAboutUs.mapParallel((aboutUs) =>
-      this.aboutUsRepository.nativeDelete(aboutUs),
+      this.aboutUsRepository.nativeDelete(aboutUs.toObject()),
     );
     return result.every((res) => res.status === 'fulfilled' && res.value);
   }

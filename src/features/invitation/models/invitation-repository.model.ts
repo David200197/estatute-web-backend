@@ -1,5 +1,5 @@
 import { InvitationsModel } from './invitations.model';
-import { InvitationModel } from './invitation.model';
+import { InvitationModel, InvitationProps } from './invitation.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateInvitationDto } from '../dto/create-invitation.dto';
 import { UpdateInvitationDto } from '../dto/update-invitation.dto';
@@ -8,21 +8,21 @@ import { ResponseWithPaginate } from '@src/common/interfaces/response-with-pagin
 
 export interface InvitationRepositoryModel {
   findOne(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
   ): Promise<InvitationModel | null>;
   findAll(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<InvitationsModel>>;
   create(options: CreateInvitationDto): Promise<InvitationModel>;
   updateOne(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
     options: UpdateInvitationDto,
   ): Promise<InvitationModel>;
-  removeOne(filter: DeepPartial<InvitationModel>): Promise<InvitationModel>;
+  removeOne(filter: DeepPartial<InvitationProps>): Promise<InvitationModel>;
   updateMany(
-    filter: DeepPartial<InvitationModel>,
+    filter: DeepPartial<InvitationProps>,
     options: UpdateInvitationDto,
   ): Promise<boolean>;
-  removeMany(filter: DeepPartial<InvitationModel>): Promise<boolean>;
+  removeMany(filter: DeepPartial<InvitationProps>): Promise<boolean>;
 }

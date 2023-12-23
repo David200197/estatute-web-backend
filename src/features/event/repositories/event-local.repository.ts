@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EventRepositoryModel } from '../models/event-repository.model';
 import { EventsModel } from '../models/events.model';
-import { EventModel, EventProperties } from '../models/event.model';
+import { EventModel, EventProps } from '../models/event.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
 import { Events } from '../entities/events';
@@ -14,14 +14,14 @@ import { Event } from '../entities/event';
 export class EventLocalRepository
   implements EventRepositoryModel, HelperMockMethods<EventModel>
 {
-  private eventCrud: CrudMockMethods<EventModel>;
+  private eventCrud: CrudMockMethods<EventProps>;
 
   constructor() {
     this.eventCrud = new CrudMockMethods();
   }
 
   __changeStore(store: EventModel[]): void {
-    this.eventCrud.__changeStore(store);
+    this.eventCrud.__changeStore(store.map((data) => data.toObject()));
   }
 
   __reset(): void {
@@ -33,7 +33,7 @@ export class EventLocalRepository
   }
 
   __getStore(): EventModel[] {
-    return this.eventCrud.__getStore();
+    return this.eventCrud.__getStore().map((data) => Event.create(data));
   }
 
   __isError(): boolean {
@@ -68,15 +68,13 @@ export class EventLocalRepository
     this.eventCrud.__setDeleteRes(value);
   }
 
-  async findOne(
-    filter: DeepPartial<EventProperties>,
-  ): Promise<EventModel | null> {
+  async findOne(filter: DeepPartial<EventProps>): Promise<EventModel | null> {
     const event = this.eventCrud.findOne(filter);
-    return Promise.resolve(event);
+    return Promise.resolve(Event.create(event));
   }
 
   async findAll(
-    filter: DeepPartial<EventProperties>,
+    filter: DeepPartial<EventProps>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<EventsModel>> {
     //using options
@@ -84,36 +82,39 @@ export class EventLocalRepository
     //code
     const events = this.eventCrud.findAll(filter);
     return Promise.resolve({
-      entities: Events.instance(events),
+      entities: Events.create(events),
       totalElement: 1,
       totalPage: 1,
     });
   }
 
-  async create(options: EventProperties): Promise<EventModel> {
-    const event = new Event({ ...options });
-    return this.eventCrud.create(event);
+  async create(options: EventProps): Promise<EventModel> {
+    const event = Event.create(options);
+    this.eventCrud.create(event.toObject());
+    return event;
   }
 
   async updateOne(
-    filter: DeepPartial<EventProperties>,
-    options: DeepPartial<EventProperties>,
+    filter: DeepPartial<EventProps>,
+    options: DeepPartial<EventProps>,
   ): Promise<EventModel> {
-    return this.eventCrud.update(filter, options);
+    const event = this.eventCrud.update(filter, options);
+    return Event.create(event);
   }
 
-  async removeOne(filter: DeepPartial<EventProperties>): Promise<EventModel> {
-    return this.eventCrud.delete(filter);
+  async removeOne(filter: DeepPartial<EventProps>): Promise<EventModel> {
+    const event = this.eventCrud.delete(filter);
+    return Event.create(event);
   }
 
   async updateMany(
-    filter: DeepPartial<EventProperties>,
-    options: DeepPartial<EventProperties>,
+    filter: DeepPartial<EventProps>,
+    options: DeepPartial<EventProps>,
   ): Promise<boolean> {
     return this.eventCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<EventProperties>): Promise<boolean> {
+  async removeMany(filter: DeepPartial<EventProps>): Promise<boolean> {
     return this.eventCrud.deleteMany(filter);
   }
 }

@@ -36,14 +36,14 @@ export class InvitationController {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: invitations,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<InvitationsModel> = await this.queryBus.execute(
       new FindAllInvitationQuery({}, findAllDto),
     );
     return new SerializerResponse('invitations was founded', {
-      invitations,
+      invitations: entities.toObject(),
       totalElement,
       totalPage,
     });
@@ -60,7 +60,7 @@ export class InvitationController {
       (data) => data,
     );
     return new SerializerResponse('invitation was founded', {
-      invitation,
+      invitation: invitation.toObject(),
     });
   }
 
@@ -72,7 +72,7 @@ export class InvitationController {
       new CreateInvitationCommand(createInvitationDto),
     );
     return new SerializerResponse('invitation was created', {
-      invitation,
+      invitation: invitation.toObject(),
     });
   }
 
@@ -94,7 +94,7 @@ export class InvitationController {
       (data) => data,
     );
     return new SerializerResponse('invitation was updated', {
-      invitation,
+      invitation: invitation.toObject(),
     });
   }
 
@@ -111,7 +111,7 @@ export class InvitationController {
       (data) => data,
     );
     return new SerializerResponse('invitation was removed', {
-      invitation,
+      invitation: invitation.toObject(),
     });
   }
 }

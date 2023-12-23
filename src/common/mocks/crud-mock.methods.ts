@@ -80,7 +80,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     this.deleteRes = value;
   }
 
-  findAll(find?: Partial<T>) {
+  findAll(find?: Partial<T>): T[] {
     if (this.isError) throw new Error('Base Error');
     if (this.findAllRes !== this.NORMAL_RESPONSE) return this.findAllRes;
     if (!find) return this.store;

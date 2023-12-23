@@ -79,8 +79,8 @@ describe('Refresh - AuthController', () => {
     expect(response).toEqual('refresh token success');
     expect(data.accessToken).toEqual(expect.any(String));
     const [admin] = adminRepository.__getStore();
-    expect(admin.refreshToken).toEqual(expect.any(String));
-    expect(admin.username).toEqual(expect.any(String));
-    expect(admin.password).toEqual(expect.any(String));
+    expect(admin.toObject().refreshToken).toEqual(expect.any(String));
+    expect(admin.toObject().username).toEqual(expect.any(String));
+    expect(admin.toObject().password).toEqual(expect.any(String));
   });
 });

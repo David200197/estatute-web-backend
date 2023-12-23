@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { StatuteRepositoryModel } from '../models/statute-repository.model';
 import { StatutesModel } from '../models/statutes.model';
-import { StatuteModel, StatuteProperties } from '../models/statute.model';
+import { StatuteModel, StatuteProps } from '../models/statute.model';
 import { FindAllDto } from '@src/common/dto/find-all.dto';
 import { CreateStatuteDto } from '../dto/create-statute.dto';
 import { CrudMockMethods } from '@src/common/mocks/crud-mock.methods';
@@ -16,14 +16,14 @@ import { Statute } from '../entities/statute';
 export class StatuteLocalRepository
   implements StatuteRepositoryModel, HelperMockMethods<StatuteModel>
 {
-  private statuteCrud: CrudMockMethods<StatuteModel>;
+  private statuteCrud: CrudMockMethods<StatuteProps>;
 
   constructor() {
     this.statuteCrud = new CrudMockMethods();
   }
 
   __changeStore(store: StatuteModel[]): void {
-    this.statuteCrud.__changeStore(store);
+    this.statuteCrud.__changeStore(store.map((data) => data.toObject()));
   }
 
   __reset(): void {
@@ -35,7 +35,7 @@ export class StatuteLocalRepository
   }
 
   __getStore(): StatuteModel[] {
-    return this.statuteCrud.__getStore();
+    return this.statuteCrud.__getStore().map((data) => Statute.create(data));
   }
 
   __isError(): boolean {
@@ -71,14 +71,14 @@ export class StatuteLocalRepository
   }
 
   async findOne(
-    filter: DeepPartial<StatuteProperties>,
+    filter: DeepPartial<StatuteProps>,
   ): Promise<StatuteModel | null> {
     const statute = this.statuteCrud.findOne(filter);
-    return Promise.resolve(statute);
+    return Promise.resolve(Statute.create(statute));
   }
 
   async findAll(
-    filter: DeepPartial<StatuteProperties>,
+    filter: DeepPartial<StatuteProps>,
     options: FindAllDto,
   ): Promise<ResponseWithPaginate<StatutesModel>> {
     //using options
@@ -86,38 +86,39 @@ export class StatuteLocalRepository
     //code
     const statutes = this.statuteCrud.findAll(filter);
     return Promise.resolve({
-      entities: Statutes.instance(statutes),
+      entities: Statutes.create(statutes),
       totalElement: 1,
       totalPage: 1,
     });
   }
 
   async create(options: CreateStatuteDto): Promise<StatuteModel> {
-    const statute = new Statute(options);
-    return this.statuteCrud.create(statute);
+    const statute = Statute.create(options);
+    this.statuteCrud.create(statute.toObject());
+    return statute;
   }
 
   async updateOne(
-    filter: DeepPartial<StatuteProperties>,
+    filter: DeepPartial<StatuteProps>,
     options: UpdateStatuteDto,
   ): Promise<StatuteModel> {
-    return this.statuteCrud.update(filter, options);
+    const statute = this.statuteCrud.update(filter, options);
+    return Statute.create(statute);
   }
 
-  async removeOne(
-    filter: DeepPartial<StatuteProperties>,
-  ): Promise<StatuteModel> {
-    return this.statuteCrud.delete(filter);
+  async removeOne(filter: DeepPartial<StatuteProps>): Promise<StatuteModel> {
+    const statute = this.statuteCrud.delete(filter);
+    return Statute.create(statute);
   }
 
   async updateMany(
-    filter: DeepPartial<StatuteProperties>,
+    filter: DeepPartial<StatuteProps>,
     options: UpdateStatuteDto,
   ): Promise<boolean> {
     return this.statuteCrud.updateMany(filter, options);
   }
 
-  async removeMany(filter: DeepPartial<StatuteProperties>): Promise<boolean> {
+  async removeMany(filter: DeepPartial<StatuteProps>): Promise<boolean> {
     return this.statuteCrud.deleteMany(filter);
   }
 }

@@ -1,10 +1,10 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
-import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
 
-export interface AdminModel extends EntityModel {
+export type AdminProps = {
   readonly username: string;
   readonly password: string;
   readonly refreshToken?: string;
-}
+};
 
-export type AdminProperties = NonFunctionProperties<AdminModel>;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AdminModel extends EntityModel<AdminProps> {}

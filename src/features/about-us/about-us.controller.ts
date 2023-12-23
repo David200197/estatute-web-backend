@@ -36,14 +36,14 @@ export class AboutUsController {
   @Get()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
-      entities: aboutUss,
+      entities,
       totalElement,
       totalPage,
     }: ResponseWithPaginate<AllAboutUsModel> = await this.queryBus.execute(
       new FindAllAboutUsQuery({}, findAllDto),
     );
     return new SerializerResponse('aboutUss was founded', {
-      aboutUss,
+      allAboutUs: entities.toObject(),
       totalElement,
       totalPage,
     });
@@ -60,7 +60,7 @@ export class AboutUsController {
       (data) => data,
     );
     return new SerializerResponse('aboutUs was founded', {
-      aboutUs,
+      aboutUs: aboutUs.toObject(),
     });
   }
 
@@ -72,7 +72,7 @@ export class AboutUsController {
       new CreateAboutUsCommand(createAboutUsDto),
     );
     return new SerializerResponse('aboutUs was created', {
-      aboutUs,
+      aboutUs: aboutUs.toObject(),
     });
   }
 
@@ -94,7 +94,7 @@ export class AboutUsController {
       (data) => data,
     );
     return new SerializerResponse('aboutUs was updated', {
-      aboutUs,
+      aboutUs: aboutUs.toObject(),
     });
   }
 
@@ -111,7 +111,7 @@ export class AboutUsController {
       (data) => data,
     );
     return new SerializerResponse('aboutUs was removed', {
-      aboutUs,
+      aboutUs: aboutUs.toObject(),
     });
   }
 }

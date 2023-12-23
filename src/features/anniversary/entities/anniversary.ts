@@ -1,14 +1,24 @@
 import { Entity } from '@src/common/abstracts/entity.abstract';
 import {
   AnniversaryModel,
-  AnniversaryProperties,
+  AnniversaryProps,
 } from '../models/anniversary.model';
-import { UuidValueObject } from '@src/common/value-object/uuid.value-object';
+import { Uuid } from '@src/common/value-object/uuid.value-object';
+import { PropsToValueObjects } from '@src/common/interfaces/props-to-value-objects';
+import { SelfPartial } from '@src/common/interfaces/self-partial';
 
-export class Anniversary extends Entity implements AnniversaryModel {
-  public readonly uuid: string;
-  constructor(options: AnniversaryProperties) {
-    super();
-    this.uuid = new UuidValueObject(options.uuid).value;
+export class Anniversary
+  extends Entity<AnniversaryProps>
+  implements AnniversaryModel
+{
+  private constructor(options: PropsToValueObjects<AnniversaryProps>) {
+    super(options);
+  }
+
+  public static create(
+    options: SelfPartial<AnniversaryProps, 'uuid'>,
+  ): Anniversary {
+    const uuid = Uuid.create(options.uuid);
+    return new Anniversary({ uuid });
   }
 }

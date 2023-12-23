@@ -36,7 +36,7 @@ export class UpdateEventHandler implements UpdateEventHandlerModel {
     }
     const eitherUrls = await this.photoService.updateFiles(
       photos,
-      findEvent.photos,
+      findEvent.toObject().photos,
     );
     return eitherUrls.flatMapAsync(async (urls) => {
       const event = await this.eventRepository.updateOne(filter, {

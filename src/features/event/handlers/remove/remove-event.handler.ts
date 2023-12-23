@@ -24,7 +24,9 @@ export class RemoveEventHandler implements RemoveEventHandlerModel {
   }: RemoveEventCommand): Promise<Either<HttpException, EventModel>> {
     const findEvent = await this.eventRepository.findOne(filter);
     if (!findEvent) return Either.left(new EventNotFoundException());
-    const deletedEither = await this.photoService.deleteFiles(findEvent.photos);
+    const deletedEither = await this.photoService.deleteFiles(
+      findEvent.toObject().photos,
+    );
     if (deletedEither.isLeft())
       return Either.left(deletedEither.getLeftOrElse(null));
     const event = await this.eventRepository.removeOne(filter);

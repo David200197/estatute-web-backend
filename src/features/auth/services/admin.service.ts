@@ -1,9 +1,6 @@
 import { DeepPartial } from '@src/common/interfaces/deep-partial';
 import { AdminServiceModel } from '../models/admin-service.model';
-import {
-  AdminModel,
-  AdminProperties,
-} from '@src/features/admin/models/admin.model';
+import { AdminModel, AdminProps } from '@src/features/admin/models/admin.model';
 import { HttpException, Inject } from '@nestjs/common';
 import { EVENT_EMITTER_SERVICE_TOKEN } from '@src/shared/event-emitter/event-emitter-service.provider';
 import { EventEmitterServiceModel } from '@src/shared/event-emitter/event-emitter-service.model';
@@ -16,7 +13,7 @@ export class AdminService implements AdminServiceModel {
     private readonly eventEmitterService: EventEmitterServiceModel,
   ) {}
 
-  async validateAdmin(filter: DeepPartial<AdminProperties>) {
+  async validateAdmin(filter: DeepPartial<AdminProps>) {
     const listener = await this.eventEmitterService.emitAsync(
       EmitterKey.authValidateAdmin,
       filter,
@@ -28,7 +25,7 @@ export class AdminService implements AdminServiceModel {
   }
 
   async updateRefreshToken(
-    filter: DeepPartial<AdminProperties>,
+    filter: DeepPartial<AdminProps>,
     refreshToken: string,
   ) {
     const listener = await this.eventEmitterService.emitAsync(

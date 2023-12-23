@@ -1,8 +1,8 @@
 import { IsEnum, IsInt, IsString, IsUUID } from 'class-validator';
 import {
-  InvestigativeCategory,
-  SpecialtyDegree,
-  TeachingCategory,
+  InvestigativeCategoryEnum,
+  SpecialtyDegreeEnum,
+  TeachingCategoryEnum,
 } from '../models/about-us.model';
 
 export class CreateAboutUsDto {
@@ -12,14 +12,14 @@ export class CreateAboutUsDto {
   readonly lastName: string;
   @IsString()
   readonly scientificCategory: string;
-  @IsEnum(TeachingCategory)
-  readonly teachingCategory: TeachingCategory;
-  @IsEnum(InvestigativeCategory)
-  readonly investigativeCategory: InvestigativeCategory;
+  @IsEnum(TeachingCategoryEnum)
+  readonly teachingCategory: TeachingCategoryEnum;
+  @IsEnum(InvestigativeCategoryEnum)
+  readonly investigativeCategory: InvestigativeCategoryEnum;
   @IsString()
   readonly specialty: string;
-  @IsEnum(SpecialtyDegree)
-  readonly specialtyDegree: SpecialtyDegree;
+  @IsEnum(SpecialtyDegreeEnum)
+  readonly specialtyDegree: SpecialtyDegreeEnum;
   @IsInt()
   readonly yearsOfWorkExperience: number;
   @IsString()

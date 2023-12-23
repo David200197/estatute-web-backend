@@ -1,7 +1,6 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
-import { NonFunctionProperties } from '@src/common/interfaces/manipulate-properties';
 
-export interface EventModel extends EntityModel {
+export type EventProps = {
   readonly uuid: string;
   readonly name: string;
   readonly date: string;
@@ -9,13 +8,7 @@ export interface EventModel extends EntityModel {
   readonly sponsors: string;
   readonly rapporteurship: string;
   readonly photos: string[];
-}
-
-type EventPropertiesWithoutPhotos = Omit<
-  NonFunctionProperties<EventModel>,
-  'photos' | 'uuid'
->;
-export type EventProperties = EventPropertiesWithoutPhotos & {
-  photos?: string[];
-  uuid?: string;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface EventModel extends EntityModel<EventProps> {}
