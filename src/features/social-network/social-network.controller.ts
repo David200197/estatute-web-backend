@@ -24,9 +24,10 @@ import { CreateSocialNetworkCommand } from './handlers/create/create-social-netw
 import { UpdateSocialNetworkCommand } from './handlers/update/update-social-network.command';
 import { RemoveSocialNetworkCommand } from './handlers/remove/remove-social-network.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('social-network')
+@ApiTags('social-network')
 export class SocialNetworksController {
   constructor(
     private readonly commandBus: CommandBus,

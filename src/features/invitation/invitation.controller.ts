@@ -24,9 +24,10 @@ import { CreateInvitationCommand } from './handlers/create/create-invitation.com
 import { UpdateInvitationCommand } from './handlers/update/update-invitation.command';
 import { RemoveInvitationCommand } from './handlers/remove/remove-invitation.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('invitation')
+@ApiTags('invitation')
 export class InvitationController {
   constructor(
     private readonly commandBus: CommandBus,

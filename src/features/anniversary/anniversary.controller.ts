@@ -24,9 +24,10 @@ import { CreateAnniversaryCommand } from './handlers/create/create-anniversary.c
 import { UpdateAnniversaryCommand } from './handlers/update/update-anniversary.command';
 import { RemoveAnniversaryCommand } from './handlers/remove/remove-anniversary.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('anniversary')
+@ApiTags('anniversary')
 export class AnniversaryController {
   constructor(
     private readonly commandBus: CommandBus,

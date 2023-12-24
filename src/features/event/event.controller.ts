@@ -29,9 +29,10 @@ import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorat
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { StorePhotoPipe } from './pipes/store-photo/store-photo.pipe';
 import { UpdatePhotoPipe } from './pipes/update-photo/update-photo.pipe';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('event')
+@ApiTags('event')
 export class EventController {
   constructor(
     private readonly commandBus: CommandBus,

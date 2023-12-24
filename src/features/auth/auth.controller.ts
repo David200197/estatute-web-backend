@@ -15,9 +15,10 @@ import { AdminModel } from '../admin/models/admin.model';
 import { GetAdmin } from '@src/common/decorator/get-admin';
 import { AdminNotFoundException } from '../admin/exceptions/admin-not-found.exception';
 import { AdminUnauthorizedException } from '../admin/exceptions/admin-unauthorized.exception';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private readonly commandBus: CommandBus) {}
 
@@ -59,7 +60,7 @@ export class AuthController {
 
   @ApiBearerAuth()
   @AccessTokenAuth()
-  @Get('logout')
+  @Post('logout')
   async logout(@GetAdmin() admin: AdminModel) {
     const either: Either<HttpException, void> = await this.commandBus.execute(
       new LogoutAuthCommand({ admin }),
@@ -71,5 +72,14 @@ export class AuthController {
       () => null,
     );
     return new SerializerResponse('logout user success');
+  }
+
+  @ApiBearerAuth()
+  @AccessTokenAuth()
+  @Get('profile')
+  async profile(@GetAdmin() admin: AdminModel) {
+    return new SerializerResponse('profile user success', {
+      admin: admin.toObject(),
+    });
   }
 }

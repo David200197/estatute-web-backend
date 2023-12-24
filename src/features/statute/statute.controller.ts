@@ -24,9 +24,10 @@ import { CreateStatuteCommand } from './handlers/create/create-statute.command';
 import { UpdateStatuteCommand } from './handlers/update/update-statute.command';
 import { RemoveStatuteCommand } from './handlers/remove/remove-statute.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('statute')
+@ApiTags('statute')
 export class StatuteController {
   constructor(
     private readonly commandBus: CommandBus,

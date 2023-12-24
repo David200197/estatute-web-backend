@@ -24,9 +24,10 @@ import { UpdateAdminCommand } from './handlers/update/update-admin.command';
 import { RemoveAdminCommand } from './handlers/remove/remove-admin.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 import { UpdateApiAdminDto } from './dto/update-crud-admin.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('admin')
+@ApiTags('admin')
 export class AdminController {
   constructor(
     private readonly commandBus: CommandBus,
@@ -34,6 +35,8 @@ export class AdminController {
   ) {}
 
   @Get()
+  @ApiBearerAuth()
+  @AccessTokenAuth()
   async findAll(@Query() findAllDto: FindAllDto) {
     const {
       entities,
@@ -50,6 +53,8 @@ export class AdminController {
   }
 
   @Get(':username')
+  @ApiBearerAuth()
+  @AccessTokenAuth()
   async findOneByUsername(@Param('username') username: string) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.queryBus.execute(new FindOneAdminQuery({ username }));

@@ -24,9 +24,10 @@ import { CreateAboutUsCommand } from './handlers/create/create-about-us.command'
 import { UpdateAboutUsCommand } from './handlers/update/update-about-us.command';
 import { RemoveAboutUsCommand } from './handlers/remove/remove-about-us.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('about-us')
+@ApiTags('about-us')
 export class AboutUsController {
   constructor(
     private readonly commandBus: CommandBus,
