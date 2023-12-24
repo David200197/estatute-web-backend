@@ -1,6 +1,6 @@
 import { createProvider } from '@src/common/utils/create-provider';
 import { AnniversaryRepositoryModel } from '../models/anniversary-repository.model';
-import { AnniversaryLocalRepository } from '../repositories/anniversary-local.repository';
+import { AnniversaryMikroRepository } from '../repositories/anniversary-mikro.repository';
 
 export const [ANNIVERSARY_REPOSITORY_TOKEN, AnniversaryRepositoryProvider] =
-  createProvider<AnniversaryRepositoryModel>(AnniversaryLocalRepository);
+  createProvider<AnniversaryRepositoryModel>(AnniversaryMikroRepository);
