@@ -79,7 +79,7 @@ export class AuthController {
   @Get('profile')
   async profile(@GetAdmin() admin: AdminModel) {
     return new SerializerResponse('profile user success', {
-      admin: admin.toObject(),
+      admin: admin.select({ username: true, uuid: true }),
     });
   }
 }

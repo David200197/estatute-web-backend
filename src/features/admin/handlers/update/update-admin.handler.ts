@@ -23,17 +23,19 @@ export class UpdateAdminHandler implements UpdateAdminHandlerModel {
     filter,
     updateAdminDto,
   }: UpdateAdminCommand): Promise<Either<HttpException, AdminModel>> {
-    const { password, username, refreshToken } = updateAdminDto;
+    const { password } = updateAdminDto;
     const findAdmin = await this.adminRepository.findOne(updateAdminDto);
     if (findAdmin) return Either.left(new AdminNotFoundException());
-    let hashedPassword: string;
-    if (password)
-      hashedPassword = await this.hashPasswordService.hash(password);
-    const admin = await this.adminRepository.updateOne(filter, {
-      username,
-      refreshToken,
-      password: hashedPassword,
-    });
+    if (password) {
+      const hashedPassword = await this.hashPasswordService.hash(password);
+      const admin = await this.adminRepository.updateOne(filter, {
+        ...updateAdminDto,
+        password: hashedPassword,
+      });
+      if (!admin) return Either.left(new AdminNotFoundException());
+      return Either.right(admin);
+    }
+    const admin = await this.adminRepository.updateOne(filter, updateAdminDto);
     if (!admin) return Either.left(new AdminNotFoundException());
     return Either.right(admin);
   }

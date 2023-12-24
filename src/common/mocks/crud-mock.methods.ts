@@ -88,7 +88,6 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     if (!keys) return this.store;
     return this.store.filter((data) => {
       return keys.every((key) => {
-        if (find[key] === undefined || data[key] === undefined) return false;
         find[key] === data[key];
       });
     });
@@ -167,7 +166,6 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     const keys = Object.keys(find);
     return this.store.findIndex((data) => {
       return keys.every((key) => {
-        if (find[key] === undefined || !data[key] === undefined) return false;
         return find[key] === data[key];
       });
     });

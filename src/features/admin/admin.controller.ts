@@ -46,7 +46,7 @@ export class AdminController {
       new FindAllAdminQuery({}, findAllDto),
     );
     return new SerializerResponse('admins was founded', {
-      admins: entities.select({ username: true }),
+      admins: entities.select({ username: true, uuid: true }),
       totalElement,
       totalPage,
     });
@@ -65,7 +65,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was founded', {
-      admin: admin.select({ username: true }),
+      admin: admin.select({ username: true, uuid: true }),
     });
   }
 
@@ -82,7 +82,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was created', {
-      admin: admin.select({ username: true }),
+      admin: admin.select({ username: true, uuid: true }),
     });
   }
 
@@ -104,7 +104,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was updated', {
-      admin: admin.select({ username: true }),
+      admin: admin.select({ username: true, uuid: true }),
     });
   }
 
@@ -121,7 +121,7 @@ export class AdminController {
       (data) => data,
     );
     return new SerializerResponse('admin was removed', {
-      admin: admin.select({ username: true }),
+      admin: admin.select({ username: true, uuid: true }),
     });
   }
 }
