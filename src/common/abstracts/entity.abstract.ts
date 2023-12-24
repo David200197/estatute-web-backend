@@ -1,3 +1,4 @@
+import { DeepPartial } from '../interfaces/deep-partial';
 import { OptionsFlags } from '../interfaces/options-flags';
 import { PropsToValueObjects } from '../interfaces/props-to-value-objects';
 import { ValueObject } from '../interfaces/value-object';
@@ -14,6 +15,7 @@ export interface EntityModel<T extends Record<string, unknown>>
   forEachProperty(method: (key: unknown, value: string) => void): void;
   select(options: Partial<OptionsFlags<T>>): Record<string, unknown>;
   isEqual(entity: this): boolean;
+  isSelfEqual(entity: DeepPartial<T>): boolean;
   toObject(): T;
 }
 
@@ -59,6 +61,16 @@ export class Entity<T extends Record<string, unknown>>
 
   isEqual(entity: this): boolean {
     return isDeeplyEqual(this.toObject(), entity.toObject());
+  }
+
+  isSelfEqual(entity: DeepPartial<T>): boolean {
+    const keys = Object.keys(entity);
+    const selects = keys.reduce(
+      (prev, currentKey) => ({ ...prev, [currentKey]: true }),
+      {},
+    );
+    const selected = this.select(selects);
+    return isDeeplyEqual(selected, entity);
   }
 
   toObject(): T {

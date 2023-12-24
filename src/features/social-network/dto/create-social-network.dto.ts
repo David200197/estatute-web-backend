@@ -1,8 +1,6 @@
-import { IsString, IsUUID, IsUrl } from 'class-validator';
+import { IsString, IsUrl } from 'class-validator';
 
 export class CreateSocialNetworkDto {
-  @IsUUID()
-  readonly uuid: string;
   @IsString()
   readonly name: string;
   @IsUrl()

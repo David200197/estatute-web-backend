@@ -25,6 +25,8 @@ import { RemoveAdminCommand } from './handlers/remove/remove-admin.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 import { UpdateApiAdminDto } from './dto/update-crud-admin.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { GetAdmin } from '@src/common/decorator/get-admin';
+import { AdminLoggedConflictException } from './exceptions/admin-logged-conflict.exception';
 
 @Controller('admin')
 @ApiTags('admin')
@@ -75,14 +77,14 @@ export class AdminController {
   async create(@Body() createAdminDto: CreateAdminDto) {
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(new CreateAdminCommand(createAdminDto));
-    const admin = eitherResponse.fold(
+    const createdAdmin = eitherResponse.fold(
       (error) => {
         throw error;
       },
       (data) => data,
     );
     return new SerializerResponse('admin was created', {
-      admin: admin.select({ username: true, uuid: true }),
+      admin: createdAdmin.select({ username: true, uuid: true }),
     });
   }
 
@@ -92,36 +94,52 @@ export class AdminController {
   async update(
     @Param('username') username: string,
     @Body() updateApiAdminDto: UpdateApiAdminDto,
+    @GetAdmin() admin: AdminModel,
   ) {
+    const isEqual = admin.isSelfEqual({
+      username,
+    });
+
+    if (isEqual) throw new AdminLoggedConflictException();
+
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(
         new UpdateAdminCommand({ username }, updateApiAdminDto),
       );
-    const admin = eitherResponse.fold(
+    const updatedAdmin = eitherResponse.fold(
       (error) => {
         throw error;
       },
       (data) => data,
     );
     return new SerializerResponse('admin was updated', {
-      admin: admin.select({ username: true, uuid: true }),
+      admin: updatedAdmin.select({ username: true, uuid: true }),
     });
   }
 
   @Delete(':username')
   @ApiBearerAuth()
   @AccessTokenAuth()
-  async remove(@Param('username') username: string) {
+  async remove(
+    @Param('username') username: string,
+    @GetAdmin() admin: AdminModel,
+  ) {
+    const isEqual = admin.isSelfEqual({
+      username,
+    });
+
+    if (isEqual) throw new AdminLoggedConflictException();
+
     const eitherResponse: Either<HttpException, AdminModel> =
       await this.commandBus.execute(new RemoveAdminCommand({ username }));
-    const admin = eitherResponse.fold(
+    const deletedAdmin = eitherResponse.fold(
       (error) => {
         throw error;
       },
       (data) => data,
     );
     return new SerializerResponse('admin was removed', {
-      admin: admin.select({ username: true, uuid: true }),
+      admin: deletedAdmin.select({ username: true, uuid: true }),
     });
   }
 }
