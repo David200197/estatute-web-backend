@@ -11,9 +11,15 @@ import { UpdateAdminHandlerProvider } from './handlers/update/update-admin-handl
 import { RemoveAdminHandlerProvider } from './handlers/remove/remove-admin-handler.provider';
 import { HashPasswordModule } from '@src/shared/hash-password/hash-password.module';
 import { AdminCli } from './admin.cli';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { AdminMikroEntity } from './orm-entities/admin-mikro.entity';
 
 @Module({
-  imports: [CqrsModule, HashPasswordModule],
+  imports: [
+    CqrsModule,
+    HashPasswordModule,
+    MikroOrmModule.forFeature([AdminMikroEntity]),
+  ],
   controllers: [AdminController],
   providers: [
     AdminRepositoryProvider,

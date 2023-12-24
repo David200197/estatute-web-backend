@@ -81,6 +81,7 @@ export class SocialNetworkLocalRepository
     filter: DeepPartial<SocialNetworkProps>,
   ): Promise<SocialNetworkModel | null> {
     const socialNetwork = this.socialNetworkCrud.findOne(filter);
+    if (!socialNetwork) return null;
     return Promise.resolve(SocialNetwork.create(socialNetwork));
   }
 
@@ -110,6 +111,7 @@ export class SocialNetworkLocalRepository
     options: UpdateSocialNetworkDto,
   ): Promise<SocialNetworkModel> {
     const socialNetwork = this.socialNetworkCrud.update(filter, options);
+    if (!socialNetwork) return null;
     return SocialNetwork.create(socialNetwork);
   }
 
@@ -117,6 +119,7 @@ export class SocialNetworkLocalRepository
     filter: DeepPartial<SocialNetworkProps>,
   ): Promise<SocialNetworkModel> {
     const socialNetwork = this.socialNetworkCrud.delete(filter);
+    if (!socialNetwork) return null;
     return SocialNetwork.create(socialNetwork);
   }
 

@@ -74,6 +74,7 @@ export class AboutUsLocalRepository
     filter: DeepPartial<AboutUsProps>,
   ): Promise<AboutUsModel | null> {
     const aboutUs = this.aboutUsCrud.findOne(filter);
+    if (!aboutUs) return null;
     return Promise.resolve(AboutUs.create(aboutUs));
   }
 
@@ -103,11 +104,13 @@ export class AboutUsLocalRepository
     options: UpdateAboutUsDto,
   ): Promise<AboutUsModel> {
     const aboutUs = this.aboutUsCrud.update(filter, options);
+    if (!aboutUs) return null;
     return AboutUs.create(aboutUs);
   }
 
   async removeOne(filter: DeepPartial<AboutUsProps>): Promise<AboutUsModel> {
     const aboutUs = this.aboutUsCrud.delete(filter);
+    if (!aboutUs) return null;
     return AboutUs.create(aboutUs);
   }
 

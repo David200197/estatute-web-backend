@@ -74,6 +74,7 @@ export class StatuteLocalRepository
     filter: DeepPartial<StatuteProps>,
   ): Promise<StatuteModel | null> {
     const statute = this.statuteCrud.findOne(filter);
+    if (!statute) return null;
     return Promise.resolve(Statute.create(statute));
   }
 
@@ -103,11 +104,13 @@ export class StatuteLocalRepository
     options: UpdateStatuteDto,
   ): Promise<StatuteModel> {
     const statute = this.statuteCrud.update(filter, options);
+    if (!statute) return null;
     return Statute.create(statute);
   }
 
   async removeOne(filter: DeepPartial<StatuteProps>): Promise<StatuteModel> {
     const statute = this.statuteCrud.delete(filter);
+    if (!statute) return null;
     return Statute.create(statute);
   }
 

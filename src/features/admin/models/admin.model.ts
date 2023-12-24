@@ -1,6 +1,7 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
 
 export type AdminProps = {
+  readonly uuid: string;
   readonly username: string;
   readonly password: string;
   readonly refreshToken?: string;

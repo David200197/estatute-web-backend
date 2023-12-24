@@ -23,6 +23,7 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
 
   async findOne(filter: DeepPartial<AboutUsProps>): Promise<AboutUsModel> {
     const aboutUs = await this.aboutUsRepository.findOne(filter);
+    if (!aboutUs) return null;
     return AboutUs.create(aboutUs);
   }
 

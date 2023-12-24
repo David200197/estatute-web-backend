@@ -79,6 +79,7 @@ export class AnniversaryLocalRepository
     filter: DeepPartial<AnniversaryProps>,
   ): Promise<AnniversaryModel | null> {
     const anniversary = this.anniversaryCrud.findOne(filter);
+    if (!anniversary) return null;
     return Promise.resolve(Anniversary.create(anniversary));
   }
 
@@ -108,6 +109,7 @@ export class AnniversaryLocalRepository
     options: UpdateAnniversaryDto,
   ): Promise<AnniversaryModel> {
     const anniversary = this.anniversaryCrud.update(filter, options);
+    if (!anniversary) return null;
     return Anniversary.create(anniversary);
   }
 
@@ -115,6 +117,7 @@ export class AnniversaryLocalRepository
     filter: DeepPartial<AnniversaryProps>,
   ): Promise<AnniversaryModel> {
     const anniversary = this.anniversaryCrud.delete(filter);
+    if (!anniversary) return null;
     return Anniversary.create(anniversary);
   }
 

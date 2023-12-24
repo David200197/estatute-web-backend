@@ -70,6 +70,7 @@ export class EventLocalRepository
 
   async findOne(filter: DeepPartial<EventProps>): Promise<EventModel | null> {
     const event = this.eventCrud.findOne(filter);
+    if (!event) return null;
     return Promise.resolve(Event.create(event));
   }
 
@@ -99,11 +100,13 @@ export class EventLocalRepository
     options: DeepPartial<EventProps>,
   ): Promise<EventModel> {
     const event = this.eventCrud.update(filter, options);
+    if (!event) return null;
     return Event.create(event);
   }
 
   async removeOne(filter: DeepPartial<EventProps>): Promise<EventModel> {
     const event = this.eventCrud.delete(filter);
+    if (!event) return null;
     return Event.create(event);
   }
 

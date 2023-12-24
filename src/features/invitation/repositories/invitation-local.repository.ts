@@ -76,6 +76,7 @@ export class InvitationLocalRepository
     filter: DeepPartial<InvitationProps>,
   ): Promise<InvitationModel | null> {
     const invitation = this.invitationCrud.findOne(filter);
+    if (!invitation) return null;
     return Promise.resolve(Invitation.create(invitation));
   }
 
@@ -105,6 +106,7 @@ export class InvitationLocalRepository
     options: UpdateInvitationDto,
   ): Promise<InvitationModel> {
     const invitation = this.invitationCrud.update(filter, options);
+    if (!invitation) return null;
     return Invitation.create(invitation);
   }
 
@@ -112,6 +114,7 @@ export class InvitationLocalRepository
     filter: DeepPartial<InvitationProps>,
   ): Promise<InvitationModel> {
     const invitation = this.invitationCrud.delete(filter);
+    if (!invitation) return null;
     return Invitation.create(invitation);
   }
 

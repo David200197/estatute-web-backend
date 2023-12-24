@@ -1,6 +1,6 @@
 import { createProvider } from '@src/common/utils/create-provider';
 import { AdminRepositoryModel } from '../models/admin-repository.model';
-import { AdminLocalRepository } from '../repositories/admin-local.repository';
+import { AdminMikroRepository } from '../repositories/admin-mikro.repository';
 
 export const [ADMIN_REPOSITORY_TOKEN, AdminRepositoryProvider] =
-  createProvider<AdminRepositoryModel>(AdminLocalRepository);
+  createProvider<AdminRepositoryModel>(AdminMikroRepository);
