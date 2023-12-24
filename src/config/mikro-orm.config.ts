@@ -11,7 +11,7 @@ const configDB: MikroOrmModuleSyncOptions = {
   password: configuration().database.password,
   port: configuration().database.port,
   user: configuration().database.user,
-  type: 'postgresql',
+  type: configuration().database.type,
 };
 
 export default configDB;
