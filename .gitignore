@@ -421,3 +421,5 @@ yarn.lock
 
 package-lock.json
 /.fastRequest/config/fastRequestCurrentProjectEnvironment.json
+
+.nestjs_repl_history
