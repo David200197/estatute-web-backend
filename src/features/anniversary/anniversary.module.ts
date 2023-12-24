@@ -10,9 +10,11 @@ import { FindOneAnniversaryHandlerProvider } from './handlers/find-one/find-one-
 import { UpdateAnniversaryHandlerProvider } from './handlers/update/update-anniversary-handler.provider';
 import { RemoveAnniversaryHandlerProvider } from './handlers/remove/remove-anniversary-handler.provider';
 import { AnniversaryCli } from './anniversary.cli';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { AnniversaryMikroEntity } from './orm-entities/anniversary-mikro.entity';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, MikroOrmModule.forFeature([AnniversaryMikroEntity])],
   controllers: [AnniversaryController],
   providers: [
     AnniversaryRepositoryProvider,
