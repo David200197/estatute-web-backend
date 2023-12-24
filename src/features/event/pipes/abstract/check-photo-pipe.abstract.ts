@@ -22,5 +22,9 @@ export abstract class CheckPhotoPipe {
       throw new BadRequestException(
         `"${photo.fieldName}" photo cannot be ${photo.sizeMb}mb, must be lower than 12mb`,
       );
+    if (photo.name.includes(',') || photo.nameGenerated.includes(','))
+      throw new BadRequestException(
+        `"${photo.fieldName}" photo name cannot include comma (,)`,
+      );
   }
 }

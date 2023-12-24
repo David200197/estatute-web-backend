@@ -10,9 +10,11 @@ import { FindOneInvitationHandlerProvider } from './handlers/find-one/find-one-i
 import { UpdateInvitationHandlerProvider } from './handlers/update/update-invitation-handler.provider';
 import { RemoveInvitationHandlerProvider } from './handlers/remove/remove-invitation-handler.provider';
 import { InvitationCli } from './invitation.cli';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { InvitationMikroEntity } from './orm-entities/invitation-mikro.entity';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, MikroOrmModule.forFeature([InvitationMikroEntity])],
   controllers: [InvitationController],
   providers: [
     InvitationRepositoryProvider,

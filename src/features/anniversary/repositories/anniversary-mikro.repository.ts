@@ -40,7 +40,7 @@ export class AnniversaryMikroRepository implements AnniversaryRepositoryModel {
       page: Number(page),
       perPage: Number(perPage),
     });
-    const [anniversary, totalElement] =
+    const [anniversaries, totalElement] =
       await this.anniversaryRepository.findAndCount(filter, {
         limit: perPage ? pagination.limit : null,
         offset: perPage ? pagination.offset : null,
@@ -51,7 +51,7 @@ export class AnniversaryMikroRepository implements AnniversaryRepositoryModel {
           : null,
       });
     return {
-      entities: Anniversaries.create(anniversary),
+      entities: Anniversaries.create(anniversaries),
       totalElement,
       totalPage: pagination.getTotalPage(totalElement),
     };

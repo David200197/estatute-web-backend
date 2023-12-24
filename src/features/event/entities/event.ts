@@ -15,7 +15,9 @@ export class Event extends Entity<EventProps> implements EventModel {
     super(options);
   }
 
-  public static create(options: SelfPartial<EventProps, 'uuid'>): Event {
+  public static create(
+    options: SelfPartial<EventProps, 'uuid' | 'photos'>,
+  ): Event {
     const uuid = Uuid.create(options.uuid);
     const name = Name.create(options.name);
     const date = DateValue.create(options.date);

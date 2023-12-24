@@ -12,9 +12,15 @@ import { RemoveEventHandlerProvider } from './handlers/remove/remove-event-handl
 import { EventEmitterModule } from '@src/shared/event-emitter/event-emitter.module';
 import { PhotoServiceProvider } from './providers/photo-service.provider';
 import { EventCli } from './event.cli';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { EventMikroEntity } from './orm-entities/event-mikro.entity';
 
 @Module({
-  imports: [CqrsModule, EventEmitterModule],
+  imports: [
+    CqrsModule,
+    EventEmitterModule,
+    MikroOrmModule.forFeature([EventMikroEntity]),
+  ],
   controllers: [EventController],
   providers: [
     EventRepositoryProvider,

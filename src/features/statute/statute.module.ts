@@ -10,9 +10,11 @@ import { FindOneStatuteHandlerProvider } from './handlers/find-one/find-one-stat
 import { UpdateStatuteHandlerProvider } from './handlers/update/update-statute-handler.provider';
 import { RemoveStatuteHandlerProvider } from './handlers/remove/remove-statute-handler.provider';
 import { StatuteCli } from './statute.cli';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { StatuteMikroEntity } from './orm-entities/statute-mikro.entity';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, MikroOrmModule.forFeature([StatuteMikroEntity])],
   controllers: [StatuteController],
   providers: [
     StatuteRepositoryProvider,

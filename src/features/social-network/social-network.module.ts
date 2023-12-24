@@ -10,9 +10,11 @@ import { FindOneSocialNetworkHandlerProvider } from './handlers/find-one/find-on
 import { UpdateSocialNetworkHandlerProvider } from './handlers/update/update-social-network-handler.provider';
 import { RemoveSocialNetworkHandlerProvider } from './handlers/remove/remove-social-network-handler.provider';
 import { SocialNetworkCli } from './social-network.cli';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { SocialNetworkMikroEntity } from './orm-entities/social-network-mikro.entity';
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, MikroOrmModule.forFeature([SocialNetworkMikroEntity])],
   controllers: [SocialNetworksController],
   providers: [
     SocialNetworkRepositoryProvider,

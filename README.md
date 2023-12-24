@@ -76,3 +76,4 @@ TODO
 https://www.npmjs.com/package/nestjs-command
 https://www.elvisduru.com/blog/nestjs-jwt-authentication-refresh-token
 https://github.com/4lessandrodev/types-ddd
+https://www.youtube.com/watch?v=vE74gnv4VlY&ab_channel=CoderOne

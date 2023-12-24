@@ -1,6 +1,6 @@
 import { createProvider } from '@src/common/utils/create-provider';
 import { InvitationRepositoryModel } from '../models/invitation-repository.model';
-import { InvitationLocalRepository } from '../repositories/invitation-local.repository';
+import { InvitationMikroRepository } from '../repositories/invitation-mikro.repository';
 
 export const [INVITATION_REPOSITORY_TOKEN, InvitationRepositoryProvider] =
-  createProvider<InvitationRepositoryModel>(InvitationLocalRepository);
+  createProvider<InvitationRepositoryModel>(InvitationMikroRepository);
