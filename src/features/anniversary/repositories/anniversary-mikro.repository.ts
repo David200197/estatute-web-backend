@@ -70,10 +70,18 @@ export class AnniversaryMikroRepository implements AnniversaryRepositoryModel {
     filter: DeepPartial<AnniversaryProps>,
     options: UpdateAnniversaryDto,
   ): Promise<AnniversaryModel | null> {
+    const foundedAnniversary = await this.findOne(filter);
+    if (!foundedAnniversary) return null;
+
+    const updateOptions = this.anniversaryRepository.create({
+      ...filter,
+      ...options,
+    });
     const countUpdated = await this.anniversaryRepository.nativeUpdate(
       filter,
-      options,
+      updateOptions,
     );
+
     if (!countUpdated) return null;
     const anniversary = await this.findOne(filter);
     if (!anniversary) return null;

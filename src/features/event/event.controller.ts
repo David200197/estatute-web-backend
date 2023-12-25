@@ -29,7 +29,14 @@ import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorat
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { StorePhotoPipe } from './pipes/store-photo/store-photo.pipe';
 import { UpdatePhotoPipe } from './pipes/update-photo/update-photo.pipe';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiProperty,
+  ApiTags,
+} from '@nestjs/swagger';
+import { UpdateEventPipe } from './pipes/update-event/update-event.pipe';
 
 @Controller('event')
 @ApiTags('event')
@@ -73,10 +80,12 @@ export class EventController {
   @Post()
   @ApiBearerAuth()
   @AccessTokenAuth()
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(FilesInterceptor('photos'))
   async create(
     @Body() createEventDto: CreateEventDto,
-    @UploadedFiles(StorePhotoPipe) photos: Array<Express.Multer.File>,
+    @UploadedFiles(StorePhotoPipe)
+    photos: Array<Express.Multer.File>,
   ) {
     const event: EventModel = await this.commandBus.execute(
       new CreateEventCommand(createEventDto, photos),
@@ -89,9 +98,11 @@ export class EventController {
   @Patch(':uuid')
   @ApiBearerAuth()
   @AccessTokenAuth()
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FilesInterceptor('photos'))
   async update(
     @Param('uuid') uuid: string,
-    @Body() updateEventDto: UpdateEventDto,
+    @Body(UpdateEventPipe) updateEventDto: UpdateEventDto,
     @UploadedFiles(UpdatePhotoPipe) photos?: Array<Express.Multer.File>,
   ) {
     const eitherResponse: Either<HttpException, EventModel> =

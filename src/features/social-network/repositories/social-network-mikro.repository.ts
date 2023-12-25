@@ -72,10 +72,18 @@ export class SocialNetworkMikroRepository
     filter: DeepPartial<SocialNetworkProps>,
     options: UpdateSocialNetworkDto,
   ): Promise<SocialNetworkModel | null> {
+    const foundedSocialNetwork = await this.findOne(filter);
+    if (!foundedSocialNetwork) return null;
+
+    const updateOptions = this.socialNetworkRepository.create({
+      ...filter,
+      ...options,
+    });
     const countUpdated = await this.socialNetworkRepository.nativeUpdate(
       filter,
-      options,
+      updateOptions,
     );
+
     if (!countUpdated) return null;
     const socialNetwork = await this.findOne(filter);
     if (!socialNetwork) return null;

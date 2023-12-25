@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import {
-  CreateRequestContext,
-  EntityRepository,
-  QueryOrder,
-} from '@mikro-orm/core';
+import { EntityRepository, QueryOrder } from '@mikro-orm/core';
 import { FindAllDto, Order } from '@src/common/dto/find-all.dto';
 import { ResponseWithPaginate } from '@src/common/interfaces/response-with-paginate';
 import { DeepPartial } from '@src/common/interfaces/deep-partial';

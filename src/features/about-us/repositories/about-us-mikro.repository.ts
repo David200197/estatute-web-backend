@@ -63,10 +63,18 @@ export class AboutUsMikroRepository implements AboutUsRepositoryModel {
     filter: DeepPartial<AboutUsProps>,
     options: UpdateAboutUsDto,
   ): Promise<AboutUsModel | null> {
+    const foundedAboutUs = await this.findOne(filter);
+    if (!foundedAboutUs) return null;
+
+    const updateOptions = this.aboutUsRepository.create({
+      ...filter,
+      ...options,
+    });
     const countUpdated = await this.aboutUsRepository.nativeUpdate(
       filter,
-      options,
+      updateOptions,
     );
+
     if (!countUpdated) return null;
     const aboutUs = await this.findOne(filter);
     if (!aboutUs) return null;

@@ -3,8 +3,8 @@ import { CheckPhotoPipe } from '../abstract/check-photo-pipe.abstract';
 
 @Injectable()
 export class UpdatePhotoPipe extends CheckPhotoPipe implements PipeTransform {
-  transform(value: any) {
-    if (!value?.photos) return value;
-    return super.transform(value);
+  transform(photos?: Array<Express.Multer.File>) {
+    if (!photos || !photos?.length) return undefined;
+    return super.transform(photos);
   }
 }

@@ -65,10 +65,18 @@ export class StatuteMikroRepository implements StatuteRepositoryModel {
     filter: DeepPartial<StatuteProps>,
     options: UpdateStatuteDto,
   ): Promise<StatuteModel | null> {
+    const foundedStatute = await this.findOne(filter);
+    if (!foundedStatute) return null;
+
+    const updateOptions = this.statuteRepository.create({
+      ...filter,
+      ...options,
+    });
     const countUpdated = await this.statuteRepository.nativeUpdate(
       filter,
-      options,
+      updateOptions,
     );
+
     if (!countUpdated) return null;
     const statute = await this.findOne(filter);
     if (!statute) return null;

@@ -9,6 +9,6 @@ export class Rapporteurship {
 
   public static create(value: string): Rapporteurship {
     this.checkIsRapporteurship(value);
-    return Rapporteurship.create(value);
+    return new Rapporteurship(value);
   }
 }

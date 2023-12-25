@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsString } from 'class-validator';
 
 export class CreateEventDto {
@@ -11,4 +12,9 @@ export class CreateEventDto {
   readonly sponsors: string;
   @IsString()
   readonly rapporteurship: string;
+  @ApiProperty({
+    type: [String],
+    format: 'binary',
+  })
+  readonly photos: string[];
 }

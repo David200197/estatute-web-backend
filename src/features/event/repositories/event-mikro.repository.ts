@@ -65,10 +65,18 @@ export class EventMikroRepository implements EventRepositoryModel {
     filter: DeepPartial<EventProps>,
     options: UpdateEventDto,
   ): Promise<EventModel | null> {
+    const foundedEvent = await this.findOne(filter);
+    if (!foundedEvent) return null;
+
+    const updateOptions = this.eventRepository.create({
+      ...filter,
+      ...options,
+    });
     const countUpdated = await this.eventRepository.nativeUpdate(
       filter,
-      options,
+      updateOptions,
     );
+
     if (!countUpdated) return null;
     const event = await this.findOne(filter);
     if (!event) return null;

@@ -67,10 +67,18 @@ export class InvitationMikroRepository implements InvitationRepositoryModel {
     filter: DeepPartial<InvitationProps>,
     options: UpdateInvitationDto,
   ): Promise<InvitationModel | null> {
+    const foundedInvitation = await this.findOne(filter);
+    if (!foundedInvitation) return null;
+
+    const updateOptions = this.invitationRepository.create({
+      ...filter,
+      ...options,
+    });
     const countUpdated = await this.invitationRepository.nativeUpdate(
       filter,
-      options,
+      updateOptions,
     );
+
     if (!countUpdated) return null;
     const invitation = await this.findOne(filter);
     if (!invitation) return null;

@@ -2,8 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { FileControl } from '@src/common/lib/file-control.lib';
 
 export abstract class CheckPhotoPipe {
-  transform(value: any) {
-    const photos: Array<Express.Multer.File> = value.photos;
+  transform(photos: Array<Express.Multer.File>) {
     photos
       .map((photo) => new FileControl(photo.filename, photo))
       .map(this.validate);
