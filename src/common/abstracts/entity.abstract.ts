@@ -14,6 +14,7 @@ export interface EntityModel<T extends Record<string, unknown>>
   clone(): this;
   forEachProperty(method: (key: unknown, value: string) => void): void;
   select(options: Partial<OptionsFlags<T>>): Record<string, unknown>;
+  ignore(options: Partial<OptionsFlags<T>>): Record<string, unknown>;
   isEqual(entity: this): boolean;
   isSelfEqual(entity: DeepPartial<T>): boolean;
   toObject(): T;
@@ -55,6 +56,16 @@ export class Entity<T extends Record<string, unknown>>
     const object = this.toObject();
     for (const key in options) {
       if (!options[key]) continue;
+      res[key] = object[key];
+    }
+    return res;
+  }
+
+  ignore(options: Partial<OptionsFlags<T>>): Record<string, unknown> {
+    const res: Record<string, unknown> = {};
+    const object = this.toObject();
+    for (const key in options) {
+      if (options[key] !== false) continue;
       res[key] = object[key];
     }
     return res;

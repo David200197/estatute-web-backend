@@ -26,6 +26,7 @@ export interface EntitiesModel<A extends EntityModel<Record<string, unknown>>>
   ): Promise<PromiseSettledResult<void>[]>;
   clone(): EntitiesModel<A>;
   select(options: Partial<OptionsFlags<A['value']>>): Record<string, unknown>[];
+  ignore(options: Partial<OptionsFlags<A['value']>>): Record<string, unknown>[];
   isEqual(entities: EntitiesModel<A>): boolean;
   add(entities: EntitiesModel<A>): EntitiesModel<A>;
   toObject(): ValueObjectsToProps<A['value']>[];
@@ -108,6 +109,12 @@ export class Entities<A extends EntityModel<Record<string, unknown>>>
     options: Partial<OptionsFlags<A['value']>>,
   ): Record<string, unknown>[] {
     return this.value.map((data) => data.select(options));
+  }
+
+  ignore(
+    options: Partial<OptionsFlags<A['value']>>,
+  ): Record<string, unknown>[] {
+    return this.value.map((data) => data.ignore(options));
   }
 
   isEqual(entities: EntitiesModel<A>): boolean {
