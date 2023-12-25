@@ -17,6 +17,7 @@ export interface EntityModel<T extends Record<string, unknown>>
   isEqual(entity: this): boolean;
   isSelfEqual(entity: DeepPartial<T>): boolean;
   toObject(): T;
+  get<P extends keyof T>(key: P): T[P];
 }
 
 export class Entity<T extends Record<string, unknown>>
@@ -79,5 +80,9 @@ export class Entity<T extends Record<string, unknown>>
       response[key] = this.value[key].value;
     }
     return response as T;
+  }
+
+  get<P extends keyof T>(key: P): T[P] {
+    return this.value[key].value;
   }
 }
