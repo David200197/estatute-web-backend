@@ -11,8 +11,6 @@ export class SocialNetworkMikroEntity implements SocialNetworkProps {
   @PrimaryKey()
   uuid: string;
   @Property()
-  name: string;
-  @Property()
   link: string;
   @Property({ type: 'string' })
   type: TypeSocialNetworkEnum;

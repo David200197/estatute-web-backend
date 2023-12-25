@@ -22,9 +22,8 @@ export class SocialNetwork
     options: SelfPartial<SocialNetworkProps, 'uuid'>,
   ): SocialNetwork {
     const uuid = Uuid.create(options.uuid);
-    const name = Name.create(options.name);
     const link = Link.create(options.link);
     const type = TypeSocialNetwork.create(options.type);
-    return new SocialNetwork({ uuid, name, link, type });
+    return new SocialNetwork({ uuid, link, type });
   }
 }

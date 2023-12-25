@@ -11,7 +11,6 @@ export enum TypeSocialNetworkEnum {
 
 export type SocialNetworkProps = {
   readonly uuid: string;
-  readonly name: string;
   readonly link: string;
   readonly type: TypeSocialNetworkEnum;
 };
