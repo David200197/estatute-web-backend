@@ -25,6 +25,7 @@ import { UpdateSocialNetworkCommand } from './handlers/update/update-social-netw
 import { RemoveSocialNetworkCommand } from './handlers/remove/remove-social-network.command';
 import { AccessTokenAuth } from '@src/common/decorator/access-token-auth.decorator';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { TypeSocialNetwork } from './entities/value-object/type-social-network.value-object';
 
 @Controller('social-network')
 @ApiTags('social-network')
@@ -47,6 +48,13 @@ export class SocialNetworksController {
       socialNetworks: entities.toObject(),
       totalElement,
       totalPage,
+    });
+  }
+
+  @Get('all-type-social-networks')
+  async getAllTypeSocialNetworks() {
+    return new SerializerResponse('typeSocialNetworks was founded', {
+      types: TypeSocialNetwork.getAll(),
     });
   }
 
