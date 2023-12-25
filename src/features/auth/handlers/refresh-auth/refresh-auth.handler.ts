@@ -31,19 +31,19 @@ export class RefreshAuthHandler
     Either<HttpException, RefreshAuthResponseDto>
   > {
     const { admin, refreshToken } = refreshAuthDto;
-    if (!admin.toObject().refreshToken)
+    if (!admin.get('refreshToken'))
       return Either.left(new AuthForbiddenException());
     const isValid = await this.hashPasswordService.verify(
       refreshToken,
-      admin.toObject().refreshToken,
+      admin.get('refreshToken'),
     );
     if (!isValid) return Either.left(new AuthForbiddenException());
-    const tokens = this.authUtilsService.getTokens(admin.toObject().username);
+    const tokens = this.authUtilsService.getTokens(admin.get('username'));
     const refreshTokenHashed = await this.hashPasswordService.hash(
       tokens.refreshToken,
     );
     const updatedAdmin = await this.adminService.updateRefreshToken(
-      { username: admin.toObject().username },
+      { username: admin.get('username') },
       refreshTokenHashed,
     );
     if (updatedAdmin.isLeft())

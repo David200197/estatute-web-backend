@@ -21,7 +21,7 @@ export class LogoutAuthHandler
     const { logoutAuthDto } = logoutAuthCommand;
     const { admin } = logoutAuthDto;
     const updatedAdmin = await this.adminService.updateRefreshToken(
-      { username: admin.toObject().username },
+      { username: admin.get('username') },
       null,
     );
     if (updatedAdmin.isRight()) return Either.right(null);
