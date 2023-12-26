@@ -2,15 +2,14 @@ import { DeepPartial } from '../interfaces/deep-partial';
 import { OptionsFlags } from '../interfaces/options-flags';
 import { PropsToValueObjects } from '../interfaces/props-to-value-objects';
 import { ValueObject } from '../interfaces/value-object';
-import { deepClone } from '../utils/deep-clone';
 import { isDeeplyEqual } from '../utils/is-deeply-equal';
 
 /**
  * Class representing an Entity.
- * @template T - Properties.
+ * @template Props - Properties.
  */
-export interface EntityModel<T extends Record<string, unknown>>
-  extends ValueObject<PropsToValueObjects<T>> {
+export interface EntityModel<Props extends Record<string, unknown>>
+  extends ValueObject<PropsToValueObjects<Props>> {
   /**
    * Get the properties of the Entity.
    * @returns {string[]} - The array of property names.
@@ -29,14 +28,14 @@ export interface EntityModel<T extends Record<string, unknown>>
   /**
    * Map the Entity to a new value using a callback function.
    * @param {Function} mutate - The callback function to apply to the Entity.
-   * @returns {any} - The mapped value.
+   * @returns {ReturnType} - The mapped value.
    */
-  map<T>(mutate: (value: this) => T): T;
+  map<ReturnType>(mutate: (value: Entity<Props>) => ReturnType): ReturnType;
   /**
    * Create a shallow clone of the Entity.
    * @returns {Entity} - The cloned Entity.
    */
-  clone(): this;
+  clone(): EntityModel<Props>;
   /**
    * Perform a method on each property of the Entity.
    * @param {Function} method - The method to apply to each property.
@@ -44,16 +43,16 @@ export interface EntityModel<T extends Record<string, unknown>>
   forEachProperty(method: (key: unknown, value: string) => void): void;
   /**
    * Select the properties of the Entity based on a set of options.
-   * @param {Partial<OptionsFlags<T>>} options - The options specifying which properties to select.
+   * @param {Partial<OptionsFlags<Props>>} options - The options specifying which properties to select.
    * @returns {Record<string, unknown>} - The selected properties.
    */
-  select(options: Partial<OptionsFlags<T>>): Record<string, unknown>;
+  select(options: Partial<OptionsFlags<Props>>): Record<string, unknown>;
   /**
    * Ignore the properties of the Entity based on a set of options.
-   * @param {Partial<OptionsFlags<T>>} options - The options specifying which properties to ignore.
+   * @param {Partial<OptionsFlags<Props>>} options - The options specifying which properties to ignore.
    * @returns {Record<string, unknown>} - The ignored properties.
    */
-  ignore(options: Partial<OptionsFlags<T>>): Record<string, unknown>;
+  ignore(options: Partial<OptionsFlags<Props>>): Record<string, unknown>;
   /**
    * Determine if the Entity is equal to another Entity.
    * @param {Entity} entity - The Entity to compare.
@@ -62,27 +61,27 @@ export interface EntityModel<T extends Record<string, unknown>>
   isEqual(entity: this): boolean;
   /**
    * Determine if the Entity is equal to a DeepPartial of T.
-   * @param {DeepPartial<T>} entity - The DeepPartial to compare.
+   * @param {DeepPartial<Props>} entity - The DeepPartial to compare.
    * @returns {boolean} - True if the Entity is equal to the DeepPartial, false otherwise.
    */
-  isSelfEqual(entity: DeepPartial<T>): boolean;
+  isSelfEqual(entity: DeepPartial<Props>): boolean;
   /**
    * Convert the Entity to an object.
-   * @returns {T} - The Entity as an object.
+   * @returns {Props} - The Entity as an object.
    */
-  toObject(): T;
+  toObject(): Props;
   /**
    * Get the value of a specific property.
    * @param {string} key - The key of the property.
    * @returns {any} - The value of the property.
    */
-  get<P extends keyof T>(key: P): T[P];
+  get<Prop extends keyof Props>(key: Prop): Props[Prop];
 }
 
-export class Entity<T extends Record<string, unknown>>
-  implements EntityModel<T>
+export class Entity<Props extends Record<string, unknown>>
+  implements EntityModel<Props>
 {
-  protected constructor(public readonly value: PropsToValueObjects<T>) {}
+  protected constructor(public readonly value: PropsToValueObjects<Props>) {}
 
   getProperties(): string[] {
     return Object.keys(this.toObject());
@@ -96,12 +95,12 @@ export class Entity<T extends Record<string, unknown>>
     return Object.entries(this.toObject());
   }
 
-  map<T>(mutate: (value: this) => T): T {
+  map<ReturnType>(mutate: (value: Entity<Props>) => ReturnType): ReturnType {
     return mutate(this.clone());
   }
 
-  clone(): this {
-    return deepClone(this);
+  clone(): Entity<Props> {
+    return new Entity(this.value);
   }
 
   forEachProperty(method: (key: unknown, value: string) => void) {
@@ -109,7 +108,7 @@ export class Entity<T extends Record<string, unknown>>
     for (const [key, value] of entry) method(key, value);
   }
 
-  select(options: Partial<OptionsFlags<T>>): Record<string, unknown> {
+  select(options: Partial<OptionsFlags<Props>>): Record<string, unknown> {
     const res: Record<string, unknown> = {};
     const object = this.toObject();
     for (const key in options) {
@@ -119,7 +118,7 @@ export class Entity<T extends Record<string, unknown>>
     return res;
   }
 
-  ignore(options: Partial<OptionsFlags<T>>): Record<string, unknown> {
+  ignore(options: Partial<OptionsFlags<Props>>): Record<string, unknown> {
     const res: Record<string, unknown> = {};
     const object = this.toObject();
     for (const key in options) {
@@ -133,7 +132,7 @@ export class Entity<T extends Record<string, unknown>>
     return isDeeplyEqual(this.toObject(), entity.toObject());
   }
 
-  isSelfEqual(entity: DeepPartial<T>): boolean {
+  isSelfEqual(entity: DeepPartial<Props>): boolean {
     const keys = Object.keys(entity);
     const selects = keys.reduce(
       (prev, currentKey) => ({ ...prev, [currentKey]: true }),
@@ -143,15 +142,15 @@ export class Entity<T extends Record<string, unknown>>
     return isDeeplyEqual(selected, entity);
   }
 
-  toObject(): T {
+  toObject(): Props {
     const response: Record<string, unknown> = {};
     for (const key in this.value) {
       response[key] = this.value[key].value;
     }
-    return response as T;
+    return response as Props;
   }
 
-  get<P extends keyof T>(key: P): T[P] {
+  get<P extends keyof Props>(key: P): Props[P] {
     return this.value[key].value;
   }
 }
