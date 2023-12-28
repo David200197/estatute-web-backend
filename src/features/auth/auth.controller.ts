@@ -39,7 +39,7 @@ export class AuthController {
 
   @RefreshTokenAuth()
   @ApiBearerAuth()
-  @Post('refresh')
+  @Get('refresh')
   async refresh(
     @GetRefreshToken() refreshToken: string,
     @GetAdmin() admin: AdminModel,
