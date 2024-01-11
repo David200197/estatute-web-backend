@@ -6,6 +6,8 @@ import {
 import { Uuid } from '@src/common/value-object/uuid.value-object';
 import { PropsToValueObjects } from '@src/common/interfaces/props-to-value-objects';
 import { SelfPartial } from '@src/common/interfaces/self-partial';
+import { Description } from './value-object/description.value-object';
+import { DateValue } from './value-object/date.value-object';
 
 export class Anniversary
   extends Entity<AnniversaryProps>
@@ -19,6 +21,8 @@ export class Anniversary
     options: SelfPartial<AnniversaryProps, 'uuid'>,
   ): Anniversary {
     const uuid = Uuid.create(options.uuid);
-    return new Anniversary({ uuid });
+    const description = Description.create(options.description);
+    const date = DateValue.create(options.date);
+    return new Anniversary({ uuid, description, date });
   }
 }

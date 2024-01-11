@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { AnniversaryProps } from '../models/anniversary.model';
 
 @Entity({
@@ -7,4 +7,8 @@ import { AnniversaryProps } from '../models/anniversary.model';
 export class AnniversaryMikroEntity implements AnniversaryProps {
   @PrimaryKey()
   uuid: string;
+  @Property()
+  date: Date;
+  @Property()
+  description: string;
 }

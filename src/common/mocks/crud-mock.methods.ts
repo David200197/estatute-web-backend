@@ -1,3 +1,4 @@
+import { DeepPartial } from '@mikro-orm/core';
 import { HelperMockMethods } from '../interfaces/helper-mock.methods';
 import { SetOperation } from '../lib/set-operation.lib';
 
@@ -80,7 +81,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     this.deleteRes = value;
   }
 
-  findAll(find?: Partial<T>): T[] {
+  findAll(find?: DeepPartial<T>): T[] {
     if (this.isError) throw new Error('Base Error');
     if (this.findAllRes !== this.NORMAL_RESPONSE) return this.findAllRes;
     if (!find) return this.store;
@@ -93,7 +94,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     });
   }
 
-  findOne(find: Partial<T>): T | null {
+  findOne(find: DeepPartial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
     if (this.findOneRes !== this.NORMAL_RESPONSE) return this.findOneRes;
     const index = this.findOneIndex(find);
@@ -107,7 +108,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return dto;
   }
 
-  update(find: Partial<T>, dto: Partial<T>): T | null {
+  update(find: DeepPartial<T>, dto: DeepPartial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
     if (this.updateRes !== this.NORMAL_RESPONSE) return this.updateRes;
     const index = this.findOneIndex(find);
@@ -120,7 +121,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return this.store[index];
   }
 
-  updateMany(find: Partial<T>, dto: Partial<T>): boolean {
+  updateMany(find: DeepPartial<T>, dto: DeepPartial<T>): boolean {
     if (this.isError) throw new Error('Base Error');
     if (this.updateManyRes !== this.NORMAL_RESPONSE) return this.updateManyRes;
     this.store = this.store.map(({ ...data }) => {
@@ -137,7 +138,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return true;
   }
 
-  deleteMany(find: Partial<T>): boolean {
+  deleteMany(find: DeepPartial<T>): boolean {
     if (this.isError) throw new Error('Base Error');
     if (this.deleteManyRes !== this.NORMAL_RESPONSE) return this.deleteManyRes;
     this.store = this.store.filter(({ ...data }) => {
@@ -152,7 +153,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return true;
   }
 
-  delete(find: Partial<T>): T | null {
+  delete(find: DeepPartial<T>): T | null {
     if (this.isError) throw new Error('Base Error');
     if (this.deleteRes !== this.NORMAL_RESPONSE) return this.deleteRes;
     const index = this.findOneIndex(find);
@@ -162,7 +163,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
     return data;
   }
 
-  private findOneIndex(find: Partial<T>): number {
+  private findOneIndex(find: DeepPartial<T>): number {
     const keys = Object.keys(find);
     return this.store.findIndex((data) => {
       return keys.every((key) => {
