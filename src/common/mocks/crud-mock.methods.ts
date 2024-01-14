@@ -1,4 +1,4 @@
-import { DeepPartial } from '@mikro-orm/core';
+import { DeepPartial } from '../interfaces/deep-partial';
 import { HelperMockMethods } from '../interfaces/helper-mock.methods';
 import { SetOperation } from '../lib/set-operation.lib';
 
@@ -132,7 +132,7 @@ export class CrudMockMethods<T> implements HelperMockMethods<T> {
         secondArray: dataKeys,
       });
       if (!operation.hasDifference()) return data;
-      for (const key in dto) data[key] = dto[key];
+      for (const key in dto) (data as any)[key] = dto[key];
       return data;
     });
     return true;
