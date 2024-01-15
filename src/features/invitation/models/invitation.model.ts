@@ -1,7 +1,17 @@
 import { EntityModel } from '@src/common/abstracts/entity.abstract';
 
+export enum TypeEventEnum {
+  virtual = 'virtual',
+  inPresent = 'presencial',
+  hybrid = 'híbrido',
+}
+
 export type InvitationProps = {
   readonly uuid: string;
+  readonly name: string;
+  readonly sponsors: string[];
+  readonly location: string;
+  readonly type: TypeEventEnum;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

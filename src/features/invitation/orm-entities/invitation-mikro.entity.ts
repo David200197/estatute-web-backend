@@ -1,5 +1,11 @@
-import { Entity, PrimaryKey } from '@mikro-orm/core';
-import { InvitationProps } from '../models/invitation.model';
+import {
+  ArrayType,
+  Entity,
+  PrimaryKey,
+  Property,
+  StringType,
+} from '@mikro-orm/core';
+import { InvitationProps, TypeEventEnum } from '../models/invitation.model';
 
 @Entity({
   tableName: 'Invitation',
@@ -7,4 +13,12 @@ import { InvitationProps } from '../models/invitation.model';
 export class InvitationMikroEntity implements InvitationProps {
   @PrimaryKey()
   uuid: string;
+  @Property()
+  name: string;
+  @Property({ type: ArrayType })
+  sponsors: string[];
+  @Property()
+  location: string;
+  @Property({ type: StringType })
+  type: TypeEventEnum;
 }

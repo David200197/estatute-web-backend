@@ -1,4 +1,10 @@
-import { ArrayType, Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  ArrayType,
+  DateType,
+  Entity,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { EventProps } from '../models/event.model';
 
 @Entity({
@@ -9,7 +15,7 @@ export class EventMikroEntity implements EventProps {
   uuid: string;
   @Property()
   name: string;
-  @Property()
+  @Property({ type: DateType })
   date: string;
   @Property()
   campus: string;
