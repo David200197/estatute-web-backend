@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsString, IsUUID } from 'class-validator';
+import { IsEnum, IsInt, IsString } from 'class-validator';
 import {
   InvestigativeCategoryEnum,
   SpecialtyDegreeEnum,
